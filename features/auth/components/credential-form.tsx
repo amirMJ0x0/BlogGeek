@@ -7,24 +7,50 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import loginBanner from "@/public/login-banner.jpeg";
 import Link from "next/link";
-import { useAuthStore } from "@/store/useAuthStore";
-import useLoginForm from "../hooks/useLoginForm";
-import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 
-export function LoginForm({
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import {
+  credentialSchema,
+  CredentialSchema,
+} from "../schemas/credentialSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSendOtp } from "../hooks/useSendOtp";
+import { Spinner } from "@/components/ui/spinner";
+
+export function CredentialForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
-  const authStore = useAuthStore();
-  const { register, handleSubmit, errors, mode, identifierType } =
-    useLoginForm();
+  const { setCredential } = useAuthStore();
+  const { mutate, isPending } = useSendOtp();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CredentialSchema>({
+    resolver: zodResolver(credentialSchema),
+    defaultValues: { credential: "" },
+  });
 
+  const onSubmit = (values: CredentialSchema) => {
+    mutate(values, {
+      onSuccess: () => {
+        setCredential(values.credential);
+        router.push("/verify");
+      },
+    });
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="px-6 !pt-20 !pb-24" onSubmit={() => {}}>
+          <form
+            className="px-6 !pt-20 !pb-24"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="flex flex-col gap-5">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">خوش آمدید</h1>
@@ -33,48 +59,22 @@ export function LoginForm({
                 </p>
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="identifier">ایمیل یا شماره</Label>
+                <Label htmlFor="credential">ایمیل یا شماره</Label>
                 <Input
-                  id="identifier"
+                  id="credential"
                   placeholder="example@mail.com یا 0912..."
                   required
-                  {...register("identifier")}
+                  {...register("credential")}
                 />
-                {errors.identifier && (
-                  <p className="text-sm text-destructive mt-1">
-                    {errors.identifier.message as string}
+                {errors.credential && (
+                  <p className="text-sm text-destructive !-mt-1">
+                    {errors.credential.message as string}
                   </p>
                 )}
               </div>
-              {mode === "password" && (
-                <div className="grid gap-3">
-                  <div className="flex items-center">
-                    <Label htmlFor="password" className="flex-1">
-                      رمز عبور
-                    </Label>
-                    <Link
-                      href="#"
-                      className="ml-auto text-sm underline-offset-2 hover:underline"
-                    >
-                      رمز عبور خود را فراموش کرده اید؟
-                    </Link>
-                  </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    required
-                    {...register("password")}
-                  />
-                  {errors.password && (
-                    <p className="text-sm text-destructive mt-1">
-                      {errors.password.message as string}
-                    </p>
-                  )}
-                </div>
-              )}
               <div className="-mt-2">
-                <Button type="submit" className="w-full">
-                  {mode === "identifier" ? "ادامه" : "ورود"}
+                <Button type="submit" className="w-full" disabled={isPending}>
+                  ادامه {isPending && <Spinner />}
                 </Button>
               </div>
             </div>

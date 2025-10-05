@@ -1,10 +1,10 @@
-import { OTPForm } from "@/features/auth/components/OTPForm";
+import { VerifyForm } from "@/features/auth/components/verify-form";
 
 export default function OTPPage() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-xs">
-        <OTPForm />
+        <VerifyForm />
       </div>
     </div>
   );

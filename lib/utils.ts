@@ -67,3 +67,8 @@ export function isValidIranianMobile(str: string): boolean {
   const normalized = num2en(str).replace(/[^\d]/g, "");
   return /^(\+98|0)?9\d{9}$/.test(normalized);
 }
+
+export const emailRegex =
+  /^[A-Za-z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|live\.com|icloud\.com|protonmail\.com|zoho\.com)$/;
+
+export const phoneNumberRegex = /^09\d{2}[-\s]?\d{3}[-\s]?\d{4}$/;
