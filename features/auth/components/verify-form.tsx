@@ -25,6 +25,7 @@ import { useAuthStore } from "@/store/authStore";
 import { Controller, useForm } from "react-hook-form";
 import { otpSchema, OtpSchema } from "../schemas/otpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Bounce, toast } from "react-toastify";
 
 export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
   const { clearCredential, credential } = useAuthStore();
@@ -52,6 +53,17 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
         onSuccess: () => {
           clearCredential();
           router.push("/");
+          toast.success("کاربر عزیز، با موفقیت وارد شدید!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         },
       }
     );

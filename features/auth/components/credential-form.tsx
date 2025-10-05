@@ -18,6 +18,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSendOtp } from "../hooks/useSendOtp";
 import { Spinner } from "@/components/ui/spinner";
+import { Bounce, toast } from "react-toastify";
 
 export function CredentialForm({
   className,
@@ -26,6 +27,7 @@ export function CredentialForm({
   const router = useRouter();
   const { setCredential } = useAuthStore();
   const { mutate, isPending } = useSendOtp();
+
   const {
     register,
     handleSubmit,
@@ -41,6 +43,17 @@ export function CredentialForm({
         setCredential(values.credential);
         router.push("/verify");
       },
+    });
+    toast.success("کد تایید برایتان ارسال شد!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
     });
   };
   return (
@@ -77,12 +90,19 @@ export function CredentialForm({
                   ادامه {isPending && <Spinner />}
                 </Button>
               </div>
+              <Link
+                href={"#"}
+                className="text-sm text-slate-700 text-center !underline"
+              >
+                ورود با رمز عبور
+              </Link>
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
             <Image
               src={loginBanner}
               alt="Image"
+              placeholder="blur"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>
