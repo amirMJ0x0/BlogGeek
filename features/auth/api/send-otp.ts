@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { SendOtpRequest, ApiResponse } from "../types";
+import { SendOtpRequest, ApiResponse, SendOtpResponseData } from "../types";
 
 /**
  * @desc POST send/resend otp code
@@ -7,7 +7,7 @@ import { SendOtpRequest, ApiResponse } from "../types";
  */
 export const sendOTP = async (
   data: SendOtpRequest
-): Promise<ApiResponse<null>> => {
+): Promise<ApiResponse<SendOtpResponseData>> => {
   const res = await api.post("v1/auth/send-otp", data);
   return res.data;
 };

@@ -19,15 +19,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSendOtp } from "../hooks/useSendOtp";
 import { Spinner } from "@/components/ui/spinner";
 import { Bounce, toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { ApiResponse } from "../types";
 
 export function CredentialForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
-  const { setCredential } = useAuthStore();
+  const { setCredential, setOtpExpireTime } = useAuthStore();
   const { mutate, isPending } = useSendOtp();
-
   const {
     register,
     handleSubmit,
@@ -39,21 +40,42 @@ export function CredentialForm({
 
   const onSubmit = (values: CredentialSchema) => {
     mutate(values, {
-      onSuccess: () => {
+      onSuccess: (res) => {
         setCredential(values.credential);
+        setOtpExpireTime(res.data?.expiredAt as string);
+
+        toast.success(res?.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          rtl: true,
+        });
+
         router.push("/verify");
       },
-    });
-    toast.success("کد تایید برایتان ارسال شد!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
+      onError: (error: AxiosError<ApiResponse>) => {
+        const message =
+          error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
+
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          rtl: true,
+        });
+      },
     });
   };
   return (
@@ -68,7 +90,7 @@ export function CredentialForm({
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">خوش آمدید</h1>
                 <p className="text-muted-foreground text-balance">
-                  ورود یا ثبت‌نام
+                  ورود | ثبت نام
                 </p>
               </div>
               <div className="grid gap-3">

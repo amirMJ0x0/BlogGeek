@@ -26,11 +26,19 @@ import { Controller, useForm } from "react-hook-form";
 import { otpSchema, OtpSchema } from "../schemas/otpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Bounce, toast } from "react-toastify";
+import useCountdown from "../hooks/useCountdown";
+import { useSendOtp } from "../hooks/useSendOtp";
+import { CredentialSchema } from "../schemas/credentialSchema";
+import { AxiosError } from "axios";
+import { ApiResponse } from "../types";
 
 export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
-  const { clearCredential, credential } = useAuthStore();
-  const { mutate, isPending } = useCheckOtp();
+  const { clearCredential, credential, otpExpireTime, setOtpExpireTime } =
+    useAuthStore();
+  const { mutate: mutateCheckOtp, isPending } = useCheckOtp();
+  const { mutate: mutateSendOtp, isPending: isSendingOtp } = useSendOtp();
   const router = useRouter();
+  const { minutes, seconds } = useCountdown(otpExpireTime);
 
   const {
     handleSubmit,
@@ -47,13 +55,13 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
       return;
     }
 
-    mutate(
+    mutateCheckOtp(
       { credential, code: Number(data.code) },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           clearCredential();
           router.push("/");
-          toast.success("کاربر عزیز، با موفقیت وارد شدید!", {
+          toast.success(res.message, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -63,17 +71,57 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
             progress: undefined,
             theme: "light",
             transition: Bounce,
+            rtl: true,
+          });
+        },
+        onError: (error: AxiosError<ApiResponse>) => {
+          const message =
+            error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
+
+          toast.error(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+            rtl: true,
           });
         },
       }
     );
   };
 
+  const onResend = (values: CredentialSchema) => {
+    mutateSendOtp(values, {
+      onSuccess: (res) => {
+        setOtpExpireTime(res.data?.expiredAt as string);
+        toast.success(res?.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          rtl: true,
+        });
+      },
+    });
+  };
   return (
     <Card {...props}>
       <CardHeader>
         <CardTitle>کد تایید را وارد کنید</CardTitle>
-        <CardDescription>ما یک کد ۶ رقمی برات فرستادیم مشتی</CardDescription>
+        <CardDescription>
+          یک کد ۶ رقمی به <span className="font-bold">{credential}</span> ارسال
+          شد
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -102,16 +150,32 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
                   </InputOTP>
                 )}
               />
-
-              <FieldDescription>
-                کدی که دریافت کردید را وارد کنید
-              </FieldDescription>
             </Field>
 
             <FieldGroup>
               <Button type="submit">تایید</Button>
-              <FieldDescription className="text-center">
-                کدی دریافت نکردید؟ <a href="#">ارسال دوباره</a>
+              <FieldDescription className="text-center flex flex-col ">
+                <span>
+                  {" "}
+                  کدی دریافت نکردید؟
+                  <Button
+                    variant={"link"}
+                    disabled={
+                      (minutes && seconds) > 0 || isSendingOtp ? true : false
+                    }
+                    className="p-1"
+                    onClick={() =>
+                      onResend({
+                        credential: credential as string,
+                      })
+                    }
+                  >
+                    ارسال دوباره
+                  </Button>
+                </span>
+                <span dir="ltr">
+                  {minutes} : {seconds.toString().padStart(2, "0")}
+                </span>
               </FieldDescription>
             </FieldGroup>
           </FieldGroup>
