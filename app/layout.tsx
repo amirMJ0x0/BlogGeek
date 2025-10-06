@@ -5,7 +5,8 @@ import { Providers } from "@/components/providers";
 
 const vazir = Vazirmatn({
   variable: "--font-vazir",
-  subsets: ["arabic"],
+  subsets: ["latin", "arabic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
