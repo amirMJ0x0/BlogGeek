@@ -31,23 +31,31 @@ import { useSendOtp } from "../hooks/useSendOtp";
 import { CredentialSchema } from "../schemas/credentialSchema";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../types";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
   const { clearCredential, credential, otpExpireTime, setOtpExpireTime } =
     useAuthStore();
-  const { mutate: mutateCheckOtp, isPending } = useCheckOtp();
+  const {
+    mutate: mutateCheckOtp,
+    isPending: isCheckingOtp,
+    isError,
+  } = useCheckOtp();
   const { mutate: mutateSendOtp, isPending: isSendingOtp } = useSendOtp();
   const router = useRouter();
   const { minutes, seconds } = useCountdown(otpExpireTime);
-
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<OtpSchema>({
+  const { handleSubmit, control, reset } = useForm<OtpSchema>({
     resolver: zodResolver(otpSchema),
     defaultValues: { code: "" },
   });
+
+  useEffect(() => {
+    if (!credential) {
+      router.push("/login");
+      return;
+    }
+  }, []);
 
   const onSubmit = (data: OtpSchema) => {
     if (!credential) {
@@ -77,7 +85,7 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
         onError: (error: AxiosError<ApiResponse>) => {
           const message =
             error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
-
+          reset();
           toast.error(message, {
             position: "top-right",
             autoClose: 5000,
@@ -96,6 +104,7 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
   };
 
   const onResend = (values: CredentialSchema) => {
+    reset();
     mutateSendOtp(values, {
       onSuccess: (res) => {
         setOtpExpireTime(res.data?.expiredAt as string);
@@ -153,7 +162,13 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
             </Field>
 
             <FieldGroup>
-              <Button type="submit">تایید</Button>
+              <Button
+                type="submit"
+                disabled={isCheckingOtp}
+                className={cn("w-full", isError && "animate-shake")}
+              >
+                تایید
+              </Button>
               <FieldDescription className="text-center flex flex-col ">
                 <span>
                   {" "}
