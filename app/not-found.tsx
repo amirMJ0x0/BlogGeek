@@ -8,7 +8,6 @@ export default function NotFound() {
       <div className="z-10 space-y-2">
         <h2 className="text-4xl font-bold">رابرت! یه مشکلی پیش اومده</h2>
         <p>صفحه ای که دنبالش میگردی یوخده بخدا</p>
-
         <Link href="/">
           <Button variant={"ghost"}>بریم خونمون حاجی</Button>
         </Link>
