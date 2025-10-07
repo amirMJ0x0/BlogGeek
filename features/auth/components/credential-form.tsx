@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn, num2en } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Bounce, toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../types";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useLoginWithPass } from "../hooks/useLoginWithPass";
 
 export function CredentialForm({
@@ -38,6 +38,7 @@ export function CredentialForm({
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<CredentialSchema>({
     resolver: zodResolver(credentialSchema),
     defaultValues: { credential: "" },
@@ -122,6 +123,18 @@ export function CredentialForm({
     });
   };
 
+  const handleCredentialChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const normalized = num2en(value);
+
+    if (value !== normalized) {
+      setValue("credential", normalized, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
@@ -144,6 +157,7 @@ export function CredentialForm({
                   placeholder="example@mail.com یا 0912..."
                   required
                   {...register("credential")}
+                  onChange={handleCredentialChange}
                 />
                 {errors.credential && (
                   <p className="text-sm text-destructive !-mt-1">
