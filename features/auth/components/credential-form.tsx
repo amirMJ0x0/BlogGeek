@@ -21,14 +21,19 @@ import { Spinner } from "@/components/ui/spinner";
 import { Bounce, toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../types";
+import { useState } from "react";
+import { useLoginWithPass } from "../hooks/useLoginWithPass";
 
 export function CredentialForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
-  const { setCredential, setOtpExpireTime } = useAuthStore();
-  const { mutate, isPending } = useSendOtp();
+  const [isWithPass, setIsWithPass] = useState<Boolean>(false);
+  const { setCredential, setOtpExpireTime, clearCredential } = useAuthStore();
+  const { mutate: mutateSendOtp, isPending: isSendingOtp } = useSendOtp();
+  const { mutate: mutateLoginWithPass, isPending: IsLoggingIn } =
+    useLoginWithPass();
   const {
     register,
     handleSubmit,
@@ -39,7 +44,45 @@ export function CredentialForm({
   });
 
   const onSubmit = (values: CredentialSchema) => {
-    mutate(values, {
+    if (isWithPass) {
+      mutateLoginWithPass(values, {
+        onSuccess: (res) => {
+          clearCredential();
+          router.push("/");
+          toast.success(res.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+            rtl: true,
+          });
+        },
+        onError: (error: AxiosError<ApiResponse>) => {
+          const message =
+            error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
+          toast.error(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+            rtl: true,
+          });
+        },
+      });
+      return;
+    }
+
+    mutateSendOtp(values, {
       onSuccess: (res) => {
         setCredential(values.credential);
         setOtpExpireTime(res.data?.expiredAt as string);
@@ -78,6 +121,7 @@ export function CredentialForm({
       },
     });
   };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
@@ -107,17 +151,51 @@ export function CredentialForm({
                   </p>
                 )}
               </div>
+              {isWithPass && (
+                <div className="grid gap-3">
+                  <Label htmlFor="credential">رمز عبور</Label>
+                  <Input
+                    id="password"
+                    placeholder="abc123"
+                    required
+                    {...register("password")}
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-destructive !-mt-1">
+                      {errors.password.message as string}
+                    </p>
+                  )}
+                </div>
+              )}
               <div className="-mt-2">
-                <Button type="submit" className="w-full" disabled={isPending}>
-                  ادامه {isPending && <Spinner />}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isSendingOtp || IsLoggingIn}
+                >
+                  {isWithPass ? "ورود" : "ادامه"}{" "}
+                  {(isSendingOtp || IsLoggingIn) && <Spinner />}
                 </Button>
               </div>
-              <Link
-                href={"#"}
-                className="text-sm text-slate-700 text-center !underline"
-              >
-                ورود با رمز عبور
-              </Link>
+              {isWithPass ? (
+                <Button
+                  variant={"link"}
+                  className="text-sm text-slate-700 text-center !underline"
+                  onClick={() => setIsWithPass(false)}
+                  type="button"
+                >
+                  ورود با کد تایید{" "}
+                </Button>
+              ) : (
+                <Button
+                  variant={"link"}
+                  type="button"
+                  className="text-sm text-slate-700 text-center !underline"
+                  onClick={() => setIsWithPass(true)}
+                >
+                  ورود با رمز عبور
+                </Button>
+              )}
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">

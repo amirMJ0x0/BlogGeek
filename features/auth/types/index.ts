@@ -8,6 +8,10 @@ export type SendOtpRequest = {
   credential: string; //email or password
 };
 
+export type LoginWithPassRequest = SendOtpRequest & {
+  password?: string;
+};
+
 export type SendOtpResponseData = {
   expiredAt: string;
 };
