@@ -1,4 +1,10 @@
 import { CredentialForm } from "@/features/auth/components/credential-form";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "ورود به بلاگ‌گیک",
+  description:
+    "برای ورود به حساب کاربری خود در بلاگ‌گیک، شماره موبایل یا ایمیل خود را وارد کنید. کد تایید برای شما ارسال خواهد شد.",
+};
 
 export default function LoginViaOtp() {
   return (
