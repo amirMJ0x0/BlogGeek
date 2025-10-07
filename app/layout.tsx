@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     default: "خوش آمدید | Bloggeek",
   },
   description:
-    "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و",
+    "بلاگ‌گیک جایی برای کشف، یادگیری و به‌اشتراک‌گذاری دانسته‌هاست. از برنامه‌نویسی و تکنولوژی گرفته تا ایده‌ها و تجربه‌های شخصی، اینجا محلی برای علاقه‌مندان به دنیای علم و دانش روز است.",
 };
 
 export default function RootLayout({
@@ -26,12 +26,7 @@ export default function RootLayout({
   return (
     <html dir="rtl" lang="fa-IR" className="!mx-auto min-h-[100svh]">
       <body className={`${vazir.variable}  antialiased`}>
-        {/* <div className="grid grid-rows-[min-content-1fr]"> */}
-        {/* <Header /> */}
-        <div className="max-sm:px-2 sm:px-4 max-sm:pt-12 sm:pt-16">
-          <Providers>{children}</Providers>
-        </div>
-        {/* </div> */}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
