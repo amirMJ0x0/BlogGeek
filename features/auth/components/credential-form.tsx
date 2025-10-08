@@ -173,6 +173,7 @@ export function CredentialForm({
                     placeholder="abc123"
                     required
                     {...register("password")}
+                    disabled={IsLoggingIn}
                   />
                   {errors.password && (
                     <p className="text-sm text-destructive !-mt-1">
@@ -196,6 +197,7 @@ export function CredentialForm({
                   variant={"link"}
                   className="text-sm text-slate-700 text-center !underline"
                   onClick={() => setIsWithPass(false)}
+                  disabled={isSendingOtp || IsLoggingIn}
                   type="button"
                 >
                   ورود با کد تایید{" "}
