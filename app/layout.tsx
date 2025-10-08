@@ -4,7 +4,6 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 
 const vazir = Vazirmatn({
-  variable: "--font-vazir",
   subsets: ["latin", "arabic"],
   display: "swap",
 });
@@ -25,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html dir="rtl" lang="fa-IR" className="!mx-auto min-h-[100svh]">
-      <body className={`${vazir.variable}  antialiased`}>
+      <body className={`${vazir.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>
