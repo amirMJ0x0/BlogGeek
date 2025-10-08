@@ -15,6 +15,56 @@ export const metadata: Metadata = {
   },
   description:
     "بلاگ‌گیک جایی برای کشف، یادگیری و به‌اشتراک‌گذاری دانسته‌هاست. از برنامه‌نویسی و تکنولوژی گرفته تا ایده‌ها و تجربه‌های شخصی، اینجا محلی برای علاقه‌مندان به دنیای علم و دانش روز است.",
+  keywords: [
+    "بلاگ",
+    "بلاگ‌گیک",
+    "مقالات برنامه‌نویسی",
+    "یادگیری برنامه نویسی",
+    "تکنولوژی",
+    "وب",
+    "جاوااسکریپت",
+    "ری‌اکت",
+    "فرانت‌اند",
+    "بک‌اند",
+    "تجربیات شخصی",
+    "علوم کامپیوتر",
+    "مقالات آموزشی",
+  ],
+  openGraph: {
+    title: "بلاگ‌گیک | خوراک روزانه‌ی ذهن‌های کنجکاو",
+    description:
+      "با بلاگ‌گیک همیشه یک قدم جلوتر از دنیای برنامه‌نویسی و تکنولوژی باشید. آموزش‌ها، مقالات و تجربه‌های ارزشمند برای علاقه‌مندان به وب و علم روز.",
+    url: process.env.NEXT_PUBLIC_FRONT_URL,
+    siteName: "Bloggeek",
+    locale: "fa_IR",
+    type: "website",
+    images: [
+      {
+        url: "@/public/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "بلاگ‌گیک - مقالات و آموزش علم روز",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "بلاگ‌گیک | خوراک روزانه‌ی ذهن‌های کنجکاو",
+    description:
+      "مقالات و آموزش‌های برنامه‌نویسی، تکنولوژی و تجربه‌های شخصی در بلاگ‌گیک.",
+    images: ["@/public/og-image.png"],
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    // apple: "/apple-touch-icon.png",
+  },
+
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_FRONT_URL,
+  },
 };
 
 export default function RootLayout({
