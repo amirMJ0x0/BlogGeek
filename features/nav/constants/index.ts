@@ -9,5 +9,5 @@ export const MobileNavs = [
 
 export const DesktopNavs = [
   ...MobileNavs,
-  { label: "نشان ها", logo: Bookmark, href: "/profile" },
+  { label: "نشان ها", logo: Bookmark, href: "#" },
 ];
