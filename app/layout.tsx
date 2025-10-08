@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "@/public/og-image.png",
+        url: "https://i.postimg.cc/xCtXVZZ0/logo.jpg",
         width: 1200,
         height: 630,
         alt: "بلاگ‌گیک - مقالات و آموزش علم روز",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "بلاگ‌گیک | خوراک روزانه‌ی ذهن‌های کنجکاو",
     description:
       "مقالات و آموزش‌های برنامه‌نویسی، تکنولوژی و تجربه‌های شخصی در بلاگ‌گیک.",
-    images: ["@/public/og-image.png"],
+    images: ["https://i.postimg.cc/xCtXVZZ0/logo.jpg"],
   },
 
   icons: {
