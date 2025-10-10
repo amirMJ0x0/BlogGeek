@@ -20,3 +20,9 @@ export type CheckOtpRequest = {
   credential: string;
   code: number;
 };
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+};

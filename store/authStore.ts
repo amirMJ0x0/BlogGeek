@@ -1,3 +1,4 @@
+import { User } from "@/features/auth/types";
 import { create } from "zustand";
 
 type AuthState = {
@@ -6,6 +7,10 @@ type AuthState = {
   clearCredential: () => void;
   otpExpireTime: string | null;
   setOtpExpireTime: (value: string) => void;
+  user: User | null;
+  isAuthenticated: boolean;
+  setUser: (user: User) => void;
+  clearUser: () => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -14,4 +19,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   credential: null,
   setCredential: (value) => set({ credential: value }),
   clearCredential: () => set({ credential: null }),
+  user: null,
+  isAuthenticated: false,
+  setUser: (user) => set({ user, isAuthenticated: true }),
+  clearUser: () => set({ user: null, isAuthenticated: false }),
 }));
