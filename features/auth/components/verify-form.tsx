@@ -28,11 +28,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Bounce, toast } from "react-toastify";
 import useCountdown from "../hooks/useCountdown";
 import { useSendOtp } from "../hooks/useSendOtp";
-import { CredentialSchema } from "../schemas/credentialSchema";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../types";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { SendOtpForm } from "../schemas/credentialSchema";
 
 export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
   const { clearCredential, credential, otpExpireTime, setOtpExpireTime } =
@@ -85,6 +85,7 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
         onError: (error: AxiosError<ApiResponse>) => {
           const message =
             error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
+          console.log(error);
           reset();
           toast.error(message, {
             position: "top-right",
@@ -103,7 +104,7 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
     );
   };
 
-  const onResend = (values: CredentialSchema) => {
+  const onResend = (values: SendOtpForm) => {
     reset();
     mutateSendOtp(values, {
       onSuccess: (res) => {

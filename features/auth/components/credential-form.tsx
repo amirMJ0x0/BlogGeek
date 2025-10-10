@@ -12,8 +12,10 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import {
-  credentialSchema,
-  CredentialSchema,
+  loginWithPassSchema,
+  sendOtpSchema,
+  SendOtpForm,
+  LoginWithPassForm,
 } from "../schemas/credentialSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSendOtp } from "../hooks/useSendOtp";
@@ -21,7 +23,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Bounce, toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../types";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useLoginWithPass } from "../hooks/useLoginWithPass";
 
 export function CredentialForm({
@@ -29,7 +31,7 @@ export function CredentialForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
-  const [isWithPass, setIsWithPass] = useState<Boolean>(false);
+  const [passwordMode, setPasswordMode] = useState<boolean>(false);
   const { setCredential, setOtpExpireTime, clearCredential } = useAuthStore();
   const { mutate: mutateSendOtp, isPending: isSendingOtp } = useSendOtp();
   const { mutate: mutateLoginWithPass, isPending: IsLoggingIn } =
@@ -39,13 +41,15 @@ export function CredentialForm({
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<CredentialSchema>({
-    resolver: zodResolver(credentialSchema),
-    defaultValues: { credential: "" },
+    reset,
+    watch,
+  } = useForm<SendOtpForm | LoginWithPassForm>({
+    resolver: zodResolver(passwordMode ? loginWithPassSchema : sendOtpSchema),
+    defaultValues: { credential: "", password: "" },
   });
 
-  const onSubmit = (values: CredentialSchema) => {
-    if (isWithPass) {
+  const onSubmit = (values: SendOtpForm | LoginWithPassForm) => {
+    if (passwordMode) {
       mutateLoginWithPass(values, {
         onSuccess: (res) => {
           clearCredential();
@@ -81,46 +85,46 @@ export function CredentialForm({
         },
       });
       return;
+    } else {
+      mutateSendOtp(values, {
+        onSuccess: (res) => {
+          setCredential(values.credential);
+          setOtpExpireTime(res.data?.expiredAt as string);
+
+          toast.success(res?.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+            rtl: true,
+          });
+
+          router.push("/verify");
+        },
+        onError: (error: AxiosError<ApiResponse>) => {
+          const message =
+            error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
+
+          toast.error(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+            rtl: true,
+          });
+        },
+      });
     }
-
-    mutateSendOtp(values, {
-      onSuccess: (res) => {
-        setCredential(values.credential);
-        setOtpExpireTime(res.data?.expiredAt as string);
-
-        toast.success(res?.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-          rtl: true,
-        });
-
-        router.push("/verify");
-      },
-      onError: (error: AxiosError<ApiResponse>) => {
-        const message =
-          error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
-
-        toast.error(message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-          rtl: true,
-        });
-      },
-    });
   };
 
   const handleCredentialChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -133,6 +137,11 @@ export function CredentialForm({
         shouldDirty: true,
       });
     }
+  };
+
+  const togglePasswordMode = () => {
+    setPasswordMode((prev) => !prev);
+    reset({ credential: watch("credential"), password: "" });
   };
 
   return (
@@ -158,6 +167,7 @@ export function CredentialForm({
                   required
                   {...register("credential")}
                   onChange={handleCredentialChange}
+                  disabled={isSendingOtp}
                 />
                 {errors.credential && (
                   <p className="text-sm text-destructive !-mt-1">
@@ -165,7 +175,7 @@ export function CredentialForm({
                   </p>
                 )}
               </div>
-              {isWithPass && (
+              {passwordMode && (
                 <div className="grid gap-3">
                   <Label htmlFor="credential">رمز عبور</Label>
                   <Input
@@ -173,7 +183,7 @@ export function CredentialForm({
                     placeholder="abc123"
                     required
                     {...register("password")}
-                    disabled={IsLoggingIn}
+                    disabled={IsLoggingIn || !passwordMode}
                   />
                   {errors.password && (
                     <p className="text-sm text-destructive !-mt-1">
@@ -188,30 +198,18 @@ export function CredentialForm({
                   className="w-full"
                   disabled={isSendingOtp || IsLoggingIn}
                 >
-                  {isWithPass ? "ورود" : "ادامه"}{" "}
+                  {passwordMode ? "ورود" : "ادامه"}{" "}
                   {(isSendingOtp || IsLoggingIn) && <Spinner />}
                 </Button>
               </div>
-              {isWithPass ? (
-                <Button
-                  variant={"link"}
-                  className="text-sm text-slate-700 text-center !underline"
-                  onClick={() => setIsWithPass(false)}
-                  disabled={isSendingOtp || IsLoggingIn}
-                  type="button"
-                >
-                  ورود با کد تایید{" "}
-                </Button>
-              ) : (
-                <Button
-                  variant={"link"}
-                  type="button"
-                  className="text-sm text-slate-700 text-center !underline"
-                  onClick={() => setIsWithPass(true)}
-                >
-                  ورود با رمز عبور
-                </Button>
-              )}
+              <Button
+                variant={"link"}
+                type="button"
+                className="text-sm text-slate-700 text-center !underline"
+                onClick={togglePasswordMode}
+              >
+                {passwordMode ? "ورود با کد تایید" : "ورود با رمز عبور"}
+              </Button>
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
