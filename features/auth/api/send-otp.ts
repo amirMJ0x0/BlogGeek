@@ -1,5 +1,6 @@
 import api from "@/lib/api";
-import { SendOtpRequest, ApiResponse, SendOtpResponseData } from "../types";
+import { SendOtpRequest, SendOtpResponseData } from "../types";
+import { ApiResponse } from "@/types";
 
 /**
  * @desc POST send/resend otp code

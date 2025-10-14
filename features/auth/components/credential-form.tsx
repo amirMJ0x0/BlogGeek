@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import loginBanner from "@/public/login-banner.jpeg";
 import Link from "next/link";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
 
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -22,9 +22,11 @@ import { useSendOtp } from "../hooks/useSendOtp";
 import { Spinner } from "@/components/ui/spinner";
 import { Bounce, toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { ApiResponse } from "../types";
 import { ChangeEvent, useState } from "react";
 import { useLoginWithPass } from "../hooks/useLoginWithPass";
+import { ApiResponse } from "@/types";
+import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
+import { useUserStore } from "@/features/user/store/useUserStore";
 
 export function CredentialForm({
   className,
@@ -33,6 +35,7 @@ export function CredentialForm({
   const router = useRouter();
   const [passwordMode, setPasswordMode] = useState<boolean>(false);
   const { setCredential, setOtpExpireTime, clearCredential } = useAuthStore();
+  const { setUser } = useUserStore();
   const { mutate: mutateSendOtp, isPending: isSendingOtp } = useSendOtp();
   const { mutate: mutateLoginWithPass, isPending: IsLoggingIn } =
     useLoginWithPass();
@@ -43,7 +46,7 @@ export function CredentialForm({
     setValue,
     reset,
     watch,
-  } = useForm<SendOtpForm | LoginWithPassForm>({
+  } = useForm<LoginWithPassForm | SendOtpForm>({
     resolver: zodResolver(passwordMode ? loginWithPassSchema : sendOtpSchema),
     defaultValues: { credential: "", password: "" },
   });
@@ -51,8 +54,14 @@ export function CredentialForm({
   const onSubmit = (values: SendOtpForm | LoginWithPassForm) => {
     if (passwordMode) {
       mutateLoginWithPass(values, {
-        onSuccess: (res) => {
+        onSuccess: async (res) => {
           clearCredential();
+          try {
+            const user = await fetchUserInfo();
+            setUser(user);
+          } catch (e) {
+            console.log(e);
+          }
           router.push("/");
           toast.success(res.message, {
             position: "top-right",

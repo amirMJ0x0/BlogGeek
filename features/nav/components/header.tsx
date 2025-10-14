@@ -1,23 +1,15 @@
-import { Bell, ChevronDown, Search, SquarePen } from "lucide-react";
+import { Bell, Search } from "lucide-react";
 
 import logo from "@/public/BlogGeek-logo.png";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { useUserStore } from "@/features/user/store/useUserStore";
+import UserStatus from "./user-status";
 
 export default function Header() {
-  const user = true;
   return (
     <header className="bg-white border-b">
       <nav
@@ -45,44 +37,14 @@ export default function Header() {
         </div>
         {/* Other Items */}
         <div className="hidden lg:flex lg:justify-end gap-2">
-          {user ? (
-            <>
-              <div className="flex gap-4">
-                <Link href={"/write"}>
-                  <Button>
-                    نوشتن <SquarePen />
-                  </Button>
-                </Link>
-
-                <DropdownMenu dir="ltr">
-                  <DropdownMenuTrigger className="flex items-center outline-none">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>Avatar</AvatarFallback>
-                    </Avatar>
-                    <ChevronDown className="!text-slate-500" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="center">
-                    <DropdownMenuLabel>حساب کاربری من</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>پروفایل</DropdownMenuItem>
-                    <DropdownMenuItem>نشان ها</DropdownMenuItem>
-                    <DropdownMenuItem>تست</DropdownMenuItem>
-                    <DropdownMenuItem>عضویت</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </>
-          ) : (
-            <Link
-              href="/login"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              ورود <span aria-hidden="true">&rarr;</span>
-            </Link>
-          )}
+          <UserStatus />
           <Button className="relative" variant={"link"}>
-            <Badge variant={'default'} className="absolute top-0 right-1 size-5" >3</Badge>
+            <Badge
+              variant={"default"}
+              className="absolute top-0 right-1 size-5"
+            >
+              3
+            </Badge>
             <Bell className="size-6" />
           </Button>
         </div>

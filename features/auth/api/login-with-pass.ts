@@ -1,5 +1,6 @@
 import api from "@/lib/api";
-import { ApiResponse, LoginWithPassRequest } from "../types";
+import { LoginWithPassRequest } from "../types";
+import { ApiResponse } from "@/types";
 
 /**
  * @desc POST login with

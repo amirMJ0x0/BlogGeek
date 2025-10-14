@@ -1,5 +1,6 @@
 import api from "@/lib/api";
-import { CheckOtpRequest, ApiResponse } from "../types";
+import { CheckOtpRequest } from "../types";
+import { ApiResponse } from "@/types";
 
 /**
  * @desc POST check otp code

@@ -18,10 +18,9 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import Link from "next/link";
 import { useCheckOtp } from "../hooks/useCheckOtp";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
 import { Controller, useForm } from "react-hook-form";
 import { otpSchema, OtpSchema } from "../schemas/otpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,14 +28,17 @@ import { Bounce, toast } from "react-toastify";
 import useCountdown from "../hooks/useCountdown";
 import { useSendOtp } from "../hooks/useSendOtp";
 import { AxiosError } from "axios";
-import { ApiResponse } from "../types";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SendOtpForm } from "../schemas/credentialSchema";
+import { ApiResponse } from "@/types";
+import { useUserStore } from "@/features/user/store/useUserStore";
+import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
 
 export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
   const { clearCredential, credential, otpExpireTime, setOtpExpireTime } =
     useAuthStore();
+  const { setUser } = useUserStore();
   const {
     mutate: mutateCheckOtp,
     isPending: isCheckingOtp,
@@ -66,8 +68,14 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
     mutateCheckOtp(
       { credential, code: Number(data.code) },
       {
-        onSuccess: (res) => {
+        onSuccess: async (res) => {
           clearCredential();
+          try {
+            const user = await fetchUserInfo();
+            setUser(user);
+          } catch (e) {
+            console.log(e);
+          }
           router.push("/");
           toast.success(res.message, {
             position: "top-right",

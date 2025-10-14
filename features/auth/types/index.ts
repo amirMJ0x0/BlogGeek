@@ -1,7 +1,23 @@
-export type ApiResponse<T = unknown> = {
-  data: T | null;
-  message: string;
-  statusCode: number;
+export type User = {
+  id: number;
+  email: string;
+  phone_number: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  profile_image: string | null;
+  banner_image: string | null;
+  birthday: string | null;
+  bio: string | null;
+  social_media: {
+    instagram?: string;
+    twitter?: string;
+    telegram?: string;
+  } | null;
+  role: string;
+  last_login_at: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type SendOtpRequest = {
@@ -19,10 +35,4 @@ export type SendOtpResponseData = {
 export type CheckOtpRequest = {
   credential: string;
   code: number;
-};
-
-export type User = {
-  id: string;
-  name: string;
-  email: string;
 };
