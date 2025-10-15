@@ -1,5 +1,9 @@
-const Home = () => {
-  return <div>Articles</div>;
-};
+import Article from "@/components/test/articles";
 
-export default Home;
+export default function Home() {
+  return (
+    <div>
+      <Article />
+    </div>
+  );
+}

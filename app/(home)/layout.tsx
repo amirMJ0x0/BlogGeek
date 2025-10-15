@@ -9,7 +9,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
       <Header />
       <main className="flex flex-col md:flex-row gap-6 p-4 md:p-6 lg:px-8">
-        <div className="max-lg:hidden w-1/6 bg-white dark:bg-[#222831] rounded-2xl p-2 !shadow-sm border-gray-100">
+        <div className="max-lg:hidden w-1/6 bg-white dark:bg-[#222831]/70 rounded-2xl p-2 !shadow-sm border-gray-100 max-h-min">
           <DesktopNav />
         </div>
 

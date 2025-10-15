@@ -21,8 +21,8 @@ export default function Header() {
           <Logo />
         </div>
         {/* SearchBox */}
-        <div className="flex lg:gap-x-12 gap-1">
-          <div className="relative flex items-center w-full ">
+        <div className="flex lg:gap-x-2 gap-x-1">
+          <div className="relative flex flex-1 items-center w-full ">
             <Search className="absolute left-2 size-4 " />
             <Input
               placeholder="جستجوی مقالات ، عناوین ، نویسنده ها ..."

@@ -11,7 +11,7 @@ const SideBar = () => {
   }
 
   return (
-    <div className="max-md:hidden w-1/6 bg-white dark:bg-[#222831] rounded-2xl p-2">
+    <div className="max-md:hidden w-1/6 bg-white dark:bg-[#222831]/70 rounded-2xl p-2">
       <div>Sidebar</div>
     </div>
   );
