@@ -73,8 +73,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html dir="rtl" lang="fa-IR" className="!mx-auto min-h-[100svh]">
-      <body className={`${vazir.className} antialiased`}>
+    <html
+      dir="rtl"
+      lang="fa-IR"
+      className="!mx-auto min-h-[100svh]"
+      suppressHydrationWarning
+    >
+      <body
+        className={`${vazir.className} antialiased bg-gray-50 dark:bg-[#121212]`}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

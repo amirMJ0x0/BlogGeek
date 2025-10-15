@@ -26,7 +26,7 @@ const UserStatus = () => {
               </Button>
             </Link>
 
-            <DropdownMenu dir="ltr">
+            <DropdownMenu dir="rtl">
               <DropdownMenuTrigger className="flex items-center outline-none">
                 <Avatar>
                   <AvatarImage src="https://github.com/shadcn.png" />

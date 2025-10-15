@@ -4,6 +4,7 @@ import { ReactNode, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import { useUserInfo } from "@/features/user/hooks/useUserInfo";
+import { ThemeProvider } from "./theme-provider";
 type ProvidersProps = {
   children: ReactNode;
 };
@@ -14,7 +15,14 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <UserInfoHydrator />
-      {children}
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
       <ToastContainer />
     </QueryClientProvider>
   );

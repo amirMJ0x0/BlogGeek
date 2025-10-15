@@ -214,7 +214,7 @@ export function CredentialForm({
               <Button
                 variant={"link"}
                 type="button"
-                className="text-sm text-slate-700 text-center !underline"
+                className="text-sm text-slate-700 dark:text-white/50 text-center !underline"
                 onClick={togglePasswordMode}
               >
                 {passwordMode ? "ورود با کد تایید" : "ورود با رمز عبور"}
