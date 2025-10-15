@@ -24,7 +24,6 @@ import { useAuthStore } from "@/features/auth/store/useAuthStore";
 import { Controller, useForm } from "react-hook-form";
 import { otpSchema, OtpSchema } from "../schemas/otpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Bounce, toast } from "react-toastify";
 import useCountdown from "../hooks/useCountdown";
 import { useSendOtp } from "../hooks/useSendOtp";
 import { AxiosError } from "axios";
@@ -34,10 +33,12 @@ import { SendOtpForm } from "../schemas/credentialSchema";
 import { ApiResponse } from "@/types";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
+import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 
 export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
   const { clearCredential, credential, otpExpireTime, setOtpExpireTime } =
     useAuthStore();
+  const { showToast } = useCustomToast();
   const { setUser } = useUserStore();
   const {
     mutate: mutateCheckOtp,
@@ -77,36 +78,14 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
             console.log(e);
           }
           router.push("/");
-          toast.success(res.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            rtl: true,
-          });
+          showToast(res?.message, "success");
         },
         onError: (error: AxiosError<ApiResponse>) => {
           const message =
             error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
           console.log(error);
           reset();
-          toast.error(message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            rtl: true,
-          });
+          showToast(message, "error");
         },
       }
     );
@@ -117,18 +96,7 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
     mutateSendOtp(values, {
       onSuccess: (res) => {
         setOtpExpireTime(res.data?.expiredAt as string);
-        toast.success(res?.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-          rtl: true,
-        });
+        showToast(res?.message, "success");
       },
     });
   };

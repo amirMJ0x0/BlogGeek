@@ -20,19 +20,20 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSendOtp } from "../hooks/useSendOtp";
 import { Spinner } from "@/components/ui/spinner";
-import { Bounce, toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { ChangeEvent, useState } from "react";
 import { useLoginWithPass } from "../hooks/useLoginWithPass";
 import { ApiResponse } from "@/types";
 import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
 import { useUserStore } from "@/features/user/store/useUserStore";
+import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 
 export function CredentialForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const { showToast } = useCustomToast();
   const [passwordMode, setPasswordMode] = useState<boolean>(false);
   const { setCredential, setOtpExpireTime, clearCredential } = useAuthStore();
   const { setUser } = useUserStore();
@@ -63,34 +64,11 @@ export function CredentialForm({
             console.log(e);
           }
           router.push("/");
-          toast.success(res.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            rtl: true,
-          });
         },
         onError: (error: AxiosError<ApiResponse>) => {
           const message =
             error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
-          toast.error(message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            rtl: true,
-          });
+          showToast(message, "error");
         },
       });
       return;
@@ -100,18 +78,7 @@ export function CredentialForm({
           setCredential(values.credential);
           setOtpExpireTime(res.data?.expiredAt as string);
 
-          toast.success(res?.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            rtl: true,
-          });
+          showToast(res?.message, "success");
 
           router.push("/verify");
         },
@@ -119,18 +86,7 @@ export function CredentialForm({
           const message =
             error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
 
-          toast.error(message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            rtl: true,
-          });
+          showToast(message, "error");
         },
       });
     }
