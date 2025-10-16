@@ -150,11 +150,14 @@ export function CredentialForm({
                     {...register("password")}
                     disabled={IsLoggingIn || !passwordMode}
                   />
-                  {errors.password && (
-                    <p className="text-sm text-destructive !-mt-1">
-                      {errors.password.message as string}
-                    </p>
-                  )}
+                  {passwordMode &&
+                    errors &&
+                    "password" in errors &&
+                    errors.password && (
+                      <p className="text-sm text-destructive !-mt-1">
+                        {errors.password.message as string}
+                      </p>
+                    )}
                 </div>
               )}
               <div className="-mt-2">
