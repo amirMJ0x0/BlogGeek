@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
-import banner from "@/public/bg.png";
 import { useUserStore } from "@/features/user/store/useUserStore";
-import { Calendar, Pen, PenBox, User, User2 } from "lucide-react";
+import { Calendar, PenBox, User2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -15,7 +14,7 @@ const ProfilePage = () => {
         {user?.banner_image ? (
           <Image
             fill
-            src={banner}
+            src={user.banner_image}
             alt="banner"
             className="object-cover rounded-sm"
           />

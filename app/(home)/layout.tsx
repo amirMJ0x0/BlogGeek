@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import DesktopNav from "@/features/nav/components/desktop-navs";
 import Header from "@/features/nav/components/header";
 import MobileNav from "@/features/nav/components/mobile-navs";

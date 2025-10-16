@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Separator } from "../ui/separator";
 type Post = {
   id: number;
@@ -48,7 +49,7 @@ const ArticleCard = ({ post }: { post: Post }) => {
           </p>
         </div>
         <div className="relative mt-8 flex items-center gap-x-4">
-          <img
+          <Image
             src={post.author.imageUrl}
             alt=""
             className="h-10 w-10 rounded-full bg-gray-50"
