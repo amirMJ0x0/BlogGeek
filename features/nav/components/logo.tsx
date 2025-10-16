@@ -1,25 +1,38 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import darkModeLogo from "@/public/BlogGeek-logo-darkmode.png";
-import lightModeLogo from "@/public/BlogGeek-logo2.png";
+import lightLogo from "@/public/BlogGeek-logo-darkmode.png";
+import darkLogo from "@/public/BlogGeek-logo2.png";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const Logo = () => {
-  const { theme, systemTheme } = useTheme();
+  const { theme } = useTheme();
 
-  const currentTheme = theme === "system" ? systemTheme : theme;
-  const logoSrc = currentTheme === "dark" ? darkModeLogo : lightModeLogo;
+  // وقتی کاربر صریح انتخاب کرده، از اون استفاده کن
+  if (theme === "light" || theme === "dark") {
+    const src = theme === "dark" ? lightLogo : darkLogo;
+    return (
+      <Link href="/" className="-m-1.5 p-1.5">
+        <span className="sr-only">لوگوی بلاگیک</span>
+        <Image src={src} alt="Bloggeek logo" className="h-8 w-auto" priority />
+      </Link>
+    );
+  }
 
   return (
     <Link href="/" className="-m-1.5 p-1.5">
       <span className="sr-only">لوگوی بلاگیک</span>
-      <Image
-        src={logoSrc}
-        alt="Bloggeek logo"
-        className="h-8 w-auto transition-opacity duration-300"
-        priority
-      />
+      <picture>
+        <source srcSet={lightLogo.src} media="(prefers-color-scheme: dark)" />
+        <img
+          src={darkLogo.src}
+          alt="Bloggeek logo"
+          className="h-8 w-auto"
+          width={32}
+          height={32}
+        />
+      </picture>
     </Link>
   );
 };
