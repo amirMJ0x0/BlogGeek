@@ -12,8 +12,12 @@ import Logo from "./logo";
 export default function Header() {
   return (
     <header className="bg-white dark:!bg-[#222831]/70 border-b">
-      <nav
+      {/* <nav
         className="mx-auto grid grid-cols-[1fr_3fr] lg:grid-cols-[1fr_2fr_1fr] max-w-svw items-center  p-4 md:p-6 lg:px-8 max-md:gap-2 max-lg:gap-5"
+        aria-label="Global"
+      > */}
+      <nav
+        className="mx-auto flex justify-between max-w-svw items-center  p-4 md:p-6 lg:px-8 max-md:gap-2 max-lg:gap-5"
         aria-label="Global"
       >
         {/* Logo */}
@@ -21,8 +25,8 @@ export default function Header() {
           <Logo />
         </div>
         {/* SearchBox */}
-        <div className="flex lg:gap-x-2 gap-x-1">
-          <div className="relative flex flex-1 items-center w-full ">
+        <div className="flex lg:gap-x-2 gap-x-1 w-sm md:w-full lg:w-[60%]">
+          <div className="relative flex items-center w-full ">
             <Search className="absolute left-2 size-4 " />
             <Input
               placeholder="جستجوی مقالات ، عناوین ، نویسنده ها ..."
