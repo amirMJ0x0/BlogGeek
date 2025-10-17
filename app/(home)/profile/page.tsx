@@ -5,6 +5,8 @@ import { Calendar, PenBox, User2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import ProfileTabs from "@/features/user/components/profile-tabs";
+import Link from "next/link";
 
 const ProfilePage = () => {
   const { user } = useUserStore();
@@ -51,9 +53,11 @@ const ProfilePage = () => {
           </p>
         </div>
 
-        <Button className="p-4 ">
-          ویرایش پروفایل <PenBox />
-        </Button>
+        <Link href={"/profile/settings"}>
+          <Button className="p-4 ">
+            ویرایش پروفایل <PenBox />
+          </Button>
+        </Link>
       </div>
       <div className="flex justify-evenly gap-4 font-semibold">
         <div className="flex flex-col justify-center items-center">
@@ -69,6 +73,7 @@ const ProfilePage = () => {
           <span className="font-sm text-gray-500">دنبال شونده</span>
         </div>
       </div>
+      <ProfileTabs />
     </section>
   );
 };
