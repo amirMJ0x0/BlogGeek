@@ -51,8 +51,10 @@ const ArticleCard = ({ post }: { post: Post }) => {
         <div className="relative mt-8 flex items-center gap-x-4">
           <Image
             src={post.author.imageUrl}
-            alt=""
-            className="h-10 w-10 rounded-full bg-gray-50"
+            alt="test"
+            width={40}
+            height={40}
+            className="rounded-full bg-gray-50"
           />
           <div className="text-sm leading-6">
             <p className="font-semibold text-gray-900 dark:text-white">
