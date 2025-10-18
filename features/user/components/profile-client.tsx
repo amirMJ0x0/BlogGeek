@@ -1,0 +1,80 @@
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { Calendar, PenBox, User2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { useUserStore } from "@/features/user/store/useUserStore";
+import ProfileTabs from "./profile-tabs";
+
+export default function ProfileClient() {
+  const { user } = useUserStore();
+
+  return (
+    <section className="space-y-10 md:space-y-14">
+      <div className="relative w-full h-28 md:h-44 opacity-70">
+        {user?.banner_image ? (
+          <Image
+            fill
+            src={user.banner_image}
+            alt="banner"
+            className="object-cover rounded-sm"
+          />
+        ) : (
+          <div className="bg-muted size-full rounded-sm"></div>
+        )}
+
+        <Avatar className="absolute right-1/2 max-sm:!translate-x-1/2 md:right-7 -bottom-7 size-16 md:size-18 z-10  border border-gray-200 dark:border-white  !shadow-md">
+          <AvatarImage src={user?.profile_image as string} />
+          <AvatarFallback>
+            <User2 className="size-1/2" />
+          </AvatarFallback>
+        </Avatar>
+      </div>
+      <div className="flex flex-col md:flex-row items-center md:justify-between gap-4 px-5 ">
+        <div className="flex flex-col md:items-start md:w-1/2 gap-2">
+          <h3 className="text-2xl font-bold">
+            {user?.first_name ? user.first_name : "حاج امیر"}
+          </h3>
+          <h5
+            className="text-sm text-gray-500 flex gap-6 h-5 items-center justify-center"
+            dir="ltr"
+          >
+            <span className="flex items-center text-sm gap-1 justify-center">
+              <Calendar size={"1rem"} />
+              <span> از آبان ۱۴۰۳ </span>
+            </span>
+            <Separator orientation="vertical" />
+            <span className="font-mono">@test232 </span>
+          </h5>
+          <p className="text-center md:text-justify text-gray-400 text-sm ">
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+            استفاده از طراحان گرافیک است، چاپگرها و
+          </p>
+        </div>
+
+        <Link href={"/profile/settings"}>
+          <Button className="p-4 ">
+            ویرایش پروفایل <PenBox />
+          </Button>
+        </Link>
+      </div>
+      <div className="flex justify-evenly gap-4 font-semibold">
+        <div className="flex flex-col justify-center items-center">
+          <span className="font-bold text-lg">14</span>
+          <span className="font-sm text-gray-500">مقاله</span>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <span className="font-bold text-lg">134</span>
+          <span className="font-sm text-gray-500">دنبال کننده</span>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <span className="font-bold text-lg">385</span>
+          <span className="font-sm text-gray-500">دنبال شونده</span>
+        </div>
+      </div>
+      <ProfileTabs />
+    </section>
+  );
+}
