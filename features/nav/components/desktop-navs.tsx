@@ -3,12 +3,20 @@ import { Button } from "@/components/ui/button";
 import { navigationConstants } from "../constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUserStore } from "@/features/user/store/useUserStore";
 
 const DesktopNav = () => {
   const pathname = usePathname();
+  const { user } = useUserStore();
+
+  const navItems = navigationConstants.map((item) => ({
+    ...item,
+    href: item.label === "پروفایل" ? `/@${user?.username}` : item.href,
+  }));
+
   return (
     <nav className="flex flex-col justify-center  gap-2">
-      {navigationConstants.map((item) => {
+      {navItems.map((item) => {
         const isActive =
           pathname === item.href || pathname.startsWith(`${item.href}/`);
 
