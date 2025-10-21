@@ -1,6 +1,5 @@
 import { Spinner } from "@/components/ui/spinner";
-import { SpinnerButton } from "@/components/ui/spinner-button";
-import SettingsTabs from "@/features/user/components/settings-tabs";
+import SettingsTabs from "@/features/user/components/profile-setting/settings-tabs";
 import { Suspense } from "react";
 
 const Settings = () => {

@@ -5,19 +5,28 @@ export type User = {
   username: string;
   first_name: string;
   last_name: string;
-  profile_image: string | null;
-  banner_image: string | null;
-  birthday: string | null;
-  bio: string | null;
-  social_media: {
-    instagram?: string;
-    twitter?: string;
-    telegram?: string;
-  } | null;
+  profile_image: string | undefined;
+  banner_image: string | undefined;
+  birthday: string | undefined;
+  bio: string | undefined;
+  social_media:
+    | {
+        instagram?: string;
+        twitter?: string;
+        telegram?: string;
+        linkedin?: string;
+        github?: string;
+      }
+    | undefined;
   role: string;
   last_login_at: string;
   created_at: string;
   updated_at: string;
+  _count: {
+    folowers: number;
+    following: number;
+    blogs: number;
+  };
 };
 
 export type SendOtpRequest = {

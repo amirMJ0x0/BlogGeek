@@ -72,3 +72,14 @@ export const emailRegex =
   /^[A-Za-z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|live\.com|icloud\.com|protonmail\.com|zoho\.com)$/;
 
 export const phoneNumberRegex = /^09\d{2}[-\s]?\d{3}[-\s]?\d{4}$/;
+
+/**
+ * username pattern: letters, numbers, dot, underscore, hyphen
+ * length 1..100
+ */
+export const usernameRegex = /^[A-Za-z0-9._-]{1,100}$/;
+
+/**
+ * detect persian/arabic letters (forbid in social inputs)
+ */
+const hasArabicPersian = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
