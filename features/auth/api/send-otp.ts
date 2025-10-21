@@ -9,6 +9,6 @@ import { ApiResponse } from "@/types";
 export const sendOTP = async (
   data: SendOtpRequest
 ): Promise<ApiResponse<SendOtpResponseData>> => {
-  const res = await api.post("v1/auth/send-otp", data);
-  return res.data;
+  const { data: response } = await api.post("v1/auth/send-otp", data);
+  return response;
 };

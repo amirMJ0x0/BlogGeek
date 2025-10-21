@@ -9,6 +9,9 @@ import { ApiResponse } from "@/types";
 export const loginWithPass = async (
   data: LoginWithPassRequest
 ): Promise<ApiResponse<null>> => {
-  const res = await api.post("v1/auth/login-with-password", data);
-  return res.data;
+  const { data: response } = await api.post(
+    "v1/auth/login-with-password",
+    data
+  );
+  return response;
 };

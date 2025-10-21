@@ -6,6 +6,6 @@ import { ApiResponse } from "@/types";
  * @route POST https://bloggeek.ir/api/v1/auth/logout
  */
 export const logout = async (): Promise<ApiResponse<null>> => {
-  const res = await api.get("v1/auth/logout");
-  return res.data;
+  const { data: response } = await api.get("v1/auth/logout");
+  return response;
 };
