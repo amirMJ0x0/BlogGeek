@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { faIR } from "date-fns/locale";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -83,3 +85,11 @@ export const usernameRegex = /^[A-Za-z0-9._-]{1,100}$/;
  * detect persian/arabic letters (forbid in social inputs)
  */
 const hasArabicPersian = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
+
+export const formatJoinDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return formatDistanceToNow(date, {
+    addSuffix: true,
+    locale: faIR,
+  });
+};

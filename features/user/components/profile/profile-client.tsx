@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import ProfileTabs from "./profile-tabs";
+import { formatJoinDate } from "@/lib/utils";
 
 export default function ProfileClient() {
   const { user } = useUserStore();
@@ -42,8 +43,8 @@ export default function ProfileClient() {
             dir="ltr"
           >
             <span className="flex items-center text-sm gap-1 justify-center">
+              <p>عضو از {formatJoinDate(String(user?.created_at))}</p>{" "}
               <Calendar size={"1rem"} />
-              <span> از آبان ۱۴۰۳ </span>
             </span>
             <Separator orientation="vertical" />
             <span className="font-mono">@{user?.username}</span>
