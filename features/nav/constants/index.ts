@@ -1,8 +1,20 @@
-import { Compass, House, Plus, User } from "lucide-react";
+// navigationConstants.ts
+import { Compass, House, Plus, User, LogIn } from "lucide-react";
 
-export const navigationConstants = [
+export const getNavigationConstants = (
+  isLoggedIn: boolean,
+  username?: string
+) => [
   { label: "خانه", logo: House, href: "/" },
   { label: "اکسپلور", logo: Compass, href: "#" },
-  { label: "نوشتن", logo: Plus, href: "/write" },
-  { label: "پروفایل", logo: User, href: "/profile" },
+  {
+    label: isLoggedIn ? "نوشتن" : "نوشتن",
+    logo: Plus,
+    href: isLoggedIn ? "/write" : "/login",
+  },
+  {
+    label: isLoggedIn ? "پروفایل" : "ورود",
+    logo: isLoggedIn ? User : LogIn,
+    href: isLoggedIn ? `/@${username}` : "/login",
+  },
 ];

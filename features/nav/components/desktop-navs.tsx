@@ -1,18 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { navigationConstants } from "../constants";
+import { getNavigationConstants } from "../constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/features/user/store/useUserStore";
 
 const DesktopNav = () => {
   const pathname = usePathname();
-  const { user } = useUserStore();
+  const { user, isAuthenticated } = useUserStore();
 
-  const navItems = navigationConstants.map((item) => ({
-    ...item,
-    href: item.label === "پروفایل" ? `/@${user?.username}` : item.href,
-  }));
+  const navItems = getNavigationConstants(isAuthenticated, user?.username);
 
   return (
     <nav className="flex flex-col justify-center  gap-2">
