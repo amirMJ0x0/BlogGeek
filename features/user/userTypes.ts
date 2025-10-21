@@ -1,5 +1,5 @@
 type EditUserInfoRequest = {
-  username: string;
+  username?: string;
   first_name: string | null;
   last_name: string | null;
   birthday: string | null;

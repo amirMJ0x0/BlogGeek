@@ -35,7 +35,7 @@ export default function ProfileClient() {
       <div className="flex flex-col md:flex-row items-center md:justify-between gap-4 px-5 ">
         <div className="flex flex-col md:items-start md:w-1/2 gap-2">
           <h3 className="text-2xl font-bold">
-            {user?.first_name ? user.first_name : "حاج امیر"}
+            {user?.first_name ? user.first_name : "نام کاربری"}
           </h3>
           <h5
             className="text-sm text-gray-500 flex gap-6 h-5 items-center justify-center"
@@ -46,15 +46,14 @@ export default function ProfileClient() {
               <span> از آبان ۱۴۰۳ </span>
             </span>
             <Separator orientation="vertical" />
-            <span className="font-mono">@test232 </span>
+            <span className="font-mono">@{user?.username}</span>
           </h5>
           <p className="text-center md:text-justify text-gray-400 text-sm ">
-            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-            استفاده از طراحان گرافیک است، چاپگرها و
+            {user?.bio}
           </p>
         </div>
 
-        <Link href={"/profile/settings"}>
+        <Link href={`/@${user?.username}/settings`}>
           <Button className="p-4 ">
             ویرایش پروفایل <PenBox />
           </Button>

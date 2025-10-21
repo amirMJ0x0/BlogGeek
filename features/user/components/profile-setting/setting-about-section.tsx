@@ -29,11 +29,13 @@ import { useEditUserInfo } from "../../hooks/useEditUserInfo";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { Spinner } from "@/components/ui/spinner";
 import BirthdayInput from "./birthday-input";
+import { useRouter } from "next/navigation";
 
 const SettingAboutSection = () => {
   const { user } = useUserStore();
   const { showToast } = useCustomToast();
   const { mutate: mutateUserInfo, isPending } = useEditUserInfo();
+  const router = useRouter();
   const form = useForm<ProfileInfoFormData>({
     resolver: zodResolver(profileInfoSchema),
     defaultValues: {
@@ -51,7 +53,6 @@ const SettingAboutSection = () => {
 
   function onSubmit(data: ProfileInfoFormData) {
     const apiData: EditUserInfoRequest = {
-      username: user?.username || "",
       first_name: data.first_name || null,
       last_name: data.last_name || null,
       birthday: data.birthday || null,
@@ -68,11 +69,11 @@ const SettingAboutSection = () => {
         github: data.github ? `https://github.com/${data.github}` : null,
       },
     };
-    console.log(apiData);
     mutateUserInfo(apiData, {
       onSuccess: (response) => {
         showToast(response.message, "success");
         useUserStore.setState({ user: response.data });
+        router.push(`/@${user?.username}`);
       },
     });
   }
@@ -147,7 +148,7 @@ const SettingAboutSection = () => {
             name="bio"
             control={form.control}
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid} >
+              <Field data-invalid={fieldState.invalid}>
                 <FieldLabel
                   htmlFor="bio"
                   className="py-2 font-semibold text-slate-600"
