@@ -10,6 +10,20 @@ const nextConfig: NextConfig = {
         pathname: "**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "bloggeek.storage.c2.liara.space",
+        port: "",
+        pathname: "**",
+        search: "",
+      },
+      {
+        protocol: "https",
+        hostname: "i.postimg.cc",
+        port: "",
+        pathname: "**",
+        search: "",
+      },
     ],
   },
 };

@@ -4,12 +4,10 @@ import Link from "next/link";
 import lightLogo from "@/public/BlogGeek-logo-darkmode.png";
 import darkLogo from "@/public/BlogGeek-logo2.png";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
 const Logo = () => {
   const { theme } = useTheme();
 
-  // وقتی کاربر صریح انتخاب کرده، از اون استفاده کن
   if (theme === "light" || theme === "dark") {
     const src = theme === "dark" ? lightLogo : darkLogo;
     return (
