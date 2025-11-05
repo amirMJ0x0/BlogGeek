@@ -23,7 +23,7 @@ export type User = {
   created_at: string;
   updated_at: string;
   _count: {
-    folowers: number;
+    followers: number;
     following: number;
     blogs: number;
   };

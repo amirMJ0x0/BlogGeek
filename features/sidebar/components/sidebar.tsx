@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 const SideBar = () => {
   const pathname = usePathname();
 
-  const notNeededSidebar = ["/profile", "/profile/settings"];
+  const notNeededSidebar = ["/profile", "/profile/settings", "/notfound"];
   if (notNeededSidebar.includes(pathname)) {
     return null;
   }

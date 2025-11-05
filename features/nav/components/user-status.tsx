@@ -55,7 +55,7 @@ const UserStatus = () => {
             <DropdownMenu dir="rtl">
               <DropdownMenuTrigger className="flex items-center outline-none">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarImage src={user?.profile_image} />
                   <AvatarFallback>
                     {user?.first_name?.substring(0, 1)}
                   </AvatarFallback>
@@ -63,13 +63,13 @@ const UserStatus = () => {
                 <ChevronDown className="!text-slate-500" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="center">
-                <DropdownMenuLabel>
+                <DropdownMenuLabel className="text-center">
                   {user?.username || "حساب کاربری من"}{" "}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <User2 />
-                  <Link href={"/profile"}>پروفایل</Link>
+                  <Link href={`@${user?.username}`}>پروفایل</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Bookmark />

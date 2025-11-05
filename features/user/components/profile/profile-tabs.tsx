@@ -2,7 +2,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const ProfileTabs = () => {
+type ProfileTabsProps = {
+  isOwner: boolean;
+};
+const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab") || "posts";
@@ -18,13 +21,24 @@ const ProfileTabs = () => {
       className="w-full"
     >
       <TabsList className="w-full">
-        <TabsTrigger value="posts">پست ها</TabsTrigger>
-        <TabsTrigger value="favorites">علاقه مندی ها</TabsTrigger>
-        <TabsTrigger value="bookmarks">نشان ها</TabsTrigger>
+        <TabsTrigger value="posts">پست‌ها</TabsTrigger>
+
+        {isOwner && (
+          <>
+            <TabsTrigger value="favorites">علاقه‌مندی‌ها</TabsTrigger>
+            <TabsTrigger value="bookmarks">نشان‌ها</TabsTrigger>
+          </>
+        )}
       </TabsList>
-      <TabsContent value="posts">پست ها</TabsContent>
-      <TabsContent value="favorites">علاقه مندیا</TabsContent>
-      <TabsContent value="bookmarks">نشان ها</TabsContent>
+
+      <TabsContent value="posts">پست‌ها</TabsContent>
+
+      {isOwner && (
+        <>
+          <TabsContent value="favorites">علاقه‌مندی‌ها</TabsContent>
+          <TabsContent value="bookmarks">نشان‌ها</TabsContent>
+        </>
+      )}
     </Tabs>
   );
 };
