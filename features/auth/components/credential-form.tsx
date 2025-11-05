@@ -132,7 +132,7 @@ export function CredentialForm({
                   required
                   {...register("credential")}
                   onChange={handleCredentialChange}
-                  disabled={isSendingOtp}
+                  disabled={isSendingOtp || IsLoggingIn}
                 />
                 {errors.credential && (
                   <p className="text-sm text-destructive !-mt-1">
