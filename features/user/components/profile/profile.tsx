@@ -7,7 +7,7 @@ import { Calendar, PenBox, User2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { formatJoinDate } from "@/lib/utils";
+import { formatJoinDate, toPersianFrom } from "@/lib/utils";
 import ProfileTabs from "./profile-tabs";
 import { User } from "@/features/auth/types";
 
@@ -46,7 +46,7 @@ export default function ProfilePreview({ profile }: { profile: User }) {
             dir="ltr"
           >
             <span className="flex items-center text-sm gap-1 justify-center">
-              {/* <p>عضو از {formatJoinDate(String(profile?.created_at))}</p>{" "} */}
+              <p>{toPersianFrom(String(profile?.created_at))}</p>
               <Calendar size={"1rem"} />
             </span>
             <Separator orientation="vertical" />

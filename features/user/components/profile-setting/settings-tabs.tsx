@@ -1,7 +1,8 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, useSearchParams } from "next/navigation";
-import SettingAboutSection from "./setting-about-section";
+import SettingAboutSection from "./about/setting-about-section";
+import SettingAccountSection from "./account/setting-account-section";
 
 const SettingsTabs = () => {
   const router = useRouter();
@@ -26,7 +27,9 @@ const SettingsTabs = () => {
       <TabsContent value="about-me">
         <SettingAboutSection />
       </TabsContent>
-      <TabsContent value="account">account</TabsContent>
+      <TabsContent value="account">
+        <SettingAccountSection />
+      </TabsContent>
       <TabsContent value="others">others</TabsContent>
     </Tabs>
   );

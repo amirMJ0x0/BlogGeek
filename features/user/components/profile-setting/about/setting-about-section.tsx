@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserStore } from "../../store/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   ProfileInfoFormData,
   profileInfoSchema,
-} from "../../schemas/aboutSettingSchema";
+} from "../../../schemas/aboutSettingSchema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -26,7 +26,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { format } from "date-fns";
-import { useEditUserInfo } from "../../hooks/useEditUserInfo";
+import { useEditUserInfo } from "@/features/user/hooks/useEditUserInfo";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { Spinner } from "@/components/ui/spinner";
 import BirthdayInput from "./birthday-input";
@@ -59,15 +59,11 @@ const SettingAboutSection = () => {
       birthday: format(data.birthday!, "yyyy-MM-dd") || null,
       bio: data.bio || null,
       social_media: {
-        instagram: data.instagram
-          ? `https://instagram.com/${data.instagram}`
-          : null,
-        twitter: data.twitter ? `https://x.com/${data.twitter}` : null,
-        telegram: data.telegram ? `https://t.me/${data.telegram}` : null,
-        linkedin: data.linkedin
-          ? `https://linkedin.com/in/${data.linkedin}`
-          : null,
-        github: data.github ? `https://github.com/${data.github}` : null,
+        instagram: data.instagram || null,
+        twitter: data.twitter || null,
+        telegram: data.telegram || null,
+        linkedin: data.linkedin || null,
+        github: data.github || null,
       },
     };
     mutateUserInfo(apiData, {

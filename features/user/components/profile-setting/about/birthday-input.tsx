@@ -52,7 +52,6 @@ const BirthdayInput = ({ control, name = "birthday" }: BirthdayProps) => {
                   }) || ""
                 }
                 onClick={() => setOpen((val) => !val)}
-                placeholder="۱۴۰۴/۰۴/۰۴"
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
                 className="bg-background pr-10 min-h-9"

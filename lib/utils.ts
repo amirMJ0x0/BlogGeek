@@ -93,3 +93,26 @@ export const formatJoinDate = (dateString: string): string => {
     locale: faIR,
   });
 };
+
+export function debounce<F extends (...args: any[]) => void>(
+  func: F,
+  delay: number
+) {
+  let timer: NodeJS.Timeout;
+  return (...args: Parameters<F>) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func(...args), delay);
+  };
+}
+
+export function toPersianFrom(dateStr: string) {
+  const date = new Date(dateStr);
+
+  const formatter = new Intl.DateTimeFormat("fa-IR", {
+    year: "numeric",
+    month: "long",
+    calendar: "persian", // مهم! تقویم جلالی
+  });
+
+  return `از ${formatter.format(date).replace(/^\d+ /, "")}`;
+}
