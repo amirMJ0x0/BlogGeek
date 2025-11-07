@@ -11,7 +11,16 @@ type ProvidersProps = {
 
 export function Providers({ children }: ProvidersProps) {
   // Just create QueryClient once
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: true,
+          },
+        },
+      })
+  );
   return (
     <QueryClientProvider client={queryClient}>
       <UserInfoHydrator />
