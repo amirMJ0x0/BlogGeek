@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent, useCallback, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { changeUsername } from "../../../api/change-username";
 import { checkUsernameExist } from "../../../api/check-username-exist";
@@ -34,6 +34,7 @@ export default function ChangeUsernameField({
   const [isChecking, setIsChecking] = useState(false);
   const { showToast } = useCustomToast();
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { mutate: updateUsername, isPending } = useMutation({
     mutationFn: changeUsername,
@@ -61,7 +62,7 @@ export default function ChangeUsernameField({
           setIsAvailable(false);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         setIsChecking(false);
       }
@@ -91,6 +92,7 @@ export default function ChangeUsernameField({
     setUsername(user?.username || "");
     setIsAvailable(null);
     setShowButtons(false);
+    inputRef.current?.blur();
   };
   return (
     <div className="flex flex-col gap-2 w-full max-w-sm mx-auto py-6 relative">
@@ -101,6 +103,8 @@ export default function ChangeUsernameField({
         <InputGroup>
           <InputGroupInput
             value={username}
+            ref={inputRef}
+            autoComplete="off"
             id="username"
             onChange={handleChange}
             onFocus={() => setShowButtons(true)}

@@ -94,14 +94,16 @@ export const formatJoinDate = (dateString: string): string => {
   });
 };
 
-export function debounce<F extends (...args: any[]) => void>(
-  func: F,
+export function debounce<Args extends unknown[]>(
+  func: (...args: Args) => void | Promise<void>,
   delay: number
 ) {
-  let timer: NodeJS.Timeout;
-  return (...args: Parameters<F>) => {
+  let timer: ReturnType<typeof setTimeout>;
+  return (...args: Args): void => {
     clearTimeout(timer);
-    timer = setTimeout(() => func(...args), delay);
+    timer = setTimeout(() => {
+      void func(...args);
+    }, delay);
   };
 }
 
