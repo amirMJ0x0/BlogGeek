@@ -59,11 +59,15 @@ const SettingAboutSection = () => {
       birthday: format(data.birthday!, "yyyy-MM-dd") || null,
       bio: data.bio || null,
       social_media: {
-        instagram: data.instagram || null,
-        twitter: data.twitter || null,
-        telegram: data.telegram || null,
-        linkedin: data.linkedin || null,
-        github: data.github || null,
+        instagram: data.instagram
+          ? `https://instagram.com/${data.instagram}`
+          : null,
+        twitter: data.twitter ? `https://twitter.com/${data.twitter}` : null,
+        telegram: data.telegram ? `https://t.me/${data.telegram}` : null,
+        linkedin: data.linkedin
+          ? `https://linkedin.com/in/${data.linkedin}`
+          : null,
+        github: data.github ? `https://github.com/${data.github}` : null,
       },
     };
     mutateUserInfo(apiData, {
