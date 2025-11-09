@@ -7,7 +7,7 @@ import { Calendar, PenBox, User2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { formatJoinDate, toPersianFrom } from "@/lib/utils";
+import {  toPersianFrom } from "@/lib/utils";
 import ProfileTabs from "./profile-tabs";
 import { User } from "@/features/auth/types";
 

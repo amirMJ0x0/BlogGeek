@@ -110,8 +110,8 @@ export function toPersianFrom(dateStr: string) {
 
   const formatter = new Intl.DateTimeFormat("fa-IR", {
     year: "numeric",
-    month: "long",
-    calendar: "persian", // مهم! تقویم جلالی
+    month: "short",
+    calendar: "persian",
   });
 
   return `از ${formatter.format(date).replace(/^\d+ /, "")}`;
