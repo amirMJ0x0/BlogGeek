@@ -142,7 +142,6 @@ export default function ChangeUsernameField({
               size="icon"
               disabled={!isAvailable || isPending}
               onClick={handleConfirm}
-              className="!bg-black dark:!bg-white"
             >
               <Check size={16} />
             </Button>

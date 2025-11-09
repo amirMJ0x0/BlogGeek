@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import ChangeUsernameField from "./change-username-field";
+import ChangePasswordField from "./change-password-filed";
 
 const SettingAccountSection = () => {
   return (
@@ -11,17 +12,13 @@ const SettingAccountSection = () => {
       <Separator />
       <section>
         <div>
-          {/* <ChangePasswordField/> */}
+          <ChangePasswordField />
         </div>
       </section>
       <Separator />
-      <section>
-        {/* <ChangeEmailField /> */}
-      </section>
+      <section>{/* <ChangeEmailField /> */}</section>
       <Separator />
-      <section>
-        {/* <ChangePhoneField /> */}
-      </section>
+      <section>{/* <ChangePhoneField /> */}</section>
     </div>
   );
 };

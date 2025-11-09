@@ -12,7 +12,6 @@ export const sendOtpSchema = z.object({
     ),
 });
 
-// برای ورود با پسورد
 export const loginWithPassSchema = z.object({
   credential: z
     .string()
@@ -21,7 +20,7 @@ export const loginWithPassSchema = z.object({
       (val) => emailRegex.test(val) || phoneNumberRegex.test(val),
       "ایمیل یا شماره موبایل معتبر وارد کنید"
     ),
-  password: z.string().min(4, "رمز عبور باید حداقل شامل ۴ کاراکتر باشد"),
+  password: z.string().min(8, "رمز عبور باید حداقل شامل ۸ کاراکتر باشد"),
 });
 
 export type SendOtpForm = z.infer<typeof sendOtpSchema>;
