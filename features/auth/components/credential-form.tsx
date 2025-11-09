@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import loginBanner from "@/public/login-banner.jpeg";
 import Link from "next/link";
-import { useAuthStore } from "@/features/auth/store/useAuthStore";
+import { useAuthStore } from "@/features/user/store/useAuthStore";
 
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

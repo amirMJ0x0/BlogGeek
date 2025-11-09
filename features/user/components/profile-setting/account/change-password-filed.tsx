@@ -26,16 +26,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import {
-  Check,
-  Eye,
-  EyeClosed,
-  LockKeyhole,
-  PenBox,
-  ShieldCheck,
-  X,
-} from "lucide-react";
-import { ChangeEvent, useState } from "react";
+import { Eye, EyeClosed, LockKeyhole, PenBox, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 
@@ -90,8 +82,8 @@ const ChangePasswordField = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 w-full max-w-sm m-auto py-4">
-      <div className="flex justify-between items-center">
+    <div className="flex flex-col gap-3 w-full max-w-sm m-auto py-4 relative">
+      <div className="flex justify-between items-center ">
         <h2 className="flex justify-end order-1">تغییر رمز عبور</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
@@ -99,7 +91,10 @@ const ChangePasswordField = () => {
               <PenBox />
             </Button>
           </DialogTrigger>
-          <DialogContent showCloseButton={false} className="sm:max-w-[425px]">
+          <DialogContent
+            showCloseButton={false}
+            className="!max-w-[425px] fixed left-1/2 top-1/2 !-translate-x-1/2 !-translate-y-1/2"
+          >
             <DialogHeader className="!text-right">
               <DialogTitle>تغییر رمز عبور</DialogTitle>
               <DialogDescription className="text-sm dark:text-muted text-gray-500">
@@ -132,6 +127,7 @@ const ChangePasswordField = () => {
                         <InputGroupAddon align={"inline-end"}>
                           <Button
                             variant={"ghost"}
+                            type="button"
                             onClick={() => setShowPassword((val) => !val)}
                             size={"sm"}
                           >
@@ -169,6 +165,7 @@ const ChangePasswordField = () => {
                             variant={"ghost"}
                             onClick={() => setShowPassword((val) => !val)}
                             size={"sm"}
+                            type="button"
                           >
                             {showPassword ? <Eye /> : <EyeClosed />}
                           </Button>
@@ -186,7 +183,11 @@ const ChangePasswordField = () => {
             <DialogFooter>
               <Field orientation={"horizontal"}>
                 <DialogClose asChild>
-                  <Button variant={"outline"} onClick={() => form.reset()}>
+                  <Button
+                    variant={"cancel"}
+                    type="button"
+                    onClick={() => form.reset()}
+                  >
                     انصراف
                   </Button>
                 </DialogClose>

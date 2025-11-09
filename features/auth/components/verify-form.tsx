@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/input-otp";
 import { useCheckOtp } from "../hooks/useCheckOtp";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/features/auth/store/useAuthStore";
+import { useAuthStore } from "@/features/user/store/useAuthStore";
 import { Controller, useForm } from "react-hook-form";
 import { otpSchema, OtpSchema } from "../schemas/otpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";

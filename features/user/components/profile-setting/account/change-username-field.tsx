@@ -3,7 +3,6 @@ import { useState, ChangeEvent, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { changeUsername } from "../../../api/change-username";
 import { checkUsernameExist } from "../../../api/check-username-exist";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AtSign, Check, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
@@ -18,6 +17,7 @@ import {
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { debounce } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function ChangeUsernameField({
   defaultUsername,
@@ -33,6 +33,7 @@ export default function ChangeUsernameField({
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const { showToast } = useCustomToast();
+  const router = useRouter();
 
   const { mutate: updateUsername, isPending } = useMutation({
     mutationFn: changeUsername,
@@ -80,7 +81,10 @@ export default function ChangeUsernameField({
       showToast("این نام کاربری در دسترس نیست!", "error");
       return;
     }
+    setIsAvailable(null);
+    setIsChecking(false);
     updateUsername({ username });
+    router.push(`/@${user?.username}/settings?tab=account`);
   };
 
   const handleCancel = () => {
@@ -100,6 +104,7 @@ export default function ChangeUsernameField({
             id="username"
             onChange={handleChange}
             onFocus={() => setShowButtons(true)}
+            onKeyDown={(e) => e.key === "Escape" && handleCancel()}
             disabled={isPending}
             className={`transition-colors ${
               isAvailable === false
