@@ -31,7 +31,7 @@ import { otpSchema, OtpSchema } from "@/features/auth/schemas/otpSchema";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { emailCredentialApi } from "@/features/user/api/change-credential";
 import { useUserStore } from "@/features/user/store/useUserStore";
-import { cn } from "@/lib/utils";
+import { cn, emailRegex } from "@/lib/utils";
 import { ApiResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -39,6 +39,7 @@ import { AxiosError } from "axios";
 import { Check, Mail, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import z from "zod";
 
 const ChangeEmailField = () => {
   const { user } = useUserStore();
@@ -55,6 +56,12 @@ const ChangeEmailField = () => {
   useEffect(() => {
     setEmail(user?.email ?? "");
   }, [user]);
+
+  // normalize + validate email
+  const emailSchema = z.preprocess((val) => {
+    if (typeof val !== "string") return val;
+    return val.trim().toLowerCase();
+  }, z.string().regex(emailRegex, "ایمیل معتبر نیست"));
 
   // otp form input
   const { handleSubmit, control, reset } = useForm<OtpSchema>({
@@ -101,7 +108,13 @@ const ChangeEmailField = () => {
   });
 
   const handleConfirm = () => {
-    sendEmailOtp({ credential: email });
+    const parsed = emailSchema.safeParse(email);
+    if (!parsed.success) {
+      const msg = parsed.error.issues?.[0]?.message || "ایمیل معتبر نیست";
+      showToast(msg, "error");
+      return;
+    }
+    sendEmailOtp({ credential: parsed.data });
   };
 
   const handleCancel = () => {
