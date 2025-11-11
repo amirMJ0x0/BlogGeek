@@ -56,7 +56,7 @@ const ArticleCard = ({ post }: { post: Post }) => {
             height={40}
             className="rounded-full bg-gray-50"
           />
-          <div className="text-sm leading-6">
+          <div className="flex flex-col items-start text-sm leading-6">
             <p className="font-semibold text-gray-900 dark:text-white">
               <a href={post.author.href}>
                 <span className="absolute inset-0" />

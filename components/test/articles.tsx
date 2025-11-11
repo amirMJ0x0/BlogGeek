@@ -3,23 +3,39 @@ import ArticleCard from "./articleCard";
 const posts = [
   {
     id: 1,
-    title: "چیزتو ارتقا بده",
+    title: "الگوریتم RankBrain",
     href: "#",
     description:
-      "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که",
+      "رنک برین یا رتبه بندی با هوش مصنوعی، الگوریتم جدید گوگل مبتنی بر یادگیری مداوم است که به گوگل کمک میکند نتایج جستجو را براساس رفتار کاربران بهینه سازی کند.",
     date: "Mar 16, 2020",
     datetime: "2020-03-16",
-    category: { title: "بازاریابی", href: "#" },
+    category: { title: "الگوریتم", href: "#" },
     author: {
-      name: "جانی خسته",
-      role: "مدیر",
+      name: "علی اصفهانی",
+      role: "Senior Front End",
       href: "#",
-      imageUrl: "https://github.com/react.png",
+      imageUrl: "https://github.com/jadijadi.png",
     },
   },
   {
     id: 2,
-    title: "یه عنوان تستی",
+    title: "الگوریتم پاندا",
+    href: "#",
+    description:
+      "پاندا یکی از شناخته‌شده‌ترین الگوریتم‌های‌گوگل است. وظیفه اصلی آن بررسی کیفیت محتوا و شناسایی میزان رضایت کاربران از متن قرار گرفته در صفحه است. بسیاری تصور می‌کنند این الگوریتم فقط بر روی محتوای تکراری تمرکز دارد در حالی‌که عملکرد آن بسیار پیچیده‌تر است.",
+    date: "Mar 16, 2020",
+    datetime: "2020-03-16",
+    category: { title: "الگوریتم", href: "#" },
+    author: {
+      name: "ممد داوودی",
+      role: "Exploit-Developer",
+      href: "#",
+      imageUrl: "https://github.com/Mohammaddvd.png",
+    },
+  },
+  {
+    id: 4,
+    title: "ساختمان داده",
     href: "#",
     description:
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که",
@@ -27,42 +43,10 @@ const posts = [
     datetime: "2020-03-16",
     category: { title: "تست", href: "#" },
     author: {
-      name: "جانی پیر",
-      role: "کارمند",
+      name: "امیر جواهری",
+      role: "Front-End Developer",
       href: "#",
-      imageUrl: "https://github.com/profile.png",
-    },
-  },
-  {
-    id: 3,
-    title: "نظری ندارم",
-    href: "#",
-    description:
-      "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که",
-    date: "Mar 16, 2020",
-    datetime: "2020-03-16",
-    category: { title: "فرانت", href: "#" },
-    author: {
-      name: "جانی احمق",
-      role: "اصل کاری",
-      href: "#",
-      imageUrl: "https://github.com/fun.png",
-    },
-  },
-  {
-    id: 4,
-    title: "نمدونم ارتقا بده",
-    href: "#",
-    description:
-      "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که",
-    date: "Mar 16, 2020",
-    datetime: "2020-03-16",
-    category: { title: "بازاریابی", href: "#" },
-    author: {
-      name: "جانی گنگ",
-      role: "ارشد",
-      href: "#",
-      imageUrl: "https://github.com/fun2.png",
+      imageUrl: "https://github.com/amirMJ0x0.png",
     },
   },
 ];
