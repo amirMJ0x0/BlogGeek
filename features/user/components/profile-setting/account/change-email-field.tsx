@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -175,6 +176,12 @@ const ChangeEmailField = () => {
           showCloseButton={false}
           className="!max-w-[315px] fixed left-1/2 top-1/2 !-translate-x-1/2 !-translate-y-1/2"
         >
+          <DialogClose
+            className="absolute left-3 top-3"
+            onClick={() => setShowButtons(false)}
+          >
+            <X size={"20px"} />
+          </DialogClose>
           <DialogHeader className="!text-right">
             <DialogTitle>تایید ایمیل</DialogTitle>
             <DialogDescription className="text-sm dark:text-muted text-gray-500">
