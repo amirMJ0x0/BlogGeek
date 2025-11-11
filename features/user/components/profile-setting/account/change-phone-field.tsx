@@ -30,19 +30,17 @@ import useCountdown from "@/features/auth/hooks/useCountdown";
 import { SendOtpForm } from "@/features/auth/schemas/credentialSchema";
 import { otpSchema, OtpSchema } from "@/features/auth/schemas/otpSchema";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import {
-  emailCredentialApi,
-  phoneCredentialApi,
-} from "@/features/user/api/change-credential";
+import { phoneCredentialApi } from "@/features/user/api/change-credential";
 import { useUserStore } from "@/features/user/store/useUserStore";
-import { cn } from "@/lib/utils";
+import { cn, num2en, phoneNumberRegex } from "@/lib/utils";
 import { ApiResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { Check, Mail, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import z from "zod";
 
 const ChangePhoneField = () => {
   const { user } = useUserStore();
@@ -55,6 +53,20 @@ const ChangePhoneField = () => {
   const [otpExpireTime, setOtpExpireTime] = useState<string | null>("");
   const { minutes, seconds } = useCountdown(otpExpireTime);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setPhone(user?.phone_number ?? "");
+  }, [user]);
+
+  // normalize Persian digits, strip unwanted chars and normalize country code to 09xxxxxxxxx
+  const phoneSchema = z.preprocess((val) => {
+    if (typeof val !== "string") return val;
+    let s = num2en(val).replace(/[^\d+]/g, "");
+    if (s.startsWith("+98")) s = "0" + s.slice(3);
+    else if (s.startsWith("98")) s = "0" + s.slice(2);
+    else if (s.length === 10 && s.startsWith("9")) s = "0" + s;
+    return s;
+  }, z.string().regex(phoneNumberRegex, "شماره تلفن معتبر نیست"));
 
   // otp form input
   const { handleSubmit, control, reset } = useForm<OtpSchema>({
@@ -101,7 +113,14 @@ const ChangePhoneField = () => {
   });
 
   const handleConfirm = () => {
-    sendPhoneOtp({ credential: phone });
+    const parsed = phoneSchema.safeParse(phone);
+    if (!parsed.success) {
+      const msg = parsed.error.issues?.[0]?.message || "شماره تلفن معتبر نیست";
+      showToast(msg, "error");
+      return;
+    }
+
+    sendPhoneOtp({ credential: parsed.data });
   };
 
   const handleCancel = () => {

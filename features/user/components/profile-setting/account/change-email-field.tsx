@@ -37,7 +37,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { Check, Mail, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const ChangeEmailField = () => {
@@ -51,6 +51,10 @@ const ChangeEmailField = () => {
   const [otpExpireTime, setOtpExpireTime] = useState<string | null>("");
   const { minutes, seconds } = useCountdown(otpExpireTime);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setEmail(user?.email ?? "");
+  }, [user]);
 
   // otp form input
   const { handleSubmit, control, reset } = useForm<OtpSchema>({

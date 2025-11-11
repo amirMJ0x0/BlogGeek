@@ -6,9 +6,8 @@ import ChangePhoneField from "./change-phone-field";
 
 const SettingAccountSection = () => {
   return (
-    <div className="flex flex-col py-3">
+    <div className="flex flex-col p-3">
       <section>
-        {/* <h3>نام کاربری</h3> */}
         <ChangeUsernameField />
       </section>
       <Separator />

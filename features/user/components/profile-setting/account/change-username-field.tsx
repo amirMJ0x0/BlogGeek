@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent, useCallback, useRef } from "react";
+import { useState, ChangeEvent, useCallback, useRef, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { changeUsername } from "../../../api/change-username";
 import { checkUsernameExist } from "../../../api/check-username-exist";
@@ -19,22 +19,20 @@ import { Label } from "@/components/ui/label";
 import { debounce } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-export default function ChangeUsernameField({
-  defaultUsername,
-}: {
-  defaultUsername?: string;
-}) {
+export default function ChangeUsernameField() {
   const queryClient = useQueryClient();
   const { user } = useUserStore();
-  const [username, setUsername] = useState(
-    defaultUsername || user?.username || ""
-  );
+  const [username, setUsername] = useState("");
   const [showButtons, setShowButtons] = useState(false);
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const { showToast } = useCustomToast();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setUsername(user?.username ?? "");
+  }, [user]);
 
   const { mutate: updateUsername, isPending } = useMutation({
     mutationFn: changeUsername,
