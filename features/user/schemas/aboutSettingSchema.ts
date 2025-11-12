@@ -1,4 +1,37 @@
+import { validSocialUrl } from "@/lib/utils";
 import { z } from "zod";
+
+const patterns = {
+  instagram: /^(https?:\/\/)?(www\.)?instagram\.com\/[A-Za-z0-9._%-]+\/?$/i,
+  linkedin: /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[A-Za-z0-9._%-]+\/?$/i,
+  twitter:
+    /^(https?:\/\/)?(www\.)?(twitter\.com|x\.com)\/[A-Za-z0-9._%-]+\/?$/i,
+  telegram: /^(https?:\/\/)?(www\.)?t\.me\/[A-Za-z0-9._%-]+\/?$/i,
+  github: /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9._%-]+\/?$/i,
+};
+
+const socialUrl = (platform: keyof typeof patterns) =>
+  z
+    .string()
+    .optional()
+    .refine(
+      (url) => {
+        if (!url) return true;
+        return patterns[platform].test(url.trim());
+      },
+      {
+        message: `لینک ${platform} معتبر نیست! فرمت صحیح مثلاً: https://${platform}.com/yourname`,
+      }
+    )
+    .refine(
+      (url) => !url || url.trim().length === 0 || !/^\d+$/.test(url.trim()),
+      {
+        message: `شناسه ${platform} نمی‌تواند فقط شامل اعداد باشد`,
+      }
+    )
+    .refine((url) => !url || !/[\u0600-\u06FF]/.test(url.trim()), {
+      message: `شناسه ${platform} نمی‌تواند شامل حروف فارسی باشد`,
+    });
 
 export const profileInfoSchema = z.object({
   first_name: z
@@ -46,91 +79,14 @@ export const profileInfoSchema = z.object({
     }),
 
   // Social media fields
-  telegram: z
-    .string()
-    .transform((val) => val.trim())
-    .optional()
-    .refine(
-      (val) => !val || val.trim().length === 0 || !/^\d+$/.test(val.trim()),
-      {
-        message: "شناسه تلگرام نمی‌تواند فقط شامل اعداد باشد",
-      }
-    )
-    .refine((val) => !val || !/[\u0600-\u06FF]/.test(val.trim()), {
-      message: "شناسه تلگرام نمی‌تواند شامل حروف فارسی باشد",
-    })
-    .refine((val) => !val || val.trim().length > 0, {
-      message: "شناسه تلگرام نمی‌تواند خالی باشد",
-    }),
+  telegram: socialUrl("telegram"),
 
-  // همین الگو رو برای instagram, linkedin, twitter, github تکرار کن...
-  instagram: z
-    .string()
-    .transform((val) => val.trim())
-    .optional()
-    .refine(
-      (val) => !val || val.trim().length === 0 || !/^\d+$/.test(val.trim()),
-      {
-        message: "شناسه اینستاگرام نمی‌تواند فقط شامل اعداد باشد",
-      }
-    )
-    .refine((val) => !val || !/[\u0600-\u06FF]/.test(val.trim()), {
-      message: "شناسه اینستاگرام نمی‌تواند شامل حروف فارسی باشد",
-    })
-    .refine((val) => !val || val.trim().length > 0, {
-      message: "شناسه اینستاگرام نمی‌تواند خالی باشد",
-    }),
+  instagram: socialUrl("instagram"),
 
-  linkedin: z
-    .string()
-    .transform((val) => val.trim())
-    .optional()
-    .refine(
-      (val) => !val || val.trim().length === 0 || !/^\d+$/.test(val.trim()),
-      {
-        message: "شناسه لینکدین نمی‌تواند فقط شامل اعداد باشد",
-      }
-    )
-    .refine((val) => !val || !/[\u0600-\u06FF]/.test(val.trim()), {
-      message: "شناسه لینکدین نمی‌تواند شامل حروف فارسی باشد",
-    })
-    .refine((val) => !val || val.trim().length > 0, {
-      message: "شناسه لینکدین نمی‌تواند خالی باشد",
-    }),
+  linkedin: socialUrl("linkedin"),
 
-  twitter: z
-    .string()
-    .transform((val) => val.trim())
-    .optional()
-    .refine(
-      (val) => !val || val.trim().length === 0 || !/^\d+$/.test(val.trim()),
-      {
-        message: "شناسه توییتر نمی‌تواند فقط شامل اعداد باشد",
-      }
-    )
-    .refine((val) => !val || !/[\u0600-\u06FF]/.test(val.trim()), {
-      message: "شناسه توییتر نمی‌تواند شامل حروف فارسی باشد",
-    })
-    .refine((val) => !val || val.trim().length > 0, {
-      message: "شناسه توییتر نمی‌تواند خالی باشد",
-    }),
-
-  github: z
-    .string()
-    .transform((val) => val.trim())
-    .optional()
-    .refine(
-      (val) => !val || val.trim().length === 0 || !/^\d+$/.test(val.trim()),
-      {
-        message: "شناسه گیتهاب نمی‌تواند فقط شامل اعداد باشد",
-      }
-    )
-    .refine((val) => !val || !/[\u0600-\u06FF]/.test(val.trim()), {
-      message: "شناسه گیتهاب نمی‌تواند شامل حروف فارسی باشد",
-    })
-    .refine((val) => !val || val.trim().length > 0, {
-      message: "شناسه گیتهاب نمی‌تواند خالی باشد",
-    }),
+  twitter: socialUrl("twitter"),
+  github: socialUrl("github"),
 });
 
 export type ProfileInfoFormData = z.infer<typeof profileInfoSchema>;
