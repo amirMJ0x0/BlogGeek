@@ -80,7 +80,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${vazir.className} antialiased bg-gray-50 dark:bg-[#121212]`}
+        className={`${vazir.className} antialiased bg-gray-50 dark:bg-[#121212] relative`}
       >
         <Providers>{children}</Providers>
       </body>
