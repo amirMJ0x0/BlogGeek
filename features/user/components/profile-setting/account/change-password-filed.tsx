@@ -91,10 +91,7 @@ const ChangePasswordField = () => {
               <PenBox />
             </Button>
           </DialogTrigger>
-          <DialogContent
-            showCloseButton={false}
-            className="!max-w-[425px] fixed left-1/2 top-1/2 !-translate-x-1/2 !-translate-y-1/2"
-          >
+          <DialogContent showCloseButton={false} className="!max-w-[425px]">
             <DialogHeader className="!text-right">
               <DialogTitle>تغییر رمز عبور</DialogTitle>
               <DialogDescription className="text-sm dark:text-muted text-gray-500">

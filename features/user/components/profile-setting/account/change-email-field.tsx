@@ -172,10 +172,7 @@ const ChangeEmailField = () => {
         )}
       </div>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent
-          showCloseButton={false}
-          className="!max-w-[315px] fixed left-1/2 top-1/2 !-translate-x-1/2 !-translate-y-1/2"
-        >
+        <DialogContent showCloseButton={false} className="!max-w-[315px]">
           <DialogClose
             className="absolute left-3 top-3"
             onClick={() => setShowButtons(false)}
