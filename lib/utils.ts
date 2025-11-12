@@ -118,3 +118,12 @@ export function toPersianFrom(dateStr: string) {
 
   return `از ${formatter.format(date).replace(/^\d+ /, "")}`;
 }
+
+// تابع چک‌کننده URL شبکه‌های اجتماعی
+export const validSocialUrl = (url: string): boolean => {
+  if (!url) return true; // خالی یعنی کاربر نخواسته وارد کنه، پس معتبره
+
+  const pattern =
+    /^(https?:\/\/)?(www\.)?(instagram\.com|linkedin\.com\/in|twitter\.com|t\.me)\/[A-Za-z0-9._%-]+\/?$/i;
+  return pattern.test(url.trim());
+};
