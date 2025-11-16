@@ -32,16 +32,17 @@ export default function ImageUploaderModal({
   currentImage,
   onUpdate,
 }: Props) {
-  const [file, setFile] = useState<File | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [file, setFile] = useState<File | null>(null); // The original selected file
+  const [imageSrc, setImageSrc] = useState<string | null>(null); // base64 preview for cropper
+  const [crop, setCrop] = useState({ x: 0, y: 0 }); // Crop position
+  const [zoom, setZoom] = useState(1); // Zoom level
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null); // Final cropped pixel area
   const [loading, setLoading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState(0); // Upload progress %
   const { showToast } = useCustomToast();
-  const [controller, setController] = useState<AbortController | null>(null);
+  const [controller, setController] = useState<AbortController | null>(null); // To cancel requests
 
+  // Reset modal state when opened
   useEffect(() => {
     if (open) {
       setFile(null);
@@ -52,38 +53,37 @@ export default function ImageUploaderModal({
     }
   }, [open, type]);
 
-  // handle file select
+  // Handle dropping or selecting image file
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const selected = acceptedFiles[0];
       if (!selected) return;
 
-      // ✅ Validate file type
+      // Validate file type
       if (!selected.type.startsWith("image/")) {
         showToast("فقط فایل تصویری مجاز است", "error");
         return;
       }
 
-      // ✅ Validate file size (2MB max)
+      // Validate file size (5MB max)
       if (selected.size > 5 * 1024 * 1024) {
         showToast("حجم عکس نباید بیشتر از 5MB باشد", "error");
         return;
       }
 
-      // ✅ Validate dimensions (banner vs profile)
+      // Validate dimensions orientation if banner
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
         img.src = e.target?.result as string;
         img.onload = () => {
+          // Banner must be landscape
           if (type === "banner" && img.width <= img.height) {
             showToast("نسبت تصویر بنر باید افقی باشد", "error");
             return;
           }
-          // if (type === "profile" && img.height <= img.width) {
-          //   showToast("نسبت تصویر پروفایل باید عمودی یا مربعی باشد", "error");
-          //   return;
-          // }
+
+          // Store file and preview
           setFile(selected);
           setImageSrc(e.target?.result as string);
         };
@@ -93,11 +93,13 @@ export default function ImageUploaderModal({
     [type]
   );
 
+  // Dropzone config
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: false,
   });
 
+  // Convert cropped area to Blob
   const getCroppedImage = async () => {
     if (!imageSrc || !croppedAreaPixels) return null;
 
@@ -106,15 +108,21 @@ export default function ImageUploaderModal({
     const ctx = canvas.getContext("2d");
 
     const { x, y, width, height } = croppedAreaPixels;
+
+    // Canvas size = cropped area
     canvas.width = width;
     canvas.height = height;
+
+    // Draw the cropped area
     ctx?.drawImage(image, x, y, width, height, 0, 0, width, height);
 
+    // Convert canvas to JPG Blob
     return new Promise<Blob | null>((resolve) => {
       canvas.toBlob((blob) => resolve(blob), "image/jpeg");
     });
   };
 
+  // Upload and update user profile/banner image
   const handleUpload = async () => {
     const abortCtrl = new AbortController();
     setController(abortCtrl);
@@ -123,16 +131,18 @@ export default function ImageUploaderModal({
       setLoading(true);
       setUploadProgress(0);
 
+      // Generate cropped image blob
       const croppedBlob = await getCroppedImage();
       if (!croppedBlob) return;
 
       const formData = new FormData();
       formData.append("file", croppedBlob);
 
-      // 1. Upload to /api/v1/upload
+      // 1. Upload to server
       const uploadRes = await api.post("v1/upload", formData, {
         signal: abortCtrl.signal,
         onUploadProgress: (progressEvent) => {
+          // track % progress
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total!
           );
@@ -163,9 +173,10 @@ export default function ImageUploaderModal({
     }
   };
 
+  // Called when closing modal — also cancels pending requests
   const handleClose = () => {
-    if (controller) controller.abort(); // abort the req that is pending
-    onClose(); // close modal
+    if (controller) controller.abort();
+    onClose();
   };
 
   return (
