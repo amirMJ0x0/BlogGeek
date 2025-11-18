@@ -1,18 +1,18 @@
-export interface BlogCategory {
+export type BlogCategory = {
   id: number;
   title: string;
   slug: string;
   children?: BlogCategory[];
-}
+};
 
-export interface BlogCount {
+export type BlogCount = {
   likes: number;
   comments: number;
   saved_blogs: number;
   views: number;
-}
+};
 
-export interface Blog {
+export type Blog = {
   id: number;
   title: string;
   content: string;
@@ -21,23 +21,23 @@ export interface Blog {
   updated_at: string;
   category: BlogCategory;
   _count: BlogCount;
-}
+};
 
-export interface BlogUser {
+export type BlogUser = {
   first_name: string;
   last_name: string;
   profile_image: string;
   username: string;
-}
+};
 
-export interface BlogItem {
+export type BlogItem = {
   blog: Blog;
   user: BlogUser;
-}
+};
 
-export interface BlogsResponse {
+export type BlogsResponse = {
   blogs: BlogItem[];
   totalPages: number;
   totalCount: number;
   currentPage: number;
-}
+};
