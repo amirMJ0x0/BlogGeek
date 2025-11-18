@@ -88,7 +88,7 @@ export default function ImageUploaderModal({
           setImageSrc(e.target?.result as string);
         };
       };
-      reader.readAsDataURL(selected);
+      reader.readAsDataURL(selected); // Convert data to url like (...data:image/png;base64,AAAA) - Perfect for image preview  in <img src>
     },
     [type]
   );
@@ -116,7 +116,7 @@ export default function ImageUploaderModal({
     // Draw the cropped area
     ctx?.drawImage(image, x, y, width, height, 0, 0, width, height);
 
-    // Convert canvas to JPG Blob
+    // Convert canvas to JPG Blob : Ready for upload
     return new Promise<Blob | null>((resolve) => {
       canvas.toBlob((blob) => resolve(blob), "image/jpeg");
     });

@@ -56,8 +56,10 @@ const UserStatus = () => {
               <DropdownMenuTrigger className="flex items-center outline-none">
                 <Avatar>
                   <AvatarImage src={user?.profile_image} />
-                  <AvatarFallback>
-                    {user?.first_name?.substring(0, 1)}
+                  <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
+                    {user?.first_name
+                      ? user?.first_name?.substring(0, 1)
+                      : user?.username?.substring(0, 1)}
                   </AvatarFallback>
                 </Avatar>
                 <ChevronDown className="!text-slate-500" />
