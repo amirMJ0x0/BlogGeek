@@ -116,7 +116,7 @@ export function toPersianFrom(dateStr: string) {
     calendar: "persian",
   });
 
-  return `از ${formatter.format(date).replace(/^\d+ /, "")}`;
+  return `عضویت از ${formatter.format(date).replace(/^\d+ /, "")}`;
 }
 
 // تابع چک‌کننده URL شبکه‌های اجتماعی

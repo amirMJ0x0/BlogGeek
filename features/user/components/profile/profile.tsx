@@ -67,7 +67,7 @@ export default function ProfilePreview({ profile }: { profile: User }) {
               ? `${profile?.first_name ?? ""} ${
                   profile?.last_name ?? ""
                 }`.trim()
-              : "کاربر بدون نام 😅"}
+              : profile.username}
           </h3>
 
           <h5

@@ -1,6 +1,8 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, useSearchParams } from "next/navigation";
+import SavedPostsSection from "./saved-posts";
+import LikedPostsSection from "./liked-posts";
 
 type ProfileTabsProps = {
   isOwner: boolean;
@@ -20,7 +22,7 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
       onValueChange={handleTabChange}
       className="w-full"
     >
-      <TabsList className="w-full">
+      <TabsList className="w-full bg-secondary-light">
         <TabsTrigger value="posts">پست‌ها</TabsTrigger>
 
         {isOwner && (
@@ -35,8 +37,12 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
 
       {isOwner && (
         <>
-          <TabsContent value="favorites">علاقه‌مندی‌ها</TabsContent>
-          <TabsContent value="bookmarks">نشان‌ها</TabsContent>
+          <TabsContent value="favorites">
+            <LikedPostsSection />
+          </TabsContent>
+          <TabsContent value="bookmarks">
+            <SavedPostsSection />
+          </TabsContent>
         </>
       )}
     </Tabs>

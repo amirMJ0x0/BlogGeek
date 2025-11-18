@@ -15,7 +15,6 @@ export default async function ProfilePage({
     const cleanUsername = decodedUsername.replace(/^@/, ""); // @username => username
 
     const profile = await getUserProfile(cleanUsername);
-    console.log(profile);
     return (
       <main className="max-h-min">
         <Suspense fallback={<Spinner className="size-6" />}>

@@ -50,7 +50,7 @@ export default function ProfileHeader({ profile }: Props) {
             className="object-cover"
           />
         ) : (
-          <div className="bg-muted size-full" />
+          <div className="bg-secondary-light dark:bg-secondary-dark size-full" />
         )}
 
         {/* آیکون مداد */}
@@ -71,9 +71,11 @@ export default function ProfileHeader({ profile }: Props) {
         onMouseLeave={() => setHovered(null)}
       >
         <div className="relative">
-          <Avatar className="size-16 md:size-18 border border-gray-200 dark:border-white shadow-md">
+          <Avatar className="size-16 md:size-18 border border-black/80 dark:border-white/30 shadow-md">
             <AvatarImage src={updatedProfile.profile_image} />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark !brightness-60 ">
+              U
+            </AvatarFallback>
           </Avatar>
 
           {/* آیکون مداد روی آواتار */}
