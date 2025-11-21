@@ -47,7 +47,6 @@ const ChangePhoneField = () => {
   const queryClient = useQueryClient();
   const [showButtons, setShowButtons] = useState(false);
   const [phone, setPhone] = useState(user?.phone_number || "");
-  //   const [isChecking, setIsChecking] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const { showToast } = useCustomToast();
   const [otpExpireTime, setOtpExpireTime] = useState<string | null>("");
@@ -100,7 +99,11 @@ const ChangePhoneField = () => {
       phoneCredentialApi.checkOtp(data),
     onSuccess: (res) => {
       showToast(res.message, "success");
-      queryClient.invalidateQueries({ queryKey: ["userInfo"] });
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === "userInfo" ||
+          query.queryKey[0] === "notifications",
+      });
       setShowButtons(false);
       setOpenDialog(false);
       reset();

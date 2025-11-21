@@ -96,7 +96,11 @@ const ChangeEmailField = () => {
       emailCredentialApi.checkOtp(data),
     onSuccess: (res) => {
       showToast(res.message, "success");
-      queryClient.invalidateQueries({ queryKey: ["userInfo"] });
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === "userInfo" ||
+          query.queryKey[0] === "notifications",
+      });
       setShowButtons(false);
       setOpenDialog(false);
       reset();

@@ -24,7 +24,7 @@ import {
 import { ApiResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { Eye, EyeClosed, LockKeyhole, PenBox, ShieldCheck } from "lucide-react";
 import { useState } from "react";
@@ -35,6 +35,7 @@ const ChangePasswordField = () => {
   const { showToast } = useCustomToast();
   const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const changePasswordSchema = z
     .object({
@@ -65,6 +66,12 @@ const ChangePasswordField = () => {
       showToast(res.message, "success");
       form.reset();
       setOpen(false);
+
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === "userInfo" ||
+          query.queryKey[0] === "notifications",
+      });
     },
     onError: (error: AxiosError<ApiResponse<ResPasswordError>>) => {
       const message =
@@ -178,7 +185,7 @@ const ChangePasswordField = () => {
             </form>
 
             <DialogFooter>
-              <Field orientation={"horizontal"}>
+              <Field orientation={"horizontal"} className="flex justify-end">
                 <DialogClose asChild>
                   <Button
                     variant={"cancel"}
