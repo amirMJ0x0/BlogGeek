@@ -14,9 +14,10 @@ import { useCallback, useEffect, useRef } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import NotificationTypeBadge from "./notification-type-badge";
 import { NotificationType } from "../navTypes";
+import { useUserStore } from "@/features/user/store/useUserStore";
 const Notifications = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const { isAuthenticated } = useUserStore();
 
   const {
     data,
@@ -51,30 +52,30 @@ const Notifications = () => {
     [isFetchingNextPage, hasNextPage, fetchNextPage]
   );
 
-  if (isLoading)
-    return (
-      <div className="p-4 text-center">
-        <Spinner />
-      </div>
-    );
-  if (isError)
-    return <div className="p-4 text-red-500">خطا در دریافت اعلان‌ها</div>;
-
   const notifications =
     data?.pages.flatMap((page) => page?.notifications) ?? [];
 
   const totalUnreadCount = data?.pages[0]?.totalUnread ?? 0;
-  return (
+  return isAuthenticated ? (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="relative" variant={"link"}>
-          <Badge variant={"default"} className="absolute top-0 right-1 size-5">
+        <Button
+          className="relative"
+          variant={"outline"}
+          size={"icon"}
+          disabled={isError || isLoading}
+          title="notifications"
+        >
+          <Badge
+            variant={"default"}
+            className="text-[12px] p-0 pt-1 absolute top-0 right-1 size-4"
+          >
             {totalUnreadCount}
           </Badge>
           <Bell className="size-6" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="space-y-3 dark:bg-primary-dark">
+      <PopoverContent className="w-80 overflow-y-auto ml-5 space-y-3 dark:bg-primary-dark !shadow-lg">
         <h3 className="leading-none font-bold text-xl pb-3">
           اعلان ها <Badge>{data?.pages[0]!.totalUnread}</Badge>
         </h3>
@@ -86,7 +87,7 @@ const Notifications = () => {
           {notifications.length === 0 ? (
             <p className="p-4 text-center text-gray-500">اعلانی وجود ندارد</p>
           ) : (
-            <ul className="divide-y ">
+            <ul className="divide-y">
               {notifications.map((notif, index) => {
                 const isLastItem = index === notifications.length - 1;
 
@@ -135,7 +136,7 @@ const Notifications = () => {
         </div>
       </PopoverContent>
     </Popover>
-  );
+  ) : null;
 };
 
 export default Notifications;

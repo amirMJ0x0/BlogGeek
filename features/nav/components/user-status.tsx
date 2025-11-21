@@ -64,8 +64,8 @@ const UserStatus = () => {
                 </Avatar>
                 <ChevronDown className="!text-slate-500" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="center">
-                <DropdownMenuLabel className="text-center">
+              <DropdownMenuContent align="center" className="ml-6">
+                <DropdownMenuLabel className="text-center py-1">
                   {user?.username || "حساب کاربری من"}{" "}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
