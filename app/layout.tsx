@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import NextTopLoader from "nextjs-toploader";
 
 const vazir = Vazirmatn({
   subsets: ["latin", "arabic"],
@@ -82,6 +83,7 @@ export default function RootLayout({
       <body
         className={`${vazir.className} antialiased bg-primary-light dark:bg-primary-dark relative`}
       >
+        <NextTopLoader color="#ababab" />
         <Providers>{children}</Providers>
       </body>
     </html>
