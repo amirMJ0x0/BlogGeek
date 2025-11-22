@@ -65,7 +65,7 @@ export default function PostCard({ item }: PostCardProps) {
           </div>
         </div>
 
-        <div className="relative h-24 w-28 overflow-hidden rounded-sm">
+        <div className="max-sm:hidden relative h-24 w-28 overflow-hidden rounded-sm">
           <Image src={testImg} alt={blog.title} fill className="object-cover" />
         </div>
       </CardContent>
