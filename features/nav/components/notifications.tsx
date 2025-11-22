@@ -99,7 +99,10 @@ const Notifications = () => {
           <Bell className="size-5" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="scroll-bar-cs w-96 ml-5 overscroll-contain space-y-3 dark:bg-primary-dark !shadow-lg ">
+      <PopoverContent
+        align="center"
+        className="scroll-bar-cs w-96 ml-1 md:ml-5 overscroll-contain space-y-3 dark:bg-primary-dark !shadow-lg "
+      >
         <div className="flex justify-between items-center">
           <h3 className="leading-none font-bold text-xl flex gap-2">
             <span> اعلان ها </span>
