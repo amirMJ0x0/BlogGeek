@@ -15,6 +15,6 @@ export const getNavigationConstants = (
   {
     label: isLoggedIn ? "پروفایل" : "ورود",
     logo: isLoggedIn ? User : LogIn,
-    href: isLoggedIn ? `/@${username}` : "/login",
+    href: isLoggedIn ? `#` : "/login",
   },
 ];

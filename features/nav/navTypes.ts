@@ -6,7 +6,8 @@ export type NotificationType =
   | "FOLLOWING"
   | "INFO"
   | "WARNING"
-  | "SYSTEM";
+  | "SYSTEM"
+  | "ALL";
 
 export type NotificationItem = {
   id: number;
@@ -22,4 +23,8 @@ export type NotificationItem = {
 export type NotificationsResponse = {
   notifications: NotificationItem[];
   totalUnread: number;
+};
+
+export type ReadNotifications = {
+  notification_id: number | null;
 };

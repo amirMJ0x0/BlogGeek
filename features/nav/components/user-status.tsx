@@ -47,7 +47,7 @@ const UserStatus = () => {
         <>
           <div className="flex gap-4">
             <Link href={"/write"}>
-              <Button>
+              <Button size={"sm"}>
                 نوشتن <SquarePen />
               </Button>
             </Link>

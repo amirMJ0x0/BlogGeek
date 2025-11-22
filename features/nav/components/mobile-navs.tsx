@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getNavigationConstants } from "../constants";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/features/user/store/useUserStore";
+import { House } from "lucide-react";
 
 const MobileNav = () => {
   const pathname = usePathname();
