@@ -99,7 +99,7 @@ const Notifications = () => {
           <Bell className="size-5" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-84 ml-5 overscroll-contain space-y-3 dark:bg-primary-dark !shadow-lg">
+      <PopoverContent className="scroll-bar-cs w-96 ml-5 overscroll-contain space-y-3 dark:bg-primary-dark !shadow-lg ">
         <div className="flex justify-between items-center">
           <h3 className="leading-none font-bold text-xl flex gap-2">
             <span> اعلان ها </span>
@@ -135,33 +135,37 @@ const Notifications = () => {
                   <li
                     key={`${notif?.id}-${index}`}
                     ref={isLastItem ? lastNotificationRef : null}
-                    className={`relative bg-secondary-light dark:bg-secondary-dark py-2 px-3 my-2 rounded-sm transition ease-in-out hover:!scale-95 ${
-                      !notif?.read
-                        ? "bg-secondary-light/50 dark:bg-secondary-dark/50"
-                        : ""
-                    }`}
+                    className={`relative border-b-0 border-t first:border-none border-slate-100 dark:border-slate-700 py-2 px-1 my-2  transition ease-in-out  `}
                   >
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2 w-full">
                       <NotificationTypeBadge
                         type={notif?.notificationType as NotificationType}
                       />
-                      <Link
-                        href={notif?.href ?? "#"}
-                        className="flex gap-2 items-center"
-                      >
-                        <h4 className="text-md font-semibold">
-                          {notif?.title}
-                        </h4>
-                      </Link>
-                      <Separator orientation="vertical" className="!h-5" />
-                      <span className="text-[10px]" dir="ltr">
-                        {new Date(notif?.createdAt!).toLocaleString("fa-IR")}
-                      </span>
+                      <div className="flex flex-col gap-1 items-start justify-center w-full">
+                        <div className="flex justify-between items-center gap-2 w-full">
+                          <Link
+                            href={notif?.href ?? "#"}
+                            className="flex gap-2 items-center"
+                          >
+                            <h4 className="text-md font-semibold whitespace-nowrap">
+                              {notif?.title}
+                            </h4>
+                          </Link>
+                          {/* <Separator orientation="vertical" className="!h-5" /> */}
+                          <span
+                            className="text-[9px] bg-slate-100 px-2 py-0.5 rounded-lg dark:bg-slate-800 dark:text-slate-100"
+                            dir="ltr"
+                          >
+                            {new Date(notif?.createdAt!).toLocaleString(
+                              "fa-IR"
+                            )}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-5 max-w-[90%]">
+                          {notif?.content}
+                        </p>
+                      </div>
                     </div>
-
-                    <p className="text-xs text-gray-600 mt-1">
-                      {notif?.content}
-                    </p>
 
                     <span className="text-gray-600 absolute bottom-1 left-1">
                       {notif?.read && <CheckCheck size={"1rem"} />}
