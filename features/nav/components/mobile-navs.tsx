@@ -1,34 +1,58 @@
 "use client";
 import Link from "next/link";
-import { getNavigationConstants } from "../constants";
+import { mobileNavigationItems } from "../constants";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/features/user/store/useUserStore";
-import { House } from "lucide-react";
+import { useState } from "react";
+import { LogIn, User } from "lucide-react";
+import ProfileDrawer from "./profile-drawer";
+import { Button } from "@/components/ui/button";
 
 const MobileNav = () => {
   const pathname = usePathname();
   const { user, isAuthenticated } = useUserStore();
+  const [openDrawer, setOpenDrawer] = useState(false);
 
-  const navItems = getNavigationConstants(isAuthenticated, user?.username);
+  const navItems = mobileNavigationItems(isAuthenticated, user?.username);
+
   return (
-    <div className="fixed md:hidden bottom-0 left-0 w-full py-3 flex gap-3 justify-around font-light z-10 shadow-md bg-white/40 dark:!bg-secondary-dark !backdrop-filter !backdrop-blur-sm border-t border-gray-200 dark:border-black">
-      {navItems.map((item) => {
-        const isActive = pathname === item.href;
+    <>
+      <div className="fixed md:hidden bottom-0 left-0 w-full py-3 flex gap-3 justify-around font-light z-10 shadow-md bg-white/40 dark:!bg-secondary-dark !backdrop-filter !backdrop-blur-sm border-t border-gray-200 dark:border-black">
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
 
-        return (
-          <Link
-            href={item.href}
-            key={item.label}
-            className={`flex flex-col justify-center items-center ${
-              isActive && "font-bold"
-            }`}
+          return (
+            <Link
+              href={item.href}
+              key={item.label}
+              className={`flex flex-col items-center ${
+                isActive && "font-bold"
+              }`}
+            >
+              <item.icon />
+              {item.label}
+            </Link>
+          );
+        })}
+
+        {isAuthenticated ? (
+          <button
+            onClick={() => setOpenDrawer(true)}
+            className="flex flex-col items-center"
           >
-            <item.logo className={`stroke-2 ${isActive && "stroke-3"}`} />
-            {item.label}
+            <User />
+            پروفایل
+          </button>
+        ) : (
+          <Link href={"/login"}>
+            <LogIn />
+            ورود
           </Link>
-        );
-      })}
-    </div>
+        )}
+      </div>
+
+      <ProfileDrawer open={openDrawer} onOpenChange={setOpenDrawer} />
+    </>
   );
 };
 

@@ -1,15 +1,16 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { getNavigationConstants } from "../constants";
+import { mobileNavigationItems } from "../constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/features/user/store/useUserStore";
+import { Home, User } from "lucide-react";
 
 const DesktopNav = () => {
   const pathname = usePathname();
   const { user, isAuthenticated } = useUserStore();
 
-  const navItems = getNavigationConstants(isAuthenticated, user?.username);
+  const navItems = mobileNavigationItems(isAuthenticated, user?.username);
 
   return (
     <nav className="flex flex-col justify-center  gap-2">
@@ -23,12 +24,21 @@ const DesktopNav = () => {
               variant={isActive ? "default" : "ghost"}
               className={`w-full flex gap-3 justify-start`}
             >
-              <item.logo />
+              <item.icon />
               {item.label}
             </Button>
           </Link>
         );
       })}
+      <Button asChild variant={"ghost"}>
+        <Link
+          href={isAuthenticated ? `/@${user?.username}` : `/login`}
+          className={`w-full flex gap-3 justify-start`}
+        >
+          <User />
+          پروفایل
+        </Link>
+      </Button>
     </nav>
   );
 };
