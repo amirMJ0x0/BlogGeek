@@ -20,7 +20,11 @@ const socialUrl = (platform: keyof typeof patterns) =>
         return patterns[platform].test(url.trim());
       },
       {
-        message: `لینک ${platform} معتبر نیست! فرمت صحیح مثلاً: https://${platform}.com/yourname`,
+        message: `لینک ${platform} معتبر نیست! فرمت صحیح مثلاً: ${
+          platform !== "telegram"
+            ? `https://${platform}.com/yourname`
+            : `https://t.me/yourname`
+        }`,
       }
     )
     .refine(
