@@ -2,6 +2,7 @@
 import PostCard from "@/features/blogs/components/post-card";
 import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 import { useInfiniteLikedBlogs } from "@/features/blogs/hooks/useInfiniteBlogs";
+import { FolderOpen } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const LikedPostsSection = () => {
@@ -30,8 +31,17 @@ const LikedPostsSection = () => {
     return () => observer.disconnect();
   }, [hasNextPage]);
 
+  if (data?.pages.length! > 0 && !isLoading)
+    return (
+      <div className="flex flex-col justify-center h-48 items-center p-6 gap-2 text-center text-gray-500">
+        <FolderOpen className="size-10" />
+        پستی وجود ندارد
+      </div>
+    );
+
   return (
     <section className="flex flex-col gap-2 p-2">
+      {(isFetchingNextPage || isLoading) && <PostCardSkeleton />}
       {data?.pages.map((page, pageIndex) =>
         page.blogs.map((item, i) => {
           const isLast =
@@ -48,8 +58,6 @@ const LikedPostsSection = () => {
           return <PostCard key={item.blog.id} item={item} />;
         })
       )}
-
-      {(isFetchingNextPage || isLoading) && <PostCardSkeleton />}
     </section>
   );
 };

@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, useSearchParams } from "next/navigation";
 import SavedPostsSection from "./saved-posts";
 import LikedPostsSection from "./liked-posts";
+import { FolderOpen } from "lucide-react";
 
 type ProfileTabsProps = {
   isOwner: boolean;
@@ -33,7 +34,12 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
         )}
       </TabsList>
 
-      <TabsContent value="posts">پست‌ها</TabsContent>
+      <TabsContent value="posts">
+        <div className="flex flex-col justify-center h-48 items-center p-6 gap-2 text-center text-gray-500">
+          <FolderOpen className="size-10" />
+          پستی وجود ندارد
+        </div>
+      </TabsContent>
 
       {isOwner && (
         <>
