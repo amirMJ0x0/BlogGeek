@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 
 export default function ChangeUsernameField() {
   const queryClient = useQueryClient();
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const [username, setUsername] = useState("");
   const [showButtons, setShowButtons] = useState(false);
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
@@ -40,10 +40,12 @@ export default function ChangeUsernameField() {
       showToast(res.message, "success");
       queryClient.invalidateQueries({
         predicate: (query) =>
-          query.queryKey[0] === "userInfo" ||
+          // query.queryKey[0] === "userInfo" ||
           query.queryKey[0] === "notifications",
       });
       setShowButtons(false);
+      setUser(res.data);
+      router.push(`/@${res.data?.username}/settings?tab=account`);
     },
     onError: (error: AxiosError<ApiResponse>) => {
       const message =

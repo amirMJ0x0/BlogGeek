@@ -26,7 +26,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Eye, EyeClosed, LockKeyhole, PenBox, ShieldCheck } from "lucide-react";
+import {
+  Eye,
+  EyeClosed,
+  Lock,
+  LockKeyhole,
+  PenBox,
+  ShieldCheck,
+} from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
@@ -68,9 +75,7 @@ const ChangePasswordField = () => {
       setOpen(false);
 
       queryClient.invalidateQueries({
-        predicate: (query) =>
-          query.queryKey[0] === "userInfo" ||
-          query.queryKey[0] === "notifications",
+        predicate: (query) => query.queryKey[0] === "notifications",
       });
     },
     onError: (error: AxiosError<ApiResponse<ResPasswordError>>) => {
@@ -91,7 +96,10 @@ const ChangePasswordField = () => {
   return (
     <div className="flex flex-col gap-3 w-full max-w-sm m-auto py-4 relative">
       <div className="flex justify-between items-center ">
-        <h2 className="flex justify-end order-1">تغییر رمز عبور</h2>
+        <h4 className="flex justify-end order-1 font-semibold tracking-tight text-[15px] leading-relaxed">
+          تغییر رمز عبور{" "}
+          <Lock className="text-slate-600 m-1 ml-2 p-0" size={"1rem"} />{" "}
+        </h4>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button variant={"ghost"}>

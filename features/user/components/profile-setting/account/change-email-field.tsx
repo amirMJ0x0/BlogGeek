@@ -29,6 +29,7 @@ import { Spinner } from "@/components/ui/spinner";
 import useCountdown from "@/features/auth/hooks/useCountdown";
 import { SendOtpForm } from "@/features/auth/schemas/credentialSchema";
 import { otpSchema, OtpSchema } from "@/features/auth/schemas/otpSchema";
+import { User } from "@/features/auth/types";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { emailCredentialApi } from "@/features/user/api/change-credential";
 import { useUserStore } from "@/features/user/store/useUserStore";
@@ -43,7 +44,7 @@ import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 
 const ChangeEmailField = () => {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const queryClient = useQueryClient();
   const [showButtons, setShowButtons] = useState(false);
   const [email, setEmail] = useState(user?.email || "");
@@ -94,13 +95,14 @@ const ChangeEmailField = () => {
   } = useMutation({
     mutationFn: (data: { credential: string; code: number }) =>
       emailCredentialApi.checkOtp(data),
-    onSuccess: (res) => {
+    onSuccess: (res, { credential }) => {
       showToast(res.message, "success");
       queryClient.invalidateQueries({
         predicate: (query) =>
-          query.queryKey[0] === "userInfo" ||
+          // query.queryKey[0] === "userInfo" ||
           query.queryKey[0] === "notifications",
       });
+      setUser({ ...user, email: credential } as User);
       setShowButtons(false);
       setOpenDialog(false);
       reset();

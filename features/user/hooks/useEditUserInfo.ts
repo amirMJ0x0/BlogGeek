@@ -15,11 +15,11 @@ export const useEditUserInfo = () => {
     EditUserInfoRequest
   >({
     mutationFn: editUserInfo,
-    onSuccess: (data) => {
-      if (data.statusCode === 200) {
-        queryClient.invalidateQueries({ queryKey: ["userInfo"] });
-      }
-    },
+    // onSuccess: (data) => {
+    //   if (data.statusCode === 200) {
+    //     queryClient.invalidateQueries({ queryKey: ["userInfo"] });
+    //   }
+    // },
     onError: (error) => {
       const message = error.response?.data?.message || "خطا در ویرایش اطلاعات";
       showToast(message, "error");

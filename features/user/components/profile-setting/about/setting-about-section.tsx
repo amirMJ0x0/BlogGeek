@@ -40,7 +40,7 @@ import {
 } from "@/components/icons";
 
 const SettingAboutSection = () => {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const { showToast } = useCustomToast();
   const { mutate: mutateUserInfo, isPending } = useEditUserInfo();
   const router = useRouter();
@@ -76,8 +76,8 @@ const SettingAboutSection = () => {
     mutateUserInfo(apiData, {
       onSuccess: (response) => {
         showToast(response.message, "success");
-        useUserStore.setState({ user: response.data });
-        router.push(`/@${user?.username}`);
+        setUser(response.data);
+        router.push(`/@${response.data?.username}/settings?tab=about-me`);
       },
     });
   }

@@ -29,6 +29,7 @@ import { Spinner } from "@/components/ui/spinner";
 import useCountdown from "@/features/auth/hooks/useCountdown";
 import { SendOtpForm } from "@/features/auth/schemas/credentialSchema";
 import { otpSchema, OtpSchema } from "@/features/auth/schemas/otpSchema";
+import { User } from "@/features/auth/types";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { phoneCredentialApi } from "@/features/user/api/change-credential";
 import { useUserStore } from "@/features/user/store/useUserStore";
@@ -37,13 +38,13 @@ import { ApiResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Check, Mail, X } from "lucide-react";
+import { Check, Phone, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 
 const ChangePhoneField = () => {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
   const queryClient = useQueryClient();
   const [showButtons, setShowButtons] = useState(false);
   const [phone, setPhone] = useState(user?.phone_number || "");
@@ -97,13 +98,14 @@ const ChangePhoneField = () => {
   } = useMutation({
     mutationFn: (data: { credential: string; code: number }) =>
       phoneCredentialApi.checkOtp(data),
-    onSuccess: (res) => {
+    onSuccess: (res, { credential }) => {
       showToast(res.message, "success");
       queryClient.invalidateQueries({
         predicate: (query) =>
-          query.queryKey[0] === "userInfo" ||
+          // query.queryKey[0] === "userInfo" ||
           query.queryKey[0] === "notifications",
       });
+      setUser({ ...user, phone_number: credential } as User);
       setShowButtons(false);
       setOpenDialog(false);
       reset();
@@ -161,7 +163,7 @@ const ChangePhoneField = () => {
             disabled={isSendingOtp}
           />
           <InputGroupAddon>
-            <Mail />
+            <Phone />
           </InputGroupAddon>
           <InputGroupAddon align={"inline-end"}>
             {isSendingOtp && <Spinner />}
