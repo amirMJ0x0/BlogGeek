@@ -1,0 +1,218 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { BlogTag } from "@/features/blogs/blogTypes";
+import BlogReviews from "@/features/blogs/components/blog-reviews";
+import { useUserStore } from "@/features/user/store/useUserStore";
+import testImg from "@/public/login-banner.jpeg";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import { faIR } from "date-fns/locale";
+import {
+  BookmarkPlus,
+  Eye,
+  Heart,
+  MessageCircleMore,
+  Share,
+} from "lucide-react";
+import Image from "next/image";
+import { notFound, redirect } from "next/navigation";
+
+
+export default async function BlogDetail({
+  params,
+}: {
+  params: Promise<{ username: string; slug: string }>;
+}) {
+  const { slug, username: encodedUsername } = await params;
+  const decodedUsername = decodeURIComponent(encodedUsername);
+  const rawUsername = decodedUsername.replace(/^@/, ""); // @username => username
+  const decodedSlug = decodeURIComponent(slug);
+  const parts = decodedSlug.split("-");
+  const id = Number(parts[parts.length - 1]);
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/blog/${id}`,
+    {
+      cache: "no-store",
+      // next: {revalidate:60*60}
+    }
+  );
+  if (!res.ok) return notFound();
+
+  const {
+    data: { blog },
+  } = await res.json();
+
+  const correctSlug = `${blog.title
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9آ-ی-]/g, "")}-${blog.id}`;
+
+  if (blog.author.username !== rawUsername) {
+    const finalUrl = encodeURI(`/@${blog.author.username}/${correctSlug}`);
+    redirect(finalUrl);
+  }
+
+  return (
+    <article className="max-w-3xl mx-auto p-2 md:p-4 text-right" dir="rtl">
+      {/* Author */}
+      <div className="flex justify-between">
+        <div className="flex gap-2 items-center">
+          <Avatar>
+            <AvatarImage src={blog.author?.profile_image!} />
+            <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
+              {blog.author?.first_name
+                ? blog.author?.first_name?.substring(0, 1)
+                : blog.author?.username?.substring(0, 1)}
+            </AvatarFallback>
+          </Avatar>
+          <h4 className="font-light text-sm">
+            {blog.author?.first_name || blog.author?.last_name
+              ? `${blog.author?.first_name ?? ""} ${
+                  blog.author?.last_name ?? ""
+                }`.trim()
+              : blog.author.username}
+          </h4>
+
+          <Separator orientation="vertical" className="!h-3" />
+          <p className="text-xs text-muted-foreground">
+            {formatDistanceToNow(new Date(blog.created_at), {
+              addSuffix: true,
+              locale: faIR,
+            })}
+          </p>
+        </div>
+        <div className="flex gap-4 items-center ">
+          <Share className="size-5" />
+          {/* <span className="flex gap-2 items-center">
+            <Linkedin /> <Twitter className="size-5" />
+          </span> */}
+        </div>
+      </div>
+
+      {/* Title */}
+      <h1 className="text-xl md:text-2xl font-bold !my-4">{blog.title}</h1>
+
+      {/* Summary text */}
+      <p className="text-muted-foreground ">اینجا توضیحات مختصر قرار میگیره</p>
+
+      {/* Banner Image */}
+      {/* {blog.banner_image && (
+        <Image
+          src={blog.banner_image}
+          alt={blog.title}
+          className="w-full rounded-xl mb-6"
+        />
+      )} */}
+      <div className="relative w-full overflow-hidden rounded-sm my-8 aspect-[16/9]">
+        <Image src={testImg} alt={blog.title} fill className="object-cover" />
+      </div>
+
+      {/* Content */}
+      <section className="max-w-none my-6 leading-relaxed">
+        {blog.content}
+      </section>
+
+      {/* Tags */}
+      <div className="flex gap-2 mb-5">
+        {/* {blog?.tags &&
+          blog.tags.map((tag: BlogTag) => <Badge>{tag.title}</Badge>)} */}
+        {blog.tags.map(({ tag }: BlogTag) => (
+          <Badge>{tag.title}</Badge>
+        ))}
+      </div>
+
+      {/* Statistics */}
+      <div className="flex justify-between mb-2">
+        <div className="flex gap-3 md:gap-5 text-xs text-muted-foreground ">
+          <span className="flex justify-center items-center gap-1">
+            <Button
+              variant={"link"}
+              className="!p-0 cursor-pointer hover:text-red-400"
+            >
+              <Heart className="size-5" />
+            </Button>
+            <span>{blog._count.likes}</span>
+          </span>
+          <span className="flex justify-center items-center gap-1">
+            <Button
+              variant={"link"}
+              className="!p-0 cursor-pointer hover:text-blue-400"
+            >
+              <MessageCircleMore className="size-5" />
+            </Button>
+            {blog._count.comments}
+          </span>
+          <span className="flex justify-center items-center gap-1">
+            <Button
+              variant={"link"}
+              className="!p-0 cursor-pointer hover:text-blue-400"
+            >
+              <Eye className="size-5" />
+            </Button>
+            {blog._count.views}
+          </span>
+        </div>
+
+        <div className="flex gap-2">
+          <span className="flex justify-center items-center gap-2">
+            <Button
+              variant={"link"}
+              className="!p-0 cursor-pointer hover:text-emerald-400"
+            >
+              <BookmarkPlus className="size-[22px]" fill="none" />
+            </Button>
+          </span>
+          <span className="flex justify-center items-center gap-2">
+            <Button
+              variant={"link"}
+              className="!p-0 cursor-pointer hover:text-blue-400"
+            >
+              <Share className="size-5" />
+            </Button>
+          </span>
+        </div>
+      </div>
+      <Separator />
+
+      {/* Author Info for mobile  */}
+      <div className="my-6">
+        <div className="flex justify-between">
+          <div className="flex gap-2 items-start justify-items-start">
+            <div className="flex">
+              <Avatar className="size-12">
+                <AvatarImage src={blog.author?.profile_image} />
+                <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
+                  {blog.author?.first_name
+                    ? blog.author?.first_name?.substring(0, 1)
+                    : blog.author?.username?.substring(0, 1)}
+                </AvatarFallback>
+              </Avatar>
+              <div className="pr-3">
+                <h4 className="font-semibold pt-1">
+                  {blog.author?.first_name || blog.author?.last_name
+                    ? `${blog.author?.first_name ?? ""} ${
+                        blog.author?.last_name ?? ""
+                      }`.trim()
+                    : blog.author.username}
+                </h4>
+                <p className="max-w-5/6 text-xs text-muted-foreground">
+                  یه برنامه نویس سگ کد زن حرفه ای خسته و تک لید بروبچ آسیاتک
+                  کلاد که دنبال چالش های جدیده
+                </p>
+              </div>
+            </div>
+          </div>
+          <Button>دنبال کردن</Button>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Reviews */}
+      <BlogReviews blog={blog} />
+    </article>
+  );
+}
