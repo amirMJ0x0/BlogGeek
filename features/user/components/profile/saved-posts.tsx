@@ -1,69 +1,74 @@
 "use client";
+import EmptyComponent from "@/components/empty-component";
+import { Blog } from "@/features/blogs/blogTypes";
 import PostCard from "@/features/blogs/components/post-card";
 import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 import { useInfiniteSavedBlogs } from "@/features/blogs/hooks/useInfiniteBlogs";
-import {
-  CircleOff,
-  FolderOpen,
-  Image,
-  Newspaper,
-  PackageOpen,
-} from "lucide-react";
-import { useEffect, useRef } from "react";
+import { FolderOpen } from "lucide-react";
+import { useCallback, useEffect, useRef } from "react";
 
 const SavedPostsSection = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteSavedBlogs();
 
-  const loadMoreRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (!hasNextPage) return;
+  const observer = useRef<IntersectionObserver | null>(null);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
+  const lastBlogCardRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isFetchingNextPage) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && hasNextPage) {
+            fetchNextPage();
+          }
+        },
+        {
+          threshold: 0.2,
         }
-      },
-      {
-        threshold: 0.2,
-      }
-    );
+      );
 
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
-    return () => observer.disconnect();
-  }, [hasNextPage]);
+      if (node) observer.current.observe(node);
+    },
+    [isFetchingNextPage, hasNextPage, fetchNextPage]
+  );
 
-  if (data?.pages.length! > 0 && !isLoading)
-    return (
-      <div className="flex flex-col justify-center h-48 items-center p-6 gap-2 text-center text-gray-500">
-        <FolderOpen className="size-10" />
-        پستی وجود ندارد
-      </div>
-    );
+  const blogs = data?.pages.flatMap((page) => page?.blogs) ?? [];
+
+  const isEmpty = !isLoading && blogs?.length === 0;
 
   return (
-    <section className="flex flex-col gap-2 p-2">
-      {(isFetchingNextPage || isLoading) && <PostCardSkeleton />}
-      {data?.pages.map((page, pageIndex) =>
-        page.blogs.map((item, i) => {
-          const isLast =
-            pageIndex === data.pages.length - 1 && i === page.blogs.length - 1;
+    <section className="flex flex-col gap-2 p-2" ref={scrollContainerRef}>
+      {isEmpty ? (
+        <EmptyComponent />
+      ) : (
+        <div className="divide-y">
+          {blogs.map((blog, blogIndex) => {
+            const isLastItem = blogIndex === blogs.length - 1;
 
-          if (isLast) {
             return (
-              <div ref={loadMoreRef} key={item.blog.id}>
-                <PostCard item={item} />
+              <div
+                key={`${blog?.id}-${blogIndex}`}
+                ref={isLastItem ? lastBlogCardRef : null}
+              >
+                <PostCard item={blog as Blog} />
               </div>
             );
-          }
-
-          return <PostCard key={item.blog.id} item={item} />;
-        })
+          })}
+        </div>
       )}
+
+      {isFetchingNextPage ||
+        (isLoading && (
+          <div>
+            {Array.from({ length: 10 }).map((_, index) => (
+              <PostCardSkeleton key={index} />
+            ))}
+          </div>
+        ))}
     </section>
   );
 };

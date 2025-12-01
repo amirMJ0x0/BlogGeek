@@ -21,31 +21,36 @@ export const useInfiniteBlogsList = () => {
   });
 };
 
-
-export function useInfiniteSavedBlogs() {
+export const useInfiniteSavedBlogs = () => {
   return useInfiniteQuery({
     queryKey: ["savedBlogs"],
-    queryFn: ({ pageParam }) => getSavedBlogs(pageParam),
+    queryFn: getSavedBlogs,
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.currentPage < lastPage.totalPages) {
-        return lastPage.currentPage + 1;
+    getNextPageParam: (lastPage, allPages) => {
+      const fetchedCount = lastPage?.blogs?.length!;
+
+      if (fetchedCount < BLOG_PAGE_LIMIT) {
+        return undefined;
       }
-      return undefined;
+
+      return allPages.length + 1;
     },
   });
-}
+};
 
-export function useInfiniteLikedBlogs() {
+export const useInfiniteLikedBlogs = () => {
   return useInfiniteQuery({
     queryKey: ["likedBlogs"],
-    queryFn: ({ pageParam }) => getLikedBlogs(pageParam),
+    queryFn: getLikedBlogs,
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.currentPage < lastPage.totalPages) {
-        return lastPage.currentPage + 1;
+    getNextPageParam: (lastPage, allPages) => {
+      const fetchedCount = lastPage?.blogs?.length!;
+
+      if (fetchedCount < BLOG_PAGE_LIMIT) {
+        return undefined;
       }
-      return undefined;
+
+      return allPages.length + 1;
     },
   });
-}
+};
