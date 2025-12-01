@@ -1,103 +1,127 @@
-import Link from "next/link";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { BlogItem } from "@/features/blogs/blogTypes";
-import { Bookmark, Eye, Heart, MessageCircleMore } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { faIR } from "date-fns/locale";
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
-import testImg from "@/public/og-image.png";
-import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import { faIR } from "date-fns/locale";
+import { Bookmark, Heart, MessageCircleMore } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Blog, BlogTag } from "../blogTypes";
 interface PostCardProps {
-  item: BlogItem;
+  item: Blog;
 }
 
 export default function PostCard({ item }: PostCardProps) {
-  const { blog, user } = item;
-
-  console.log(blog.category);
+  const correctSlug = `${item.title
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9آ-ی-]/g, "")}-${item.id}`;
 
   return (
     <Card
-      className="rounded-xl shadow-sm hover:shadow-md transition "
+      className="bg-transparent rounded-none hover:shadow-md transition max-sm:py-3 !border-b border-light dark:border-gray-700 !border-x-0 !border-t-0 max-md:!gap-1"
       dir="rtl"
     >
-      <CardContent className="flex gap-3">
-        <div className="flex flex-col flex-1 items-start gap-2">
-          <div className="flex gap-1 items-center">
+      <CardContent className="max-sm:!px-3">
+        {/* Avatar & username + Content + banner  */}
+        <div className="flex flex-col items-start gap-2">
+          <div className="flex gap-2 items-center">
             <Avatar>
-              <AvatarImage src={user?.profile_image} />
+              <AvatarImage src={item.author?.profile_image!} />
               <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
-                {user?.first_name
-                  ? user?.first_name?.substring(0, 1)
-                  : user?.username?.substring(0, 1)}
+                {item.author?.first_name
+                  ? item.author?.first_name?.substring(0, 1)
+                  : item.author?.username?.substring(0, 1)}
               </AvatarFallback>
             </Avatar>
             <h4 className="font-light text-sm">
-              {user?.first_name || user?.last_name
-                ? `${user?.first_name ?? ""} ${user?.last_name ?? ""}`.trim()
-                : user.username}
+              {item.author?.first_name || item.author?.last_name
+                ? `${item.author?.first_name ?? ""} ${
+                    item.author?.last_name ?? ""
+                  }`.trim()
+                : item.author?.username}
             </h4>
 
             <Separator orientation="vertical" className="!h-3" />
             <p className="text-xs text-muted-foreground">
-              {formatDistanceToNow(new Date(blog.created_at), {
+              {formatDistanceToNow(new Date(item.created_at), {
                 addSuffix: true,
                 locale: faIR,
               })}
             </p>
           </div>
 
-          <div className="">
-            <Link href={`/blog/${blog.slug}`}>
-              <h2 className="text-lg font-semibold text-right">{blog.title}</h2>
-            </Link>
-            <p className="text-sm text-muted-foreground line-clamp-3 !mt-3 text-justify">
-              {blog.content}
-            </p>
+          <div className="flex gap-3 justify-between w-full">
+            {/* Content and title  */}
+            <div className="max-w-[55%] ">
+              <Link href={`/@${item.author?.username}/${correctSlug}`}>
+                <h2 className="md:text-lg font-semibold text-right">
+                  {item.title}
+                </h2>
+              </Link>
+              <p className="text-xs md:text-sm text-muted-foreground line-clamp-3 lg:!mt-3 text-right md:leading-normal">
+                {item.content}
+              </p>
+            </div>
+            {/* banner image */}
+            <div className="relative h-24 md:h-32 w-[40%] overflow-hidden rounded-sm">
+              <Image
+                src={item.banner_image as string}
+                alt={item.title}
+                fill
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
-
-        <div className="max-sm:hidden relative h-24 w-28 overflow-hidden rounded-sm">
-          <Image src={testImg} alt={blog.title} fill className="object-cover" />
-        </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <div>{blog?.category && <Badge>{blog?.category?.title}</Badge>}</div>
-        <div className=" flex gap-6 text-xs text-muted-foreground ">
-          <span className="flex justify-center items-center gap-2">
+      <CardFooter className="flex justify-between max-sm:!px-3">
+        <div className="flex gap-1 md:gap-2 max-w-[55%] flex-wrap">
+          {item?.tags &&
+            item.tags.map(({ tag }: BlogTag) => (
+              <Badge className="max-sm:!text-[10px]">{tag.title}</Badge>
+            ))}
+        </div>
+        <div className="flex gap-3 md:gap-5 text-xs text-muted-foreground">
+          <span className="flex justify-center items-center gap-1">
             <Button
               variant={"link"}
               className="!p-0 cursor-pointer hover:text-red-400"
             >
-              <Heart className="size-5" />
+              <Heart
+                className={`size-5 ${item.liked ? "" : ""}`}
+                fill={`${item.liked ? "" : "transparent"}`}
+              />
             </Button>
-            <span>{blog._count.likes}</span>
+            <span>{item._count.likes}</span>
           </span>
-          <span className="flex justify-center items-center gap-2">
-            <MessageCircleMore className="size-5" /> {blog._count.comments}
-          </span>
-          <span className="flex justify-center items-center gap-2">
-            <span>
-              <Eye className="size-5" />
-            </span>
-            <span>{blog._count.views}</span>
-          </span>
-          <span className="flex justify-center items-center gap-2">
+          <span className="flex justify-center items-center gap-1">
             <Button
               variant={"link"}
               className="!p-0 cursor-pointer hover:text-blue-400"
             >
-              <Bookmark className="size-5" />
+              <Link
+                href={`/@${item.author?.username}/${correctSlug}#reviews`}
+                scroll={false}
+              >
+                <MessageCircleMore className="size-5" />
+              </Link>
             </Button>
-            <span>{blog._count.views}</span>
+            {item._count.comments}
+          </span>
+          <span className="flex justify-center items-center gap-1">
+            <Button
+              variant={"link"}
+              className="!p-0 cursor-pointer hover:text-emerald-400"
+            >
+              <Bookmark
+                className="size-5"
+                fill={`${item.saved ? "" : "transparent"}`}
+              />
+            </Button>
+            <span>{item._count.views}</span>
           </span>
         </div>
       </CardFooter>
