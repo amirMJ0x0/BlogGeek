@@ -71,15 +71,17 @@ const UserStatus = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <User2 />
-                  <Link href={`@${user?.username}`}>پروفایل</Link>
+                  <Link href={`/@${user?.username}`}>پروفایل</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Bookmark />
-                  <Link href={"/profile?tab=bookmarks"}>نشان ها</Link>
+                  <Link href={`/@${user?.username}/?tab=bookmarks`}>
+                    نشان ها
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Settings />
-                  <Link href={"/profile/settings"}>تنظیمات </Link>
+                  <Link href={`/@${user?.username}/settings`}>تنظیمات </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="!text-red-800 hover:!text-red-700 "
