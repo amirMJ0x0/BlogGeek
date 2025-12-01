@@ -1,11 +1,10 @@
 "use client";
 
-import { ReactNode, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToastContainer } from "react-toastify";
 import { useUserInfo } from "@/features/user/hooks/useUserInfo";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactNode, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "./theme-provider";
-import { DirectionProvider } from "@radix-ui/react-direction";
 type ProvidersProps = {
   children: ReactNode;
 };

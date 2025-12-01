@@ -23,7 +23,6 @@ export default async function ProfilePage({
       </main>
     );
   } catch (error) {
-    // notFound();
-    console.log(error);
+    notFound();
   }
 }

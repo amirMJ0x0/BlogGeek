@@ -1,4 +1,4 @@
-import { FolderOpen, LucideIcon } from "lucide-react";
+import { FolderOpen } from "lucide-react";
 import { ReactNode } from "react";
 
 type props = {

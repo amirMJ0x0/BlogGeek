@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { BlogTag } from "@/features/blogs/blogTypes";
 import BlogReviews from "@/features/blogs/components/blog-reviews";
-import testImg from "@/public/login-banner.jpeg";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import {
@@ -58,7 +57,7 @@ export default async function BlogDetail({
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <Avatar>
-            <AvatarImage src={blog.author?.profile_image!} />
+            <AvatarImage src={blog.author?.profile_image} />
             <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
               {blog.author?.first_name
                 ? blog.author?.first_name?.substring(0, 1)
@@ -96,15 +95,13 @@ export default async function BlogDetail({
       <p className="text-muted-foreground ">اینجا توضیحات مختصر قرار میگیره</p>
 
       {/* Banner Image */}
-      {/* {blog.banner_image && (
+      <div className="relative w-full overflow-hidden rounded-sm my-8 aspect-[16/9]">
         <Image
           src={blog.banner_image}
           alt={blog.title}
-          className="w-full rounded-xl mb-6"
+          fill
+          className="object-cover"
         />
-      )} */}
-      <div className="relative w-full overflow-hidden rounded-sm my-8 aspect-[16/9]">
-        <Image src={testImg} alt={blog.title} fill className="object-cover" />
       </div>
 
       {/* Content */}
@@ -114,10 +111,8 @@ export default async function BlogDetail({
 
       {/* Tags */}
       <div className="flex gap-2 mb-5">
-        {/* {blog?.tags &&
-          blog.tags.map((tag: BlogTag) => <Badge>{tag.title}</Badge>)} */}
         {blog.tags.map(({ tag }: BlogTag) => (
-          <Badge>{tag.title}</Badge>
+          <Badge key={tag.id}>{tag.title}</Badge>
         ))}
       </div>
 
