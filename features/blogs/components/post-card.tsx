@@ -15,10 +15,10 @@ interface PostCardProps {
 }
 
 export default function PostCard({ item }: PostCardProps) {
-  const correctSlug = `${item.title
+  const correctSlug = `${item.id}-${item.title
     .trim()
     .replace(/\s+/g, "-")
-    .replace(/[^a-zA-Z0-9آ-ی-]/g, "")}-${item.id}`;
+    .replace(/[^a-zA-Z0-9آ-ی-]/g, "")}`;
 
   return (
     <Card

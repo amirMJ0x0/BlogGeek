@@ -2,10 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
 import { BlogTag } from "@/features/blogs/blogTypes";
 import BlogReviews from "@/features/blogs/components/blog-reviews";
-import { useUserStore } from "@/features/user/store/useUserStore";
 import testImg from "@/public/login-banner.jpeg";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
@@ -19,7 +17,6 @@ import {
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 
-
 export default async function BlogDetail({
   params,
 }: {
@@ -30,7 +27,7 @@ export default async function BlogDetail({
   const rawUsername = decodedUsername.replace(/^@/, ""); // @username => username
   const decodedSlug = decodeURIComponent(slug);
   const parts = decodedSlug.split("-");
-  const id = Number(parts[parts.length - 1]);
+  const id = Number(parts[0]);
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/blog/${id}`,
@@ -45,10 +42,10 @@ export default async function BlogDetail({
     data: { blog },
   } = await res.json();
 
-  const correctSlug = `${blog.title
+  const correctSlug = `${blog.id}-${blog.title
     .trim()
     .replace(/\s+/g, "-")
-    .replace(/[^a-zA-Z0-9آ-ی-]/g, "")}-${blog.id}`;
+    .replace(/[^a-zA-Z0-9آ-ی-]/g, "")}`;
 
   if (blog.author.username !== rawUsername) {
     const finalUrl = encodeURI(`/@${blog.author.username}/${correctSlug}`);
