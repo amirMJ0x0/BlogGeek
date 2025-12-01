@@ -9,6 +9,7 @@ import { Bookmark, Heart, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Blog, BlogTag } from "../blogTypes";
+import { numberToPersian } from "@/lib/utils";
 interface PostCardProps {
   item: Blog;
 }
@@ -81,7 +82,9 @@ export default function PostCard({ item }: PostCardProps) {
         <div className="flex gap-1 md:gap-2 max-w-[55%] flex-wrap">
           {item?.tags &&
             item.tags.map(({ tag }: BlogTag) => (
-              <Badge className="max-sm:!text-[10px]">{tag.title}</Badge>
+              <Badge className="max-sm:!text-[10px]" key={tag.id}>
+                {tag.title}
+              </Badge>
             ))}
         </div>
         <div className="flex gap-3 md:gap-5 text-xs text-muted-foreground">
@@ -95,7 +98,7 @@ export default function PostCard({ item }: PostCardProps) {
                 fill={`${item.liked ? "" : "transparent"}`}
               />
             </Button>
-            <span>{item._count.likes}</span>
+            <span>{numberToPersian(item._count.likes)}</span>
           </span>
           <span className="flex justify-center items-center gap-1">
             <Button
@@ -109,7 +112,7 @@ export default function PostCard({ item }: PostCardProps) {
                 <MessageCircleMore className="size-5" />
               </Link>
             </Button>
-            {item._count.comments}
+            {numberToPersian(item._count.comments)}
           </span>
           <span className="flex justify-center items-center gap-1">
             <Button
@@ -121,7 +124,7 @@ export default function PostCard({ item }: PostCardProps) {
                 fill={`${item.saved ? "" : "transparent"}`}
               />
             </Button>
-            <span>{item._count.views}</span>
+            <span>{numberToPersian(item._count.views)}</span>
           </span>
         </div>
       </CardFooter>

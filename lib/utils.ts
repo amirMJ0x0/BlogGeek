@@ -42,6 +42,31 @@ export function num2en(str: string): string {
   );
 }
 
+
+const en = "0123456789";
+const fa = "۰۱۲۳۴۵۶۷۸۹";
+
+function toPersianDigits(str: string): string {
+  return str.replace(/\d/g, (d) => fa[en.indexOf(d)]);
+}
+
+export function numberToPersian(num: number | string): string {
+  const n = typeof num === "string" ? Number(num) : num;
+  if (isNaN(n)) return String(num);
+
+  if (n >= 1_000_000) {
+    const m = (n / 1_000_000).toFixed(1).replace(/\.0$/, "");
+    return toPersianDigits(m) + "m";
+  }
+
+  if (n >= 1000) {
+    const k = (n / 1000).toFixed(1).replace(/\.0$/, "");
+    return toPersianDigits(k) + "k";
+  }
+
+  return toPersianDigits(String(n));
+}
+
 /**
  * دریافت شماره‌های موبایل از متن
  * @param str متن ورودی
