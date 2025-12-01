@@ -1,9 +1,9 @@
-import Article from "@/components/test/articles";
+import BlogList from "@/features/blogs/components/blogs-list";
 
 export default function Home() {
   return (
     <div>
-      <Article />
+      <BlogList />
     </div>
   );
 }
