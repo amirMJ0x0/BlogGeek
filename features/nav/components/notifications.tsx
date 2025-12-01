@@ -18,12 +18,14 @@ import { useUserStore } from "@/features/user/store/useUserStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { readNotifications } from "../api/readNotifications";
 import NotificationTypeFilter from "./notif-type-filter";
+import { useRouter } from "next/navigation";
 
 const Notifications = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const { isAuthenticated } = useUserStore();
   const queryClient = useQueryClient();
   const [filterType, setFilterType] = useState<NotificationType>("ALL");
+  const router = useRouter();
   const {
     data,
     fetchNextPage,
@@ -78,6 +80,12 @@ const Notifications = () => {
       : notifications.filter((notif) => notif?.notificationType === filterType);
 
   const totalUnreadCount = data?.pages[0]?.totalUnread ?? 0;
+
+  const handleClick = (href: string) => {
+    href ? router.push(href) : null;
+
+  };
+
   return isAuthenticated ? (
     <Popover>
       <PopoverTrigger asChild>
@@ -138,7 +146,8 @@ const Notifications = () => {
                   <li
                     key={`${notif?.id}-${index}`}
                     ref={isLastItem ? lastNotificationRef : null}
-                    className={`relative border-b-0 border-t first:border-none border-slate-100 dark:border-slate-700 py-2 px-1 my-2  transition ease-in-out  `}
+                    onClick={() => handleClick(notif?.href || "")}
+                    className={`relative border-b-0 border-t first:border-none border-slate-100 dark:border-slate-700 py-2 px-1 my-2  transition ease-in-out cursor-pointer`}
                   >
                     <div className="flex items-center gap-2 w-full">
                       <NotificationTypeBadge
@@ -146,14 +155,11 @@ const Notifications = () => {
                       />
                       <div className="flex flex-col gap-1 items-start justify-center w-full">
                         <div className="flex justify-between items-center gap-2 w-full">
-                          <Link
-                            href={notif?.href ?? "#"}
-                            className="flex gap-2 items-center"
-                          >
+                          <div className="flex gap-2 items-center">
                             <h4 className="text-md font-semibold whitespace-nowrap">
                               {notif?.title}
                             </h4>
-                          </Link>
+                          </div>
                           {/* <Separator orientation="vertical" className="!h-5" /> */}
                           <span
                             className="text-[9px] bg-slate-100 px-2 py-0.5 rounded-lg dark:bg-slate-800 dark:text-slate-100"
@@ -170,7 +176,12 @@ const Notifications = () => {
                       </div>
                     </div>
 
-                    <span className="text-gray-600 absolute bottom-1 left-1">
+                    <span
+                      className="text-gray-600 absolute bottom-1 left-1"
+                      title={new Date(notif?.read_at as string).toLocaleString(
+                        "fa-IR"
+                      )}
+                    >
                       {notif?.read && <CheckCheck size={"1rem"} />}
                     </span>
                   </li>
