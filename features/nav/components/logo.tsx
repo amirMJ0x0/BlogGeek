@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import lightLogo from "@/public/BlogGeek-logo-darkmode.png";
-import darkLogo from "@/public/BlogGeek-logo2.png";
+import lightLogo from "@/public/assets/images/BlogGeek-logo-darkmode.png";
+import darkLogo from "@/public/assets/images/BlogGeek-logo2.png";
 import { useTheme } from "next-themes";
 
 const Logo = () => {

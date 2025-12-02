@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import loginBanner from "@/public/login-banner.jpeg";
+import loginBanner from "@/public/assets/images/login-banner.jpeg";
 import Link from "next/link";
 import { useAuthStore } from "@/features/user/store/useAuthStore";
 

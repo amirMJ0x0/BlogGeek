@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import marcoos from "@/public/marcooos.png";
+import marcoos from "@/public/assets/images/marcooos.png";
 import { Button } from "@/components/ui/button";
 export default function NotFound() {
   return (
