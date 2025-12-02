@@ -119,6 +119,7 @@
   --color-primary-light: var(--bg-primary-light);
   --color-secondary-dark: var(--bg-secondary-dark);
   --color-secondary-light: var(--bg-secondary-light);
+  --font-vazirmatn: var(--font-vazirmatn);
 }
 
 @layer base {
@@ -147,4 +148,12 @@
 
 .animate-shake {
   animation: shake 0.5s ease-in-out;
+}
+
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn[wght].woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }

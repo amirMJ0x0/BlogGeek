@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Vazirmatn } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import NextTopLoader from "nextjs-toploader";
 
-const vazir = Vazirmatn({
-  subsets: ["latin", "arabic"],
+const vazirmatn = localFont({
+  src: "../public/fonts/Vazirmatn[wght].woff2",
+  variable: "--font-vazirmatn",
+  weight: "100 900",
+  style: "normal",
   display: "swap",
 });
 
@@ -81,7 +84,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${vazir.className} antialiased bg-primary-light dark:bg-primary-dark relative`}
+        className={`${vazirmatn.className} antialiased bg-primary-light dark:bg-primary-dark relative`}
       >
         <NextTopLoader color="#ababab" />
         <Providers>{children}</Providers>
