@@ -1,41 +1,39 @@
 import { toast, Bounce } from "react-toastify";
 import { useTheme } from "next-themes";
+import React from "react";
 
 export const useCustomToast = () => {
   const { theme, systemTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
+  const baseOptions = {
+    position: "top-right" as const,
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: currentTheme === "dark" ? "dark" : "light",
+    transition: Bounce,
+    rtl: true,
+  };
+
   const showToast = (
-    message: string,
+    message: string | React.ReactNode,
     type: "success" | "error" | "info" = "info",
     className?: string
   ) => {
-    const baseOptions = {
-      position: "top-right" as const,
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: currentTheme === "dark" ? "dark" : "light",
-      transition: Bounce,
-      rtl: true,
-      className,
-    };
+    const opts = { ...baseOptions, className };
 
-    switch (type) {
-      case "success":
-        toast.success(message, baseOptions);
-        break;
-      case "error":
-        toast.error(message, baseOptions);
-        break;
-      case "info":
-      default:
-        toast.info(message, baseOptions);
-        break;
-    }
+    const toastFn =
+      type === "success"
+        ? toast.success
+        : type === "error"
+        ? toast.error
+        : toast.info;
+
+    toastFn(message, opts);
   };
 
   return { showToast };
