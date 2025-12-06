@@ -43,14 +43,12 @@ const PublishButton = () => {
     });
 
     if (!res.success) {
-      const list = res.error.issues
-        .map((issue) => `• ${issue.message}`)
-        .join("\n");
-      showToast(list, "error", "p-1");
+      const list = res.error.issues.map((issue, idx) => (
+        <div key={idx}>• {issue.message}</div>
+      ));
 
-      // res.error.issues.forEach((issue) => {
-      //   showToast(issue.message, "error");
-      // });
+      showToast(<div className="!space-y-1 !font-vazirmatn">{list}</div>, "error");
+
       setIsPublishing(false);
       return;
     }
