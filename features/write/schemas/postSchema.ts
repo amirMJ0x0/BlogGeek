@@ -1,0 +1,33 @@
+import { z } from "zod";
+
+export const postSchema = z
+  .object({
+    title: z.string().min(3, "عنوان باید حداقل شامل ۳ کاراکتر باشه").max(100),
+    summary: z
+      .string()
+      .min(10, "متن توضیحات مختصر بلاگ باید حداقل شامل ۱۰ کاراکتر باشه")
+      .max(300),
+    banner_image: z
+      .string()
+      .min(1, "لطفا یک عکس برای بنر بلاگ انتخاب کن")
+      .url("آدرس بنر معتبر نیست"),
+    content: z.string().min(50, "محتوا خیلی کوتاهه"),
+    visibility: z.enum(["PUBLIC", "PRIVATE", "DRAFT", "SCHEDULED"]),
+    published_at: z.iso.datetime().nullable(),
+    tags: z
+      .array(z.object({ id: z.number(), title: z.string() }))
+      .min(1, "حداقل ۱ تگ انتخاب کن")
+      .max(3, "حداکثر ۳ تگ میتونی انتخاب کنی"),
+  })
+  .refine(
+    (data) => {
+      if (data.visibility === "SCHEDULED") {
+        return data.published_at !== null;
+      }
+      return true;
+    },
+    {
+      message: "برای انتشار زمان‌دار باید تاریخ انتخاب کنی",
+      path: ["published_at"],
+    }
+  );

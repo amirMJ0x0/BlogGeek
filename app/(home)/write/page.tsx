@@ -1,3 +1,4 @@
+import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import { Button } from "@/components/ui/button";
 import { InputFile } from "@/components/ui/file-input";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ const WritePage = () => {
         <Label htmlFor="description">توضیحات</Label>
         <Textarea id="description" />
       </div>
+      <SimpleEditor />
       <Button>تایید و انتشار</Button>
     </section>
   );

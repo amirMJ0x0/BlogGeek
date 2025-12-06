@@ -73,7 +73,7 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss";
 
-import content from "@/components/tiptap-templates/simple/data/content.json";
+import { usePostDraft } from "@/features/write/store/usePostDraft";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -190,7 +190,7 @@ export function SimpleEditor() {
     "main"
   );
   const toolbarRef = useRef<HTMLDivElement>(null);
-
+  const draft = usePostDraft();
   const editor = useEditor({
     immediatelyRender: false,
     editorProps: {
@@ -209,9 +209,6 @@ export function SimpleEditor() {
           openOnClick: false,
           enableClickSelection: true,
         },
-      }),
-      Placeholder.configure({
-        placeholder: "شروع به نوشتن کنید...",
       }),
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
@@ -237,6 +234,21 @@ export function SimpleEditor() {
   const rect = useCursorVisibility({
     editor,
     overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
+  });
+  useEffect(() => {
+    if (!editor) return;
+
+    if (draft.content && draft.content !== editor.getHTML()) {
+      editor.commands.setContent(draft.content);
+    }
+  }, [editor, draft.content]);
+
+  useEffect(() => {
+    if (!editor) return;
+    editor.on("update", () => {
+      const html = editor.getHTML();
+      draft.setField("content", html);
+    });
   });
 
   useEffect(() => {

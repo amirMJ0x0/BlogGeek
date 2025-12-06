@@ -7,7 +7,8 @@ export const useCustomToast = () => {
 
   const showToast = (
     message: string,
-    type: "success" | "error" | "info" = "info"
+    type: "success" | "error" | "info" = "info",
+    className?: string
   ) => {
     const baseOptions = {
       position: "top-right" as const,
@@ -20,6 +21,7 @@ export const useCustomToast = () => {
       theme: currentTheme === "dark" ? "dark" : "light",
       transition: Bounce,
       rtl: true,
+      className,
     };
 
     switch (type) {

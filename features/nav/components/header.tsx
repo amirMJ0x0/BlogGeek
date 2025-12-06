@@ -4,7 +4,6 @@ import UserStatus from "./user-status";
 import { ModeToggle } from "@/components/ui/toggle-mode";
 import Logo from "./logo";
 import Notifications from "./notifications";
-import { Separator } from "@/components/ui/separator";
 
 export default function Header() {
   return (

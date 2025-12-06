@@ -33,7 +33,7 @@ export type Blog = {
   content: string;
   published_at?: string | null;
   slug?: string;
-  blog_iamge?: string | null;
+  blog_image?: string | null;
   banner_image: string | null;
   created_at: string;
   updated_at: string;

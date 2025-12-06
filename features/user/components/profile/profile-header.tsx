@@ -3,9 +3,18 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Pencil } from "lucide-react";
+import { Pencil, X } from "lucide-react";
 import ImageUploaderModal from "@/features/user/components/profile/image-uploader-modal";
 import { cn } from "@/lib/utils";
+import ImageUploader from "@/components/shared/image-uploader";
+import api from "@/lib/api";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type Props = {
   profile: {
@@ -17,22 +26,40 @@ type Props = {
 export default function ProfileHeader({ profile }: Props) {
   const [hovered, setHovered] = useState<"banner" | "profile" | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [uploadType, setUploadType] = useState<"banner" | "profile" | null>(
-    null
-  );
+  const [type, setType] = useState<"banner" | "profile" | null>(null);
   const [updatedProfile, setUpdatedProfile] = useState(profile);
 
   const handleOpenModal = (type: "banner" | "profile") => {
-    setUploadType(type);
+    setType(type);
     setModalOpen(true);
   };
 
-  const handleImageUpdate = (url: string) => {
-    if (!uploadType) return;
-    setUpdatedProfile((prev) => ({
-      ...prev,
-      [`${uploadType}_image`]: url,
-    }));
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setType(null);
+  };
+  // const handleImageUpdate = (url: string) => {
+  //   if (!uploadType) return;
+  //   setUpdatedProfile((prev) => ({
+  //     ...prev,
+  //     [`${uploadType}_image`]: url,
+  //   }));
+  // };
+
+  const handleImageUpdate = async (url: string) => {
+    try {
+      await api.patch("v1/user/update/information", {
+        [type === "banner" ? "banner_image" : "profile_image"]: url,
+      });
+
+      // Update local state
+      setUpdatedProfile((prev) => ({
+        ...prev,
+        [`${type}_image`]: url,
+      }));
+    } catch (err) {
+      console.error("Error updating image:", err);
+    }
   };
 
   return (
@@ -53,7 +80,6 @@ export default function ProfileHeader({ profile }: Props) {
           <div className="bg-secondary-light dark:bg-secondary-dark size-full" />
         )}
 
-        {/* آیکون مداد */}
         <button
           onClick={() => handleOpenModal("banner")}
           className={cn(
@@ -64,7 +90,6 @@ export default function ProfileHeader({ profile }: Props) {
         </button>
       </div>
 
-      {/* آواتار */}
       <div
         className="absolute right-1/2 max-sm:!translate-x-1/2 md:right-7 -bottom-7 z-10 group"
         onMouseEnter={() => setHovered("profile")}
@@ -78,7 +103,6 @@ export default function ProfileHeader({ profile }: Props) {
             </AvatarFallback>
           </Avatar>
 
-          {/* آیکون مداد روی آواتار */}
           <button
             onClick={() => handleOpenModal("profile")}
             className={cn(
@@ -90,20 +114,47 @@ export default function ProfileHeader({ profile }: Props) {
         </div>
       </div>
 
-      {/* مودال آپلود عکس */}
-      {uploadType && (
+      {type && (
+        <Dialog open={modalOpen} onOpenChange={handleCloseModal}>
+          <DialogContent className="sm:max-w-lg" showCloseButton={false}>
+            <DialogClose
+              className="absolute left-3 top-3"
+              onClick={handleCloseModal}
+            >
+              <X size={"20px"} />
+            </DialogClose>
+            <DialogHeader className="!text-right">
+              <DialogTitle>
+                {type === "banner" ? "ویرایش بنر" : "ویرایش تصویر پروفایل"}
+              </DialogTitle>
+            </DialogHeader>
+            <ImageUploader
+              type={type === "banner" ? "banner" : "profile"}
+              currentImage={
+                type === "banner"
+                  ? updatedProfile.banner_image
+                  : updatedProfile.profile_image
+              }
+              onUpdate={handleImageUpdate}
+              onCloseModal={handleCloseModal}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* {type && (
         <ImageUploaderModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
-          type={uploadType}
+          type={type}
           currentImage={
-            uploadType === "banner"
+            type === "banner"
               ? updatedProfile.banner_image
               : updatedProfile.profile_image
           }
           onUpdate={handleImageUpdate}
         />
-      )}
+      )} */}
     </div>
   );
 }
