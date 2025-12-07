@@ -1,12 +1,11 @@
 "use client";
-import Link from "next/link";
-import { mobileNavigationItems } from "../constants";
-import { usePathname } from "next/navigation";
 import { useUserStore } from "@/features/user/store/useUserStore";
-import { useState } from "react";
 import { LogIn, User } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { mobileNavigationItems } from "../constants";
 import ProfileDrawer from "./profile-drawer";
-import { Button } from "@/components/ui/button";
 
 const MobileNav = () => {
   const pathname = usePathname();

@@ -1,4 +1,3 @@
-// navigationConstants.ts
 import {
   Bookmark,
   Compass,
@@ -18,7 +17,7 @@ export const mobileNavigationItems = (
   {
     label: "نوشتن",
     icon: Plus,
-    href: isLoggedIn ? "/write" : "/login",
+    href: isLoggedIn ? "/new-post" : "/login",
   },
 ];
 

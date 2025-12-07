@@ -13,7 +13,7 @@ const UserStatus = () => {
       {isAuthenticated ? (
         <>
           <div className="flex gap-4">
-            <Link href={"/write"}>
+            <Link href={"/new-post"}>
               <Button size={"sm"}>
                 نوشتن <SquarePen />
               </Button>
