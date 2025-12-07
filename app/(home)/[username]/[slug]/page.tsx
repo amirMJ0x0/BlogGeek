@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { BlogTag } from "@/features/blogs/blogTypes";
+import BlogContent from "@/features/blogs/components/blog-content";
 import BlogReviews from "@/features/blogs/components/blog-reviews";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
@@ -105,9 +106,7 @@ export default async function BlogDetail({
       </div>
 
       {/* Content */}
-      <section className="max-w-none my-6 leading-relaxed">
-        {blog.content}
-      </section>
+      <BlogContent content={blog.content} />
 
       {/* Tags */}
       <div className="flex gap-2 mb-5">
