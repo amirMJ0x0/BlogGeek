@@ -62,9 +62,9 @@ export default function PostCard({ item }: PostCardProps) {
                   {item.title}
                 </h2>
               </Link>
-              <p className="text-xs md:text-sm text-muted-foreground line-clamp-3 lg:!mt-3 text-right md:leading-normal">
-                {item.content}
-              </p>
+              <div className="text-xs md:text-sm text-muted-foreground line-clamp-3 lg:!mt-3 text-right md:leading-normal">
+                {item.summary}
+              </div>
             </div>
             {/* banner image */}
             <div className="relative h-24 md:h-32 w-[40%] overflow-hidden rounded-sm">
