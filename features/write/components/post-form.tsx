@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import TagSelection from "@/features/write/components/tags";
-import { postSchema } from "@/features/write/schemas/postSchema";
 import { usePostDraft } from "@/features/write/store/usePostDraft";
 import { cn } from "@/lib/utils";
 import { Pencil, X } from "lucide-react";

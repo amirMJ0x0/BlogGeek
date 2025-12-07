@@ -13,9 +13,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { debounce } from "@/lib/utils";
 import { CheckIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTags } from "../hooks/useTags";
-import { Spinner } from "@/components/ui/spinner";
 
 type TagSelectionProps = {
   value: { id: number; title: string }[];
@@ -35,12 +34,6 @@ const TagSelection = ({ value, onUpdate }: TagSelectionProps) => {
       setDebounced(val);
     }, 400)
   ).current;
-
-  useEffect(() => {
-    console.log("searchQuery:", searchQuery);
-    console.log("debounced:", debounced);
-    console.log(tagList);
-  }, [searchQuery, debounced, data]);
 
   const handleSearch = (val: string) => {
     setSearchQuery(val);

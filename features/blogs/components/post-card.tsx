@@ -3,13 +3,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { numberToPersian } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import { Bookmark, Heart, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Blog, BlogTag } from "../blogTypes";
-import { numberToPersian } from "@/lib/utils";
 interface PostCardProps {
   item: Blog;
 }

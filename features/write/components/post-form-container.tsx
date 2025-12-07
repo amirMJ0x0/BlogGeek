@@ -46,7 +46,7 @@ const PostFormContainer = ({ mode, id }: PostFormProps) => {
 
   if (loading) return <Spinner className="text-center" />;
 
-  return <PostForm mode={mode} id={id!} />;
+  return <PostForm />;
 };
 
 export default PostFormContainer;

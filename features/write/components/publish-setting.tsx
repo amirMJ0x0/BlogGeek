@@ -6,7 +6,6 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -16,20 +15,15 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Settings, X } from "lucide-react";
-import { PublishTimePicker } from "./publish-date-picker";
+import { ArrowLeft, Settings } from "lucide-react";
 import { usePostDraft } from "../store/usePostDraft";
-import { useEffect } from "react";
+import { PublishTimePicker } from "./publish-date-picker";
 
 const PublishSetting = () => {
   const draft = usePostDraft();
-  useEffect(() => {
-    console.log(draft);
-  }, []);
   return (
     <Dialog>
       <DialogTrigger asChild>

@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import Cropper from "react-easy-crop";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Slider } from "@/components/ui/slider";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import api from "@/lib/api";
-import { Progress } from "@/components/ui/progress";
-import { Loader2, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import NextImage from "next/image";
+import { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import Cropper from "react-easy-crop";
 
 type Props = {
   type: "profile" | "banner";
@@ -16,6 +17,12 @@ type Props = {
   onUpdate: (url: string) => void; // returns uploaded URL
   onCloseModal?: () => void; // to close the modal (if there is one)
   message?: string;
+};
+type Rect = {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
 };
 
 export default function ImageUploader({
@@ -29,7 +36,7 @@ export default function ImageUploader({
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Rect | null>(null);
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const { showToast } = useCustomToast();
@@ -166,7 +173,7 @@ export default function ImageUploader({
           <input {...getInputProps()} />
           {currentImage ? (
             <div className="relative w-full h-40 mb-2">
-              <img
+              <NextImage
                 src={currentImage}
                 alt="current"
                 className="object-cover w-full h-full rounded-md"
