@@ -175,6 +175,7 @@ export function CredentialForm({
                 type="button"
                 className="text-sm text-slate-700 dark:text-white/50 text-center !underline"
                 onClick={togglePasswordMode}
+                disabled={isSendingOtp || IsLoggingIn}
               >
                 {passwordMode ? "ورود با کد تایید" : "ورود با رمز عبور"}
               </Button>
