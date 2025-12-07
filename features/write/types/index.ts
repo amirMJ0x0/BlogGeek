@@ -24,6 +24,7 @@ export type CreateBlogReqBody = {
   title: string;
   content: string;
   banner_image: string;
+  blog_image: string;
   summary: string;
   visibility: string;
   published_at: string | null;

@@ -28,7 +28,8 @@ const TagSelection = ({ value, onUpdate }: TagSelectionProps) => {
   const { data, isLoading } = useTags(debounced);
   const tagList = data?.tags ?? [];
 
-  const selectedIds = value.map((tag) => tag.id.toString());
+  const selectedIds = value.map((tag) => tag.id.toString()) ?? [];
+
   const debouncedSearch = useRef(
     debounce((val: string) => {
       setDebounced(val);

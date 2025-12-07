@@ -31,6 +31,7 @@ export type Blog = {
   id: number;
   title: string;
   content: string;
+  summary: string;
   published_at?: string | null;
   slug?: string;
   blog_image?: string | null;
