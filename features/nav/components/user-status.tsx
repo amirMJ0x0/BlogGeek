@@ -23,10 +23,7 @@ const UserStatus = () => {
           </div>
         </>
       ) : (
-        <Link
-          href="/login"
-          className="text-sm font-semibold leading-6 text-gray-900"
-        >
+        <Link href="/login" className="text-sm font-semibold leading-6 ">
           ورود <span aria-hidden="true">&rarr;</span>
         </Link>
       )}
