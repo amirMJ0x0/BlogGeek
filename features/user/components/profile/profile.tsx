@@ -2,7 +2,7 @@
 import { useUserStore } from "@/features/user/store/useUserStore";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, PenBox } from "lucide-react";
+import { Calendar, PenBox, UserRoundPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toPersianFrom } from "@/lib/utils";
@@ -107,12 +107,18 @@ export default function ProfilePreview({ profile }: { profile: User }) {
           </div>
         </div>
 
-        {isOwner && (
+        {isOwner ? (
           <Link href={`/@${profile?.username}/settings`}>
             <Button className="p-4 ">
               ویرایش پروفایل <PenBox />
             </Button>
           </Link>
+        ) : (
+          <div>
+            <Button>
+              دنبال کردن <UserRoundPlus />
+            </Button>
+          </div>
         )}
       </div>
 
