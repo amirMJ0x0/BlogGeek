@@ -21,9 +21,11 @@ const socialUrl = (platform: keyof typeof patterns) =>
       },
       {
         message: `لینک ${platform} معتبر نیست! فرمت صحیح مثلاً: ${
-          platform !== "telegram"
-            ? `https://${platform}.com/yourname`
-            : `https://t.me/yourname`
+          platform === "telegram"
+            ? `https://t.me/yourname`
+            : platform === "linkedin"
+            ? `https://${platform}.com/in/yourname`
+            : `https://${platform}.com/yourname`
         }`,
       }
     )
