@@ -22,27 +22,36 @@ type SocialKey = "instagram" | "twitter" | "telegram" | "linkedin" | "github";
 
 const socialLabels: Record<SocialKey, ReactNode> = {
   instagram: (
-    <Button variant={"ghost"}>
-      <Instagram className="text-white bg-purple-600 rounded size-5 p-1" />
+    <Button
+      variant={"ghost"}
+      className="hover:!text-white hover:!bg-purple-600 size-6"
+    >
+      <Instagram className="size-5" />
     </Button>
   ),
   twitter: (
-    <Button variant={"ghost"}>
-      <Twitter className="text-white bg-black  rounded size-5 p-1" />
+    <Button
+      variant={"ghost"}
+      className="hover:!text-white hover:!bg-black size-6"
+    >
+      <Twitter className="size-4" />
     </Button>
   ),
   telegram: (
-    <Button variant={"ghost"}>
-      <Telegram className="bg-blue-500 rounded size-5 p-1" />
+    <Button
+      variant={"ghost"}
+      className="hover:text-white hover:!bg-blue-500 size-6"
+    >
+      <Telegram className="size-5" />
     </Button>
   ),
   linkedin: (
-    <Button variant={"ghost"}>
-      <Linkedin className="text-blue-500 size-5 rounded" />
+    <Button variant={"ghost"} className="hover:text-blue-500 size-6">
+      <Linkedin className=" size-5 rounded" />
     </Button>
   ),
   github: (
-    <Button variant={"ghost"}>
+    <Button variant={"ghost"} className="size-6">
       <Github className="size-5" />
     </Button>
   ),
@@ -85,17 +94,13 @@ export default function ProfilePreview({ profile }: { profile: User }) {
           <p className="text-center max-sm:max-w-2/3 md:text-justify text-gray-400 text-sm ">
             {profile?.bio}
           </p>
-          <div className="text-center md:text-justify ">
+          <div className="mt-3 flex gap-2 text-center md:text-justify ">
             {profile?.social_media &&
               Object.values(profile.social_media).some(Boolean) &&
               Object.entries(profile.social_media)
                 .filter(([, v]) => v)
                 .map(([key, value]) => (
-                  <Link
-                    href={value!}
-                    key={key}
-                    className="text-slate-500 !size-5"
-                  >
+                  <Link href={value!} key={key} className="text-slate-500 ">
                     {socialLabels[key as SocialKey]}
                   </Link>
                 ))}
