@@ -4,6 +4,8 @@ type EditBlogProps = {
     id: number;
   };
 };
-export default function Page({ params }: EditBlogProps) {
-  return <PostFormContainer mode="edit" id={params.id} />;
+export default async function Page({ params }: EditBlogProps) {
+  const { id } = await params;
+  console.log(id);
+  return <PostFormContainer mode="edit" id={id} />;
 }
