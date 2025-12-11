@@ -8,15 +8,10 @@ import BlogReviews from "@/features/blogs/components/blog-reviews";
 import HiddenViewElement from "@/features/blogs/components/HiddenViewElement";
 import LikeButton from "@/features/blogs/components/like-button";
 import SaveButton from "@/features/blogs/components/save-button";
+import { getUserProfile } from "@/features/user/api/fetch-user-profile";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
-import {
-  BookmarkPlus,
-  Eye,
-  Heart,
-  MessageCircleMore,
-  Share,
-} from "lucide-react";
+import { Eye, MessageCircleMore, Share } from "lucide-react";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 
@@ -42,7 +37,9 @@ export default async function BlogDetail({
       },
     }
   );
+
   if (!res.ok) return notFound();
+  const profile = await getUserProfile(rawUsername);
 
   const {
     data: { blog },
@@ -65,7 +62,7 @@ export default async function BlogDetail({
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
           <Avatar>
-            <AvatarImage src={blog.author?.profile_image} />
+            <AvatarImage src={blog.author?.profile_image || ""} />
             <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
               {blog.author?.first_name
                 ? blog.author?.first_name?.substring(0, 1)
@@ -105,7 +102,7 @@ export default async function BlogDetail({
       {/* Banner Image */}
       <div className="relative w-full overflow-hidden rounded-sm my-8 aspect-[16/9]">
         <Image
-          src={blog.banner_image}
+          src={blog.banner_image!}
           alt={blog.title}
           fill
           className="object-cover"
@@ -174,24 +171,23 @@ export default async function BlogDetail({
           <div className="flex gap-2 items-start justify-items-start">
             <div className="flex">
               <Avatar className="size-12">
-                <AvatarImage src={blog.author?.profile_image} />
+                <AvatarImage src={profile?.profile_image || ""} />
                 <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
-                  {blog.author?.first_name
-                    ? blog.author?.first_name?.substring(0, 1)
-                    : blog.author?.username?.substring(0, 1)}
+                  {profile?.first_name
+                    ? profile?.first_name?.substring(0, 1)
+                    : profile?.username?.substring(0, 1)}
                 </AvatarFallback>
               </Avatar>
               <div className="pr-3">
                 <h4 className="font-semibold pt-1">
-                  {blog.author?.first_name || blog.author?.last_name
-                    ? `${blog.author?.first_name ?? ""} ${
-                        blog.author?.last_name ?? ""
+                  {profile?.first_name || profile?.last_name
+                    ? `${profile?.first_name ?? ""} ${
+                        profile?.last_name ?? ""
                       }`.trim()
-                    : blog.author.username}
+                    : profile.username}
                 </h4>
                 <p className="max-w-5/6 text-xs text-muted-foreground">
-                  یه برنامه نویس سگ کد زن حرفه ای خسته و تک لید بروبچ آسیاتک
-                  کلاد که دنبال چالش های جدیده
+                  {profile.bio}
                 </p>
               </div>
             </div>
