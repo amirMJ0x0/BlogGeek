@@ -6,11 +6,12 @@ import { Separator } from "@/components/ui/separator";
 import { numberToPersian } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
-import { Bookmark, Heart, MessageCircleMore } from "lucide-react";
+import { MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Blog, BlogTag } from "../blogTypes";
 import LikeButton from "./like-button";
+import SaveButton from "./save-button";
 interface PostCardProps {
   item: Blog;
 }
@@ -108,18 +109,12 @@ export default function PostCard({ item }: PostCardProps) {
             </Button>
             {numberToPersian(item._count.comments)}
           </span>
-          <span className="flex justify-center items-center gap-1">
-            <Button
-              variant={"link"}
-              className="!p-0 cursor-pointer hover:text-emerald-400"
-            >
-              <Bookmark
-                className="size-5"
-                fill={`${item.saved ? "" : "transparent"}`}
-              />
-            </Button>
-            <span>{numberToPersian(item._count.views)}</span>
-          </span>
+          <SaveButton
+            blogId={item.id}
+            savedCount={item._count.saved_blogs}
+            saved={item.saved}
+            showCounter
+          />
         </div>
       </CardFooter>
     </Card>

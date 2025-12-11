@@ -7,6 +7,7 @@ import BlogContent from "@/features/blogs/components/blog-content";
 import BlogReviews from "@/features/blogs/components/blog-reviews";
 import HiddenViewElement from "@/features/blogs/components/HiddenViewElement";
 import LikeButton from "@/features/blogs/components/like-button";
+import SaveButton from "@/features/blogs/components/save-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import {
@@ -150,14 +151,11 @@ export default async function BlogDetail({
         </div>
 
         <div className="flex gap-2">
-          <span className="flex justify-center items-center gap-2">
-            <Button
-              variant={"link"}
-              className="!p-0 cursor-pointer hover:text-emerald-400"
-            >
-              <BookmarkPlus className="size-[22px]" fill="none" />
-            </Button>
-          </span>
+          <SaveButton
+            blogId={blog.id}
+            savedCount={blog._count.saved_blogs}
+            saved={blog.saved}
+          />
           <span className="flex justify-center items-center gap-2">
             <Button
               variant={"link"}
