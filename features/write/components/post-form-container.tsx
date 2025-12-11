@@ -33,7 +33,6 @@ const PostFormContainer = ({ mode, id }: PostFormProps) => {
           console.error("Failed to load blog data.");
         } finally {
           setLoading(false);
-          console.log(draft);
         }
       };
 

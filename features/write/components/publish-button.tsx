@@ -103,7 +103,6 @@ const PublishButton = () => {
     <Button
       size="sm"
        onClick={handlePublish}
-      // onClick={() => console.log(id)}
       disabled={isPublishing}
     >
       {isPublishing ? (

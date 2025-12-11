@@ -68,7 +68,6 @@ export function PublishTimePicker() {
               selected={date}
               captionLayout="dropdown"
               onSelect={(date) => {
-                console.log(date);
                 setDate(date);
                 setOpen(false);
               }}
