@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { BlogTag } from "@/features/blogs/blogTypes";
 import BlogContent from "@/features/blogs/components/blog-content";
 import BlogReviews from "@/features/blogs/components/blog-reviews";
+import HiddenViewElement from "@/features/blogs/components/HiddenViewElement";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import {
@@ -54,6 +55,7 @@ export default async function BlogDetail({
 
   return (
     <article className="max-w-3xl mx-auto p-2 md:p-4 text-right" dir="rtl">
+      <HiddenViewElement id={id} />
       {/* Author */}
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
