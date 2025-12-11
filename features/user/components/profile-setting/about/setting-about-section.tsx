@@ -38,6 +38,7 @@ import {
   Linkedin,
   Twitter,
 } from "@/components/icons";
+import { EditUserInfoRequest } from "@/features/user/userTypes";
 
 const SettingAboutSection = () => {
   const { user, setUser } = useUserStore();

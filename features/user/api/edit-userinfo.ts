@@ -1,6 +1,7 @@
 import { User } from "@/features/auth/types";
 import api from "@/lib/api";
 import { ApiResponse } from "@/types";
+import { EditUserInfoRequest } from "../userTypes";
 
 /**
  * @desc PATCH edit user about information

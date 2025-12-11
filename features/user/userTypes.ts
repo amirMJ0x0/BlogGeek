@@ -1,4 +1,4 @@
-type EditUserInfoRequest = {
+export type EditUserInfoRequest = {
   first_name: string | null;
   last_name: string | null;
   birthday: string | null;
