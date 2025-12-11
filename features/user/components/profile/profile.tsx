@@ -123,25 +123,32 @@ export default function ProfilePreview({ profile }: { profile: User }) {
         )}
       </div>
 
-      <div className="flex justify-evenly w-full font-semibold h-lh">
-        <div className="flex flex-col justify-center items-center cursor-default ">
+        {/* _content layout  */}
+      <div className="flex w-full h-max font-semibold divide-x divide-gray-200 dark:divide-gray-700">
+        <div className="flex-1 flex flex-col justify-center items-center cursor-default px-4">
           <span className="font-extrabold text-xl">
             {profile?._count.blogs}
           </span>
           <span className="font-sm text-gray-500">پست</span>
         </div>
-        <Separator orientation="vertical" />
-        <FollowListPopover
-          userId={profile.id}
-          count={profile?._count.followers}
-          listType="followers"
-        />
-        <Separator orientation="vertical" />
-        <FollowListPopover
-          userId={profile.id}
-          count={profile._count.following}
-          listType="following"
-        />
+
+        <div className="flex-1 flex items-center justify-center px-4">
+          <FollowListPopover
+            userId={profile.id}
+            count={profile?._count.followers}
+            listType="followers"
+            className="w-full"
+          />
+        </div>
+
+        <div className="flex-1 flex items-center justify-center px-4">
+          <FollowListPopover
+            userId={profile.id}
+            count={profile._count.following}
+            listType="following"
+            className="w-full"
+          />
+        </div>
       </div>
       <ProfileTabs isOwner={isOwner} />
     </section>
