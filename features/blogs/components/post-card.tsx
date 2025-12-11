@@ -10,6 +10,7 @@ import { Bookmark, Heart, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Blog, BlogTag } from "../blogTypes";
+import LikeButton from "./like-button";
 interface PostCardProps {
   item: Blog;
 }
@@ -22,7 +23,7 @@ export default function PostCard({ item }: PostCardProps) {
 
   return (
     <Card
-      className="bg-transparent rounded-none hover:shadow-md transition max-sm:py-3 !border-b border-light dark:border-gray-700 !border-x-0 !border-t-0 max-md:!gap-1"
+      className="bg-transparent rounded-none shadow-none transition max-sm:py-3 !border-b border-light dark:border-gray-700 !border-x-0 !border-t-0 max-md:!gap-1"
       dir="rtl"
     >
       <CardContent className="max-sm:!px-3">
@@ -88,18 +89,11 @@ export default function PostCard({ item }: PostCardProps) {
             ))}
         </div>
         <div className="flex gap-3 md:gap-5 text-xs text-muted-foreground">
-          <span className="flex justify-center items-center gap-1">
-            <Button
-              variant={"link"}
-              className="!p-0 cursor-pointer hover:text-red-400"
-            >
-              <Heart
-                className={`size-5 ${item.liked ? "" : ""}`}
-                fill={`${item.liked ? "" : "transparent"}`}
-              />
-            </Button>
-            <span>{numberToPersian(item._count.likes)}</span>
-          </span>
+          <LikeButton
+            blogId={item.id}
+            likesCount={item._count.likes}
+            liked={item.liked}
+          />
           <span className="flex justify-center items-center gap-1">
             <Button
               variant={"link"}

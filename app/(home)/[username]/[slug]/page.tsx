@@ -2,10 +2,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { BlogTag } from "@/features/blogs/blogTypes";
+import { Blog, BlogTag } from "@/features/blogs/blogTypes";
 import BlogContent from "@/features/blogs/components/blog-content";
 import BlogReviews from "@/features/blogs/components/blog-reviews";
 import HiddenViewElement from "@/features/blogs/components/HiddenViewElement";
+import LikeButton from "@/features/blogs/components/like-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import {
@@ -33,15 +34,18 @@ export default async function BlogDetail({
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/blog/${id}`,
     {
-      cache: "no-store",
-      // next: {revalidate:60*60}
+      // cache: "no-store",
+      // next: {revalidate:10}
+      next: {
+        tags: [`blog-detail-${id}`],
+      },
     }
   );
   if (!res.ok) return notFound();
 
   const {
     data: { blog },
-  } = await res.json();
+  }: { data: { blog: Blog } } = await res.json();
 
   const correctSlug = `${blog.id}-${blog.title
     .trim()
@@ -120,15 +124,11 @@ export default async function BlogDetail({
       {/* Statistics */}
       <div className="flex justify-between mb-2">
         <div className="flex gap-3 md:gap-5 text-xs text-muted-foreground ">
-          <span className="flex justify-center items-center gap-1">
-            <Button
-              variant={"link"}
-              className="!p-0 cursor-pointer hover:text-red-400"
-            >
-              <Heart className="size-5" />
-            </Button>
-            <span>{blog._count.likes}</span>
-          </span>
+          <LikeButton
+            blogId={blog.id}
+            likesCount={blog._count.likes}
+            liked={blog.liked}
+          />
           <span className="flex justify-center items-center gap-1">
             <Button
               variant={"link"}
