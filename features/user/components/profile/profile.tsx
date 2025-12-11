@@ -17,6 +17,7 @@ import {
   Twitter,
 } from "@/components/icons";
 import { ReactNode } from "react";
+import { FollowListPopover } from "./followers-list-popover";
 
 type SocialKey = "instagram" | "twitter" | "telegram" | "linkedin" | "github";
 
@@ -122,21 +123,25 @@ export default function ProfilePreview({ profile }: { profile: User }) {
         )}
       </div>
 
-      <div className="flex justify-evenly gap-4 font-semibold h-lh">
-        <div className="flex flex-col justify-center items-center">
-          <span className="font-bold text-lg">{profile?._count.blogs}</span>
-          <span className="font-sm text-gray-500">مقاله</span>
+      <div className="flex justify-evenly w-full font-semibold h-lh">
+        <div className="flex flex-col justify-center items-center cursor-default ">
+          <span className="font-extrabold text-xl">
+            {profile?._count.blogs}
+          </span>
+          <span className="font-sm text-gray-500">پست</span>
         </div>
         <Separator orientation="vertical" />
-        <div className="flex flex-col justify-center items-center">
-          <span className="font-bold text-lg">{profile?._count.followers}</span>
-          <span className="font-sm text-gray-500">دنبال کننده</span>
-        </div>
+        <FollowListPopover
+          userId={profile.id}
+          count={profile?._count.followers}
+          listType="followers"
+        />
         <Separator orientation="vertical" />
-        <div className="flex flex-col justify-center items-center">
-          <span className="font-bold text-lg">{profile?._count.following}</span>
-          <span className="font-sm text-gray-500">دنبال شونده</span>
-        </div>
+        <FollowListPopover
+          userId={profile.id}
+          count={profile._count.following}
+          listType="following"
+        />
       </div>
       <ProfileTabs isOwner={isOwner} />
     </section>
