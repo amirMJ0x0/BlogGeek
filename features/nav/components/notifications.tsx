@@ -26,6 +26,7 @@ const Notifications = () => {
   const queryClient = useQueryClient();
   const [filterType, setFilterType] = useState<NotificationType>("ALL");
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const {
     data,
     fetchNextPage,
@@ -33,7 +34,7 @@ const Notifications = () => {
     isFetchingNextPage,
     isLoading,
     isError,
-  } = useInfiniteNotifications();
+  } = useInfiniteNotifications(open);
 
   const { mutate: readNotification } = useMutation({
     mutationFn: readNotifications,
@@ -83,11 +84,10 @@ const Notifications = () => {
 
   const handleClick = (href: string) => {
     href ? router.push(href) : null;
-
   };
 
   return isAuthenticated ? (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           className="relative"
