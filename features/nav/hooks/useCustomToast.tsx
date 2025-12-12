@@ -7,7 +7,7 @@ export const useCustomToast = () => {
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   const baseOptions = {
-    position: "top-right" as const,
+    position: "top-left" as const,
     autoClose: 4000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -22,7 +22,7 @@ export const useCustomToast = () => {
   const showToast = (
     message: string | React.ReactNode,
     type: "success" | "error" | "info" = "info",
-    className?: string
+    className: string = "custom-toast"
   ) => {
     const opts = { ...baseOptions, className };
 
