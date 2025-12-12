@@ -1,5 +1,3 @@
-// /api/v1/user/{id}/{followAction}
-
 import api from "@/lib/api";
 import { ApiResponse } from "@/types";
 
@@ -13,5 +11,6 @@ export const followUser = async ({
   const response = await api.post<ApiResponse<null>>(
     `v1/user/${id}/${followAction}`
   );
+  console.log(response.data);
   return response;
 };

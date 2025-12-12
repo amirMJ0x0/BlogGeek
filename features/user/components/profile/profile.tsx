@@ -17,6 +17,7 @@ import { ReactNode } from "react";
 import { FollowListPopover } from "./followers-list-popover";
 import ProfileHeader from "./profile-header";
 import ProfileTabs from "./profile-tabs";
+import FollowButton from "./follow-button";
 
 type SocialKey = "instagram" | "twitter" | "telegram" | "linkedin" | "github";
 
@@ -124,11 +125,7 @@ export default function ProfilePreview({ profile }: { profile: User }) {
             </Button>
           </Link>
         ) : (
-          <div>
-            <Button>
-              دنبال کردن <UserRoundPlus />
-            </Button>
-          </div>
+          <FollowButton userId={profile.id} />
         )}
       </div>
 
