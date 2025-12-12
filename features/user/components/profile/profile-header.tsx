@@ -1,13 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Pencil, X } from "lucide-react";
-import ImageUploaderModal from "@/features/user/components/profile/image-uploader-modal";
-import { cn } from "@/lib/utils";
 import ImageUploader from "@/components/shared/image-uploader";
-import api from "@/lib/api";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogClose,
@@ -15,15 +9,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import api from "@/lib/api";
+import { cn } from "@/lib/utils";
+import { Pencil, X } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 type Props = {
   profile: {
     profile_image?: string;
     banner_image?: string;
   };
+  isOwner: boolean;
 };
 
-export default function ProfileHeader({ profile }: Props) {
+export default function ProfileHeader({ profile, isOwner }: Props) {
   const [hovered, setHovered] = useState<"banner" | "profile" | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [type, setType] = useState<"banner" | "profile" | null>(null);
@@ -80,14 +80,16 @@ export default function ProfileHeader({ profile }: Props) {
           <div className="bg-secondary-light dark:bg-secondary-dark size-full" />
         )}
 
-        <button
-          onClick={() => handleOpenModal("banner")}
-          className={cn(
-            "absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-1.5 rounded-full transition-all opacity-0 group-hover:opacity-100"
-          )}
-        >
-          <Pencil className="size-4" />
-        </button>
+        {isOwner && (
+          <button
+            onClick={() => handleOpenModal("banner")}
+            className={cn(
+              "absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-1.5 rounded-full transition-all opacity-0 group-hover:opacity-100"
+            )}
+          >
+            <Pencil className="size-4" />
+          </button>
+        )}
       </div>
 
       <div
@@ -103,14 +105,16 @@ export default function ProfileHeader({ profile }: Props) {
             </AvatarFallback>
           </Avatar>
 
-          <button
-            onClick={() => handleOpenModal("profile")}
-            className={cn(
-              "absolute inset-0 bg-black/40 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
-            )}
-          >
-            <Pencil className="size-4" />
-          </button>
+          {isOwner && (
+            <button
+              onClick={() => handleOpenModal("profile")}
+              className={cn(
+                "absolute inset-0 bg-black/40 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+              )}
+            >
+              <Pencil className="size-4" />
+            </button>
+          )}
         </div>
       </div>
 

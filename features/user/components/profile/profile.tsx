@@ -11,13 +11,13 @@ import { Separator } from "@/components/ui/separator";
 import { User } from "@/features/auth/types";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { toPersianFrom } from "@/lib/utils";
-import { Calendar, PenBox, UserRoundPlus } from "lucide-react";
+import { Calendar, PenBox } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
+import FollowButton from "./follow-button";
 import { FollowListPopover } from "./followers-list-popover";
 import ProfileHeader from "./profile-header";
 import ProfileTabs from "./profile-tabs";
-import FollowButton from "./follow-button";
 
 type SocialKey = "instagram" | "twitter" | "telegram" | "linkedin" | "github";
 
@@ -69,6 +69,7 @@ export default function ProfilePreview({ profile }: { profile: User }) {
           profile_image: profile.profile_image,
           banner_image: profile.banner_image,
         }}
+        isOwner={isOwner}
       />
       <div className="flex flex-col md:flex-row items-center md:justify-between gap-4 px-5 ">
         <div className="flex flex-col items-center md:items-start w-full md:w-1/2 gap-2">
