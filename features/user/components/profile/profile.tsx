@@ -1,14 +1,4 @@
 "use client";
-import { useUserStore } from "@/features/user/store/useUserStore";
-import Image from "next/image";
-import Link from "next/link";
-import { Calendar, PenBox, UserRoundPlus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { toPersianFrom } from "@/lib/utils";
-import ProfileTabs from "./profile-tabs";
-import { User } from "@/features/auth/types";
-import ProfileHeader from "./profile-header";
 import {
   Github,
   Instagram,
@@ -16,8 +6,17 @@ import {
   Telegram,
   Twitter,
 } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { User } from "@/features/auth/types";
+import { useUserStore } from "@/features/user/store/useUserStore";
+import { toPersianFrom } from "@/lib/utils";
+import { Calendar, PenBox, UserRoundPlus } from "lucide-react";
+import Link from "next/link";
 import { ReactNode } from "react";
 import { FollowListPopover } from "./followers-list-popover";
+import ProfileHeader from "./profile-header";
+import ProfileTabs from "./profile-tabs";
 
 type SocialKey = "instagram" | "twitter" | "telegram" | "linkedin" | "github";
 
@@ -71,7 +70,8 @@ export default function ProfilePreview({ profile }: { profile: User }) {
         }}
       />
       <div className="flex flex-col md:flex-row items-center md:justify-between gap-4 px-5 ">
-        <div className="flex flex-col items-center md:items-start md:w-1/2 gap-2">
+        <div className="flex flex-col items-center md:items-start w-full md:w-1/2 gap-2">
+          {/* Profile Name */}
           <h3 className="text-2xl font-bold">
             {profile?.first_name || profile?.last_name
               ? `${profile?.first_name ?? ""} ${
@@ -80,21 +80,29 @@ export default function ProfilePreview({ profile }: { profile: User }) {
               : profile.username}
           </h3>
 
-          <h5
-            className="text-sm text-gray-500 flex gap-6 h-5 items-center justify-center"
+          {/* Membership Date & @username  */}
+          <div
+            className="text-sm text-gray-500 flex h-5 divide-x divide-gray-200 dark:divide-gray-700 max-sm:w-full"
             dir="ltr"
           >
-            <span className="flex items-center text-sm gap-1 justify-center">
-              <p>{toPersianFrom(String(profile?.created_at))}</p>
+            <span className="flex flex-1 px-2 items-center text-sm gap-1 justify-center">
+              <p className="text-nowrap">
+                {toPersianFrom(String(profile?.created_at))}
+              </p>
               <Calendar size={"1rem"} />
             </span>
-            <Separator orientation="vertical" />
-            <span className="font-mono">@{profile?.username}</span>
-          </h5>
+            <Separator orientation="vertical" className="hidden md:block" />
+            <span className="font-mono flex-1 pl-2 max-sm:-translate-x-4">
+              @{profile?.username}
+            </span>
+          </div>
 
-          <p className="text-center max-sm:max-w-2/3 md:text-justify text-gray-400 text-sm ">
+          {/* Bio  */}
+          <p className="text-center max-sm:max-w-2/3 md:text-justify text-gray-400 text-sm max-sm:mt-2">
             {profile?.bio}
           </p>
+
+          {/* Social Medias */}
           <div className="mt-3 flex gap-2 text-center md:text-justify ">
             {profile?.social_media &&
               Object.values(profile.social_media).some(Boolean) &&
@@ -108,6 +116,7 @@ export default function ProfilePreview({ profile }: { profile: User }) {
           </div>
         </div>
 
+        {/* (Edit Profile | Follow/Unfollow) Button */}
         {isOwner ? (
           <Link href={`/@${profile?.username}/settings`}>
             <Button className="p-4 ">
@@ -123,16 +132,16 @@ export default function ProfilePreview({ profile }: { profile: User }) {
         )}
       </div>
 
-        {/* _content layout  */}
+      {/* _count layout  */}
       <div className="flex w-full h-max font-semibold divide-x divide-gray-200 dark:divide-gray-700">
-        <div className="flex-1 flex flex-col justify-center items-center cursor-default px-4">
+        <div className="flex-1 flex flex-col justify-center items-center cursor-default md:px-4">
           <span className="font-extrabold text-xl">
             {profile?._count.blogs}
           </span>
           <span className="font-sm text-gray-500">پست</span>
         </div>
 
-        <div className="flex-1 flex items-center justify-center px-4">
+        <div className="flex-1 flex items-center justify-center md:px-4">
           <FollowListPopover
             userId={profile.id}
             count={profile?._count.followers}
@@ -141,7 +150,7 @@ export default function ProfilePreview({ profile }: { profile: User }) {
           />
         </div>
 
-        <div className="flex-1 flex items-center justify-center px-4">
+        <div className="flex-1 flex items-center justify-center md:px-4">
           <FollowListPopover
             userId={profile.id}
             count={profile._count.following}
