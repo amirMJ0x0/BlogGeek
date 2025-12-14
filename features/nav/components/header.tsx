@@ -4,6 +4,7 @@ import UserStatus from "./user-status";
 import { ModeToggle } from "@/components/ui/toggle-mode";
 import Logo from "./logo";
 import Notifications from "./notifications";
+import HeaderSearch from "@/features/search/components/header-search";
 
 export default function Header() {
   return (
@@ -18,7 +19,7 @@ export default function Header() {
         </div>
         {/* SearchBox */}
         <div className="flex lg:gap-x-2 gap-x-1 w-sm md:w-[60%]">
-          <div className="relative flex items-center w-full ">
+          {/* <div className="relative flex items-center w-full ">
             <Search className="absolute left-2 size-4 " />
             <Input
               placeholder="جستجوی مقالات ، عناوین ، نویسنده ها ..."
@@ -26,7 +27,8 @@ export default function Header() {
               //   onChange={(event) => setSearch(event.target.value)}
               className="pl-8"
             />
-          </div>
+          </div> */}
+          <HeaderSearch />
           <ModeToggle />
           <Notifications />
         </div>
