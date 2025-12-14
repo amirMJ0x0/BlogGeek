@@ -1,3 +1,4 @@
+'use client'
 import { Button } from "@/components/ui/button";
 import { UserRoundPlus } from "lucide-react";
 import useFollowAction from "../../hooks/useFollowAction";

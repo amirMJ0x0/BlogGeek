@@ -9,6 +9,7 @@ import HiddenViewElement from "@/features/blogs/components/HiddenViewElement";
 import LikeButton from "@/features/blogs/components/like-button";
 import SaveButton from "@/features/blogs/components/save-button";
 import { getUserProfile } from "@/features/user/api/fetch-user-profile";
+import FollowButton from "@/features/user/components/profile/follow-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import { Eye, MessageCircleMore, Share } from "lucide-react";
@@ -192,7 +193,7 @@ export default async function BlogDetail({
               </div>
             </div>
           </div>
-          <Button>دنبال کردن</Button>
+          <FollowButton  userId={profile.id} />
         </div>
       </div>
 
