@@ -10,9 +10,20 @@ const icons = {
   tag: Hash,
 };
 
+const itemTypeTo_fa = (type: "blog" | "user" | "tag") => {
+  switch (type) {
+    case "blog":
+      return "بلاگ";
+    case "tag":
+      return "تگ";
+    case "user":
+      return "کاربر";
+  }
+};
+
 export default function SearchResultItem({ item }: { item: SearchItem }) {
   const IconComponent = icons[item.type];
-
+  const itemType = itemTypeTo_fa(item.type);
   return (
     <CommandItem onSelect={() => (window.location.href = item.href)}>
       <Link
@@ -27,7 +38,7 @@ export default function SearchResultItem({ item }: { item: SearchItem }) {
           <span className="font-medium">{item.title}</span>
         </div>
         <span className="text-xs text-muted-foreground capitalize">
-          {item.type}
+          {itemType}
         </span>
       </Link>
     </CommandItem>

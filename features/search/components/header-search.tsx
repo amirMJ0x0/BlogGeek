@@ -24,6 +24,7 @@ export default function HeaderSearch() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
   // Ensure the input retains focus when the popover opens
   const handleOpenChange = (value: boolean) => {
     setOpen(value);
