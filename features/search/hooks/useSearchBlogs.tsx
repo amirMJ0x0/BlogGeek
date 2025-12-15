@@ -2,8 +2,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { SearchItem } from "../types/search";
 import { searchAPI } from "../api/searchBlogs";
+import { debounce } from "@/lib/utils";
 
 export function useSearchBlogs(query: string) {
+
   return useQuery({
     queryKey: ["search", query],
     queryFn: () => searchAPI(query),
