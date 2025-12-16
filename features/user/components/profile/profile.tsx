@@ -57,24 +57,17 @@ const socialLabels: Record<SocialKey, ReactNode> = {
     </Button>
   ),
 };
-
 export default function ProfilePreview({ profile }: { profile: User }) {
   const { user } = useUserStore();
   const isOwner = user?.username === profile?.username;
 
   return (
     <section className="space-y-10 md:space-y-14">
-      <ProfileHeader
-        profile={{
-          profile_image: profile.profile_image,
-          banner_image: profile.banner_image,
-        }}
-        isOwner={isOwner}
-      />
+      <ProfileHeader profile={profile} isOwner={isOwner} />
       <div className="flex flex-col md:flex-row items-center md:justify-between gap-4 px-5 ">
         <div className="flex flex-col items-center md:items-start w-full md:w-1/2 gap-2">
           {/* Profile Name */}
-          <h3 className="text-2xl font-bold">
+          <h3 className="text-xl md:text-2xl font-bold -mt-2">
             {profile?.first_name || profile?.last_name
               ? `${profile?.first_name ?? ""} ${
                   profile?.last_name ?? ""
@@ -94,13 +87,13 @@ export default function ProfilePreview({ profile }: { profile: User }) {
               <Calendar size={"1rem"} />
             </span>
             <Separator orientation="vertical" className="hidden md:block" />
-            <span className="font-mono flex-1 pl-2 max-sm:-translate-x-4">
+            <span className="font-mono flex-1 pl-2 max-sm:-translate-x-5">
               @{profile?.username}
             </span>
           </div>
 
           {/* Bio  */}
-          <p className="text-center max-sm:max-w-2/3 md:text-justify text-gray-400 text-sm max-sm:mt-2">
+          <p className="text-center md:text-justify text-gray-400 text-sm max-sm:mt-2 whitespace-pre-line">
             {profile?.bio}
           </p>
 

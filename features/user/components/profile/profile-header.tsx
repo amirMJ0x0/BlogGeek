@@ -9,6 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { User } from "@/features/auth/types";
+import { BlogAuthor } from "@/features/blogs/blogTypes";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Pencil, X } from "lucide-react";
@@ -16,10 +18,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 type Props = {
-  profile: {
-    profile_image?: string;
-    banner_image?: string;
-  };
+  profile: User;
   isOwner: boolean;
 };
 
@@ -101,7 +100,9 @@ export default function ProfileHeader({ profile, isOwner }: Props) {
           <Avatar className="size-16 md:size-18 border border-black/80 dark:border-white/30 shadow-md">
             <AvatarImage src={updatedProfile.profile_image} />
             <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark !brightness-60 ">
-              U
+              {updatedProfile.first_name
+                ? updatedProfile?.first_name?.substring(0, 1)
+                : updatedProfile?.username?.substring(0, 1)}
             </AvatarFallback>
           </Avatar>
 

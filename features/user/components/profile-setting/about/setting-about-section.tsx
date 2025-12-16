@@ -78,7 +78,7 @@ const SettingAboutSection = () => {
       onSuccess: (response) => {
         showToast(response.message, "success");
         setUser(response.data);
-        router.push(`/@${response.data?.username}/settings?tab=about-me`);
+        router.push(`/@${response.data?.username}`);
       },
     });
   }
