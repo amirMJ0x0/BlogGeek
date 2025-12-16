@@ -101,7 +101,7 @@ export default function PostCard({ item }: PostCardProps) {
               className="!p-0 cursor-pointer hover:text-blue-400"
             >
               <Link
-                href={`/@${item.author?.username}/${correctSlug}#reviews`}
+                href={`/@${item.author?.username}/${correctSlug}#comments`}
                 scroll={false}
               >
                 <MessageCircleMore className="size-5" />
