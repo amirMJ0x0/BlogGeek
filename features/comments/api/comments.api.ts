@@ -5,7 +5,7 @@ import {
   COMMENT_PAGE_LIMIT,
   CommentItem,
   CommentResponseData,
-  MyCommentData,
+  MyCommentItem,
 } from "@/features/comments";
 
 type getCommentsProps = {
@@ -50,7 +50,7 @@ export const deleteComment = async (id: number) => {
 
 export const getMyComments = async ({ pageParam = 1 }) => {
   const { data } = await api.get<
-    ApiResponse<CommentResponseData<MyCommentData[]>>
+    ApiResponse<CommentResponseData<MyCommentItem[]>>
   >("v1/user/my-comments", {
     params: {
       page: pageParam,

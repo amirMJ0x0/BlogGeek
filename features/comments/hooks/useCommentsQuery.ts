@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Comment_PAGE_LIMIT, getComments } from "@/features/comments";
+import { COMMENT_PAGE_LIMIT, getComments } from "@/features/comments";
+import { getMyComments } from "../api/comments.api";
 
 export function useCommentsQuery(blogId: number) {
   return useInfiniteQuery({
@@ -9,7 +10,22 @@ export function useCommentsQuery(blogId: number) {
     getNextPageParam: (lastPage, allPages) => {
       const fetchedCount = lastPage?.comments.length!;
 
-      if (fetchedCount < Comment_PAGE_LIMIT) return undefined;
+      if (fetchedCount < COMMENT_PAGE_LIMIT) return undefined;
+
+      return allPages.length + 1;
+    },
+  });
+}
+
+export function useMyCommentsQuery() {
+  return useInfiniteQuery({
+    queryKey: ["my-comments"],
+    queryFn: getMyComments,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const fetchedCount = lastPage?.comments.length!;
+
+      if (fetchedCount < COMMENT_PAGE_LIMIT) return undefined;
 
       return allPages.length + 1;
     },

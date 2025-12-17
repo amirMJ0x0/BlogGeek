@@ -1,8 +1,13 @@
 //constants
-export const Comment_PAGE_LIMIT = 10;
+export const COMMENT_PAGE_LIMIT = 10;
 
 // types
-export type { CommentAuthor, CommentItem, CommentResponseData } from "./types";
+export type {
+  CommentAuthor,
+  CommentItem,
+  CommentResponseData,
+  MyCommentItem,
+} from "./types";
 
 // api
 export { getComments, createComment, deleteComment } from "./api/comments.api";

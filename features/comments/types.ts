@@ -21,10 +21,35 @@ type CommentItem = {
   replies: CommentItem[];
 };
 
-type CommentResponseData = {
-  comments: CommentItem[];
+type CommentResponseData<T> = {
+  comments: T;
   totalPage: number;
   totalCount: number;
 };
 
-export type { CommentItem, CommentAuthor, CommentResponseData };
+type MyCommentItem = {
+  id: number;
+  content: string;
+  created_at: string;
+  blog: RelatedBlog;
+};
+
+type RelatedBlog = {
+  title: string;
+  content: string;
+  tags: {
+    id: number;
+    title: string;
+    slug: string;
+  }[];
+  _count: {
+    likes: number;
+    comments: number;
+    saved_blogs: number;
+    views: number;
+  };
+  created_at: string;
+  updated_at: string;
+};
+
+export type { CommentItem, CommentAuthor, CommentResponseData, MyCommentItem };

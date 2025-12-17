@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import SavedPostsSection from "./saved-posts";
 import LikedPostsSection from "./liked-posts";
 import { FolderOpen } from "lucide-react";
+import MyCommentsSection from "@/features/comments/components/my-comments";
 
 type ProfileTabsProps = {
   isOwner: boolean;
@@ -30,6 +31,7 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
           <>
             <TabsTrigger value="favorites">علاقه‌مندی‌ها</TabsTrigger>
             <TabsTrigger value="bookmarks">نشان‌ها</TabsTrigger>
+            <TabsTrigger value="my-comments">نظر های من</TabsTrigger>
           </>
         )}
       </TabsList>
@@ -48,6 +50,9 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
           </TabsContent>
           <TabsContent value="bookmarks">
             <SavedPostsSection />
+          </TabsContent>
+          <TabsContent value="my-comments">
+            <MyCommentsSection />
           </TabsContent>
         </>
       )}
