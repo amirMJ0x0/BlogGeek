@@ -1,7 +1,12 @@
 // GET - v1/blog/{id}/comments
 import api from "@/lib/api";
 import { ApiResponse } from "@/types";
-import { Comment_PAGE_LIMIT, CommentResponseData } from "@/features/comments";
+import {
+  COMMENT_PAGE_LIMIT,
+  CommentItem,
+  CommentResponseData,
+  MyCommentData,
+} from "@/features/comments";
 
 type getCommentsProps = {
   id: number;
@@ -9,15 +14,14 @@ type getCommentsProps = {
 };
 
 export const getComments = async ({ id, pageParam = 1 }: getCommentsProps) => {
-  const { data } = await api.get<ApiResponse<CommentResponseData>>(
-    `v1/blog/${id}/comments`,
-    {
-      params: {
-        page: pageParam,
-        limit: Comment_PAGE_LIMIT,
-      },
-    }
-  );
+  const { data } = await api.get<
+    ApiResponse<CommentResponseData<CommentItem[]>>
+  >(`v1/blog/${id}/comments`, {
+    params: {
+      page: pageParam,
+      limit: COMMENT_PAGE_LIMIT,
+    },
+  });
   return data.data;
 };
 
@@ -42,4 +46,16 @@ export const createComment = async ({
 export const deleteComment = async (id: number) => {
   await api.delete<ApiResponse<null>>(`v1/comment/${id}`);
   return id;
+};
+
+export const getMyComments = async ({ pageParam = 1 }) => {
+  const { data } = await api.get<
+    ApiResponse<CommentResponseData<MyCommentData[]>>
+  >("v1/user/my-comments", {
+    params: {
+      page: pageParam,
+      limit: COMMENT_PAGE_LIMIT,
+    },
+  });
+  return data.data;
 };
