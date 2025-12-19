@@ -28,17 +28,17 @@ export const getComments = async ({ id, pageParam = 1 }: getCommentsProps) => {
 type CreateCommentProps = {
   blogId: number;
   content: string;
-  parent_id?: number | null;
+  parentId?: number | null;
 };
 
 export const createComment = async ({
   blogId,
   content,
-  parent_id = null,
+  parentId = null,
 }: CreateCommentProps) => {
   const { data } = await api.post<ApiResponse<any>>(`v1/comment/${blogId}`, {
     content,
-    parent_id,
+    parentId,
   });
   return data.data;
 };

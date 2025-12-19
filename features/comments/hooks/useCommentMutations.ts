@@ -8,11 +8,11 @@ export function useCreateComment(blogId: number) {
   return useMutation({
     mutationFn: ({
       content,
-      parent_id,
+      parentId,
     }: {
       content: string;
-      parent_id?: number | null;
-    }) => createComment({ blogId, content, parent_id }),
+      parentId?: number | null;
+    }) => createComment({ blogId, content, parentId }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["comments", blogId] });
     },

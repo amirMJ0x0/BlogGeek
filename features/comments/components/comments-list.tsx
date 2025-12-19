@@ -36,7 +36,7 @@ export default function CommentsList({ blogId, comments }: Props) {
   const { mutate: remove, isPending: isDeleting } = useDeleteComment(blogId);
 
   function handleReply(parentId: number, content: string) {
-    create({ content, parent_id: parentId });
+    create({ content, parentId: parentId });
   }
 
   function handleDelete(id: number) {
