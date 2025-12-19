@@ -1,26 +1,32 @@
-'use client'
+"use client";
 import { Button } from "@/components/ui/button";
 import { UserRoundPlus } from "lucide-react";
 import useFollowAction from "../../hooks/useFollowAction";
 
 type FollowButtonProps = {
-  userId: number;
+  userId: number | null;
 };
 const FollowButton = ({ userId }: FollowButtonProps) => {
-  const { follow, unfollow, isError, error:err, isPending } = useFollowAction();
+  const {
+    follow,
+    unfollow,
+    isError,
+    error: err,
+    isPending,
+  } = useFollowAction();
 
   const handleClick = () => {
     try {
-        follow(userId);
+      follow(userId!);
     } catch (error) {
-        console.log(err, isError);
-        console.log(error)
+      console.log(err, isError);
+      console.log(error);
     }
     // unfollow(userId);
   };
   return (
     <div>
-      <Button onClick={handleClick} disabled={isPending}>
+      <Button onClick={handleClick} disabled={isPending || !userId}>
         دنبال کردن <UserRoundPlus />
       </Button>
     </div>

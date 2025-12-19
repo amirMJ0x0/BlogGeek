@@ -172,28 +172,28 @@ export default async function BlogDetail({
           <div className="flex gap-2 items-start justify-items-start">
             <div className="flex">
               <Avatar className="size-12">
-                <AvatarImage src={profile?.profile_image || ""} />
+                <AvatarImage src={blog.author?.profile_image || ""} />
                 <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
-                  {profile?.first_name
-                    ? profile?.first_name?.substring(0, 1)
-                    : profile?.username?.substring(0, 1)}
+                  {blog.author?.first_name
+                    ? blog.author?.first_name?.substring(0, 1)
+                    : blog.author?.username?.substring(0, 1)}
                 </AvatarFallback>
               </Avatar>
               <div className="pr-3">
                 <h4 className="font-semibold pt-1">
-                  {profile?.first_name || profile?.last_name
-                    ? `${profile?.first_name ?? ""} ${
-                        profile?.last_name ?? ""
+                  {blog.author?.first_name || blog.author?.last_name
+                    ? `${blog.author?.first_name ?? ""} ${
+                        blog.author?.last_name ?? ""
                       }`.trim()
-                    : profile.username}
+                    : blog.author.username}
                 </h4>
                 <p className="max-w-5/6 text-xs text-muted-foreground">
-                  {profile.bio}
+                  {profile?.bio}
                 </p>
               </div>
             </div>
           </div>
-          <FollowButton userId={profile.id} />
+          <FollowButton userId={profile?.id ?? null} />
         </div>
       </div>
 
