@@ -174,6 +174,7 @@ export default function ImageUploader({
           {currentImage ? (
             <div className="relative w-full h-40 mb-2">
               <NextImage
+                fill
                 src={currentImage}
                 alt="current"
                 className="object-cover w-full h-full rounded-md"
