@@ -1,24 +1,15 @@
 "use client";
 import EmptyComponent from "@/components/empty-component";
-import { Blog } from "@/features/blogs/blogTypes";
-import PostCard from "@/features/blogs/components/post-card";
-import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
-import { useCallback, useRef } from "react";
-import { useMyCommentsQuery } from "../hooks/useCommentsQuery";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
+import { useUserStore } from "@/features/user/store/useUserStore";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
-import { MyCommentItem } from "@/features/comments";
-import Link from "next/link";
-import { useUserStore } from "@/features/user/store/useUserStore";
-import { Badge } from "@/components/ui/badge";
-import {
-  ArrowUpLeft,
-  BookOpen,
-  MessageCircleMore,
-  SquareArrowUpLeft,
-} from "lucide-react";
+import { ArrowUpLeft, BookOpen, MessageCircleMore } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCallback, useRef } from "react";
+import { useMyCommentsQuery, MyCommentItem } from "@/features/comments";
 
 const MyCommentsSection = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
@@ -76,7 +67,9 @@ const MyCommentsSection = () => {
                 <Card
                   className="bg-transparent rounded-none shadow-none transition max-sm:py-3 !border-b border-light dark:border-gray-700 !border-x-0 !border-t-0 gap-3 group relative cursor-pointer"
                   onClick={() =>
-                    router.push(`/@${user?.username}/${correctSlug}#comments`)
+                    router.push(
+                      `/@${user?.username}/${comment?.id}-${correctSlug}#comments`
+                    )
                   }
                   dir="rtl"
                 >

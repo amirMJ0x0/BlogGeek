@@ -13,7 +13,7 @@ export type {
 export { getComments, createComment, deleteComment } from "./api/comments.api";
 
 // hooks
-export { useCommentsQuery } from "./hooks/useCommentsQuery";
+export { useCommentsQuery, useMyCommentsQuery } from "./hooks/useCommentsQuery";
 
 export {
   useCreateComment,
