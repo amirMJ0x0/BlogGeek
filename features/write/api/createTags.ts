@@ -1,6 +1,7 @@
 import api from "@/lib/api";
 import { ApiResponse } from "@/types";
-import { TagItem, TagsCreateRequest } from "../types";
+import { TagsCreateRequest } from "../types";
+import { TagItem } from "@/features/tags";
 
 export const createTags = async (data: TagsCreateRequest) => {
   try {

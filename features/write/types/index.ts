@@ -1,19 +1,4 @@
-export const TAGS_LIMIT = 10;
-
-export type TagItem = {
-  id: number;
-  title: string;
-  slug: string;
-  _count: {
-    blogs: number;
-  };
-};
-
-export type TagsResponse = {
-  tags: TagItem[];
-  totalPage: number;
-  totalCount: number;
-};
+export const TAGS_LIMIT = 50;
 
 export type TagsCreateRequest = {
   title: string;

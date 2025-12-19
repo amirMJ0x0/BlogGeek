@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/features/user/store/useUserStore";
-import TagSelection from "@/features/write/components/tags";
+import TagSelector from "@/features/tags/components/tag-selector";
 import { usePostDraft } from "@/features/write/store/usePostDraft";
 import { cn } from "@/lib/utils";
 import { Pencil, X } from "lucide-react";
@@ -70,7 +70,7 @@ export default function PostForm() {
             <Pencil className="size-6" />
           </button>
         </div>
-        <TagSelection
+        <TagSelector
           value={draftState.tags}
           onUpdate={(tags) => setField("tags", tags)}
         />

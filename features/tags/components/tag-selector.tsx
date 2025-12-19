@@ -11,21 +11,25 @@ import {
   TagsValue,
 } from "@/components/ui/shadcn-io/tags";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTagsQuery } from "@/features/tags/hooks/useTagsQuery";
 import { debounce } from "@/lib/utils";
 import { CheckIcon } from "lucide-react";
 import { useRef, useState } from "react";
-import { useTags } from "../hooks/useTags";
 
 type TagSelectionProps = {
   value: { id: number; title: string }[];
   onUpdate: (tags: { id: number; title: string }[]) => void;
 };
-const TagSelection = ({ value, onUpdate }: TagSelectionProps) => {
+const TagSelector = ({ value, onUpdate }: TagSelectionProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [debounced, setDebounced] = useState("");
-
-  const { data, isLoading } = useTags(debounced);
-  const tagList = data?.tags ?? [];
+  const [openSelector, setOpenSelector] = useState(false);
+  const { data, isLoading } = useTagsQuery({
+    search: debounced,
+    limit: 100,
+    enabled: openSelector,
+  });
+  const tagList = data?.pages.flatMap((page) => page?.tags) ?? [];
 
   const selectedIds = value.map((tag) => tag.id.toString()) ?? [];
 
@@ -58,7 +62,11 @@ const TagSelection = ({ value, onUpdate }: TagSelectionProps) => {
     }
   };
   return (
-    <Tags className="max-w-[300px]">
+    <Tags
+      className="max-w-[300px]"
+      open={openSelector}
+      onOpenChange={(val) => setOpenSelector(val)}
+    >
       <TagsTrigger>
         {value.map((tag) => (
           <TagsValue
@@ -93,12 +101,12 @@ const TagSelection = ({ value, onUpdate }: TagSelectionProps) => {
             <TagsGroup forceMount>
               {tagList.map((tag) => (
                 <TagsItem
-                  key={tag.id}
-                  onSelect={() => handleSelect(tag.id.toString())}
-                  value={tag.id.toString()}
+                  key={tag?.id}
+                  onSelect={() => handleSelect(String(tag?.id))}
+                  value={String(tag?.id)}
                 >
-                  {tag.title}
-                  {selectedIds.includes(tag.id.toString()) && (
+                  {tag?.title}
+                  {selectedIds.includes(String(tag?.id)) && (
                     <CheckIcon className="text-muted-foreground" size={14} />
                   )}
                 </TagsItem>
@@ -110,4 +118,4 @@ const TagSelection = ({ value, onUpdate }: TagSelectionProps) => {
     </Tags>
   );
 };
-export default TagSelection;
+export default TagSelector;
