@@ -13,16 +13,13 @@ export type EditUserInfoRequest = {
 };
 
 // follow section
-export type UserSummary = {
+
+export type FollowRelation = {
   id: number;
   username: string;
   first_name?: string | null;
   last_name?: string | null;
   profile_image?: string | null;
-};
-
-export type FollowRelation = {
-  id: number;
-  follower?: UserSummary;
-  following?: UserSummary;
+  is_followed_by_you: boolean;
+  is_following: boolean;
 };

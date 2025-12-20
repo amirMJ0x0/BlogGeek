@@ -17,6 +17,5 @@ export async function getFollowList(
     //     },
     // }
   );
-
   return response.data.data ?? [];
 }
