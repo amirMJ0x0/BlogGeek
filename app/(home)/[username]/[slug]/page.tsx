@@ -8,7 +8,6 @@ import HiddenViewElement from "@/features/blogs/components/HiddenViewElement";
 import LikeButton from "@/features/blogs/components/like-button";
 import SaveButton from "@/features/blogs/components/save-button";
 import BlogComments from "@/features/comments/components/blog-comments";
-import { getUserProfile } from "@/features/user/api/fetch-user-profile";
 import FollowButton from "@/features/user/components/profile/follow-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
@@ -38,9 +37,7 @@ export default async function BlogDetail({
       },
     }
   );
-
   if (!res.ok) return notFound();
-  const profile = await getUserProfile(rawUsername);
 
   const {
     data: { blog },
@@ -188,12 +185,15 @@ export default async function BlogDetail({
                     : blog.author.username}
                 </h4>
                 <p className="max-w-5/6 text-xs text-muted-foreground">
-                  {profile?.bio}
+                  {blog.author?.bio}
                 </p>
               </div>
             </div>
           </div>
-          <FollowButton userId={profile?.id ?? null} />
+          <FollowButton
+            followType={blog.is_followed_by_you ? "unfollow" : "follow"}
+            userId={blog.author_id ?? null}
+          />
         </div>
       </div>
 

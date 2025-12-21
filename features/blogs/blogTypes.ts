@@ -18,6 +18,7 @@ export type BlogAuthor = {
   profile_image: string | null;
   first_name: string;
   last_name: string;
+  bio: string;
   social_media?: {
     instagram: string | null;
     twitter: string | null;
@@ -38,9 +39,12 @@ export type Blog = {
   banner_image: string | null;
   created_at: string;
   updated_at: string;
+  author_id: number;
   author: BlogAuthor;
   tags: BlogTag[];
   _count: BlogCount;
+  is_followed_by_you: boolean;
+  is_following: boolean;
   liked: boolean;
   saved: boolean;
 };
