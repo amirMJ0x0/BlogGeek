@@ -11,6 +11,5 @@ export const followUser = async ({
   const response = await api.post<ApiResponse<null>>(
     `v1/user/${id}/${followAction}`
   );
-  console.log(response.data);
   return response;
 };

@@ -125,7 +125,10 @@ export default function ProfilePreview({
         ) : (
           <FollowButton
             userId={profile.id}
-            followType={profile.is_followed_by_you ? "unfollow" : "follow"}
+            followOptions={{
+              is_followed_by_you: profile.is_followed_by_you,
+              is_following: profile.is_following,
+            }}
           />
         )}
       </div>

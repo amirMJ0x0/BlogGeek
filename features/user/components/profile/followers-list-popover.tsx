@@ -38,7 +38,7 @@ export function FollowListPopover({
     queryFn: () => getFollowList(userId, listType),
     enabled: open, // only fetch when popover is opened
   });
-  console.log(listType, ":", followersData);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

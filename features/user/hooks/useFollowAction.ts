@@ -23,9 +23,6 @@ export function useFollowAction() {
     onSuccess: (_, { id }) => {
       // Invalidate follow-list queries so UI updates (followers/following counts/lists)
       qc.invalidateQueries({ queryKey: ["follow-list", id, "follower"] });
-      // In case profile or current user data is cached under these keys
-      //   qc.invalidateQueries({ queryKey: ["profile"] });
-      //   qc.invalidateQueries({ queryKey: ["current-user"] });
     },
     onError: (error) => {
       const err = error as AxiosError<any>;
@@ -37,8 +34,9 @@ export function useFollowAction() {
     },
   });
 
-  const follow = (id: number) => mutation.mutate({ id, action: "follow" });
-  const unfollow = (id: number) => mutation.mutate({ id, action: "unfollow" });
+  const follow = (id: number) => mutation.mutateAsync({ id, action: "follow" });
+  const unfollow = (id: number) =>
+    mutation.mutateAsync({ id, action: "unfollow" });
 
   const toggleFollow = (id: number, shouldFollow: boolean) =>
     mutation.mutate({ id, action: shouldFollow ? "follow" : "unfollow" });
