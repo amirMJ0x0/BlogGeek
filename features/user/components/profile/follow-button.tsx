@@ -21,7 +21,8 @@ export default function FollowButton({
 }: FollowButtonProps) {
   const { follow, unfollow, isPending } = useFollowAction();
   const router = useRouter();
-  const { isAuthenticated } = useUserStore();
+  const { user, isAuthenticated } = useUserStore();
+
   const [isFollowedByYou, setIsFollowedByYou] = useState(
     followOptions.is_followed_by_you
   );
@@ -64,6 +65,8 @@ export default function FollowButton({
       console.error("Follow action failed:", e);
     }
   };
+
+  if (user?.id === userId) return null;
 
   return (
     <div>
