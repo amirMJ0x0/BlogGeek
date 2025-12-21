@@ -1,4 +1,4 @@
-export type TagItem = {
+export type TagItemType = {
   id: number;
   title: string;
   slug: string;
@@ -8,7 +8,7 @@ export type TagItem = {
 };
 
 export type TagsResponse = {
-  tags: TagItem[];
+  tags: TagItemType[];
   totalPage: number;
   totalCount: number;
 };

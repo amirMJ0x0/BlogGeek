@@ -13,7 +13,7 @@ export const mobileNavigationItems = (
   username?: string
 ) => [
   { label: "خانه", icon: House, href: "/" },
-  { label: "اکسپلور", icon: Compass, href: "#" },
+  { label: "تگ ها", icon: Compass, href: "/tags" },
   {
     label: "نوشتن",
     icon: Plus,

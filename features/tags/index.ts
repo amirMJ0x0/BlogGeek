@@ -2,7 +2,7 @@
 export const TAGS_PAGE_LIMIT = 10;
 
 // types
-export type { TagItem, TagsResponse } from "./types";
+export type { TagItemType, TagsResponse } from "./types";
 
 // api
 export { getAllTags } from "./api/tags.api";

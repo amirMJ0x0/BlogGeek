@@ -7,7 +7,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { getAllTags } from "../api/tags.api";
-import { TagItem } from "../types";
+import { TagItemType } from "@/features/tags";
+import TagItem from "./tag-item";
 
 export default function TagsListClient({
   initialData,
@@ -71,28 +72,21 @@ export default function TagsListClient({
 
       {isPending ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 ">
-          <Skeleton className="w-[266px] h-[82px]" />
-          <Skeleton className="w-[266px] h-[82px]" />
-          <Skeleton className="w-[266px] h-[82px]" />
-          <Skeleton className="w-[266px] h-[82px]" />
-          <Skeleton className="w-[266px] h-[82px]" />
-          <Skeleton className="w-[266px] h-[82px]" />
-          <Skeleton className="w-[266px] h-[82px]" />
-          <Skeleton className="w-[266px] h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
+          <Skeleton className="w-full h-[82px]" />
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          {tags.map((tag: TagItem) => (
-            <div
-              key={tag.id}
-              className="p-4 bg-gray-50 dark:bg-card border rounded-lg"
-            >
-              <h3 className="font-bold">{tag.title}</h3>
-              <span className="text-sm text-gray-400">
-                {tag._count.blogs} مقاله
-              </span>
-            </div>
-          ))}
+          {tags.map((tag: TagItemType) => {
+            return <TagItem tag={tag} key={tag.id} />;
+          })}
         </div>
       )}
 
