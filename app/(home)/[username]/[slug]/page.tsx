@@ -7,6 +7,7 @@ import BlogContent from "@/features/blogs/components/blog-content";
 import HiddenViewElement from "@/features/blogs/components/HiddenViewElement";
 import LikeButton from "@/features/blogs/components/like-button";
 import SaveButton from "@/features/blogs/components/save-button";
+import ShareBlogButton from "@/features/blogs/components/share-blog-button";
 import BlogComments from "@/features/comments/components/blog-comments";
 import FollowButton from "@/features/user/components/profile/follow-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
@@ -84,10 +85,7 @@ export default async function BlogDetail({
           </p>
         </div>
         <div className="flex gap-4 items-center ">
-          <Share className="size-5" />
-          {/* <span className="flex gap-2 items-center">
-            <Linkedin /> <Twitter className="size-5" />
-          </span> */}
+          <ShareBlogButton />
         </div>
       </div>
 
