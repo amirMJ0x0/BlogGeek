@@ -46,7 +46,7 @@ const InputComment = ({ blogId }: { blogId: number }) => {
               size="sm"
               onClick={() => {
                 if (!content.trim()) return;
-                createComment({ content: content.trim(), parent_id: null });
+                createComment({ content: content.trim(), parentId: null });
                 reset();
               }}
               onMouseDown={(e) => e.preventDefault()}
