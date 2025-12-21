@@ -5,8 +5,9 @@ import useFollowAction from "../../hooks/useFollowAction";
 
 type FollowButtonProps = {
   userId: number | null;
+  followType: "follow" | "unfollow";
 };
-const FollowButton = ({ userId }: FollowButtonProps) => {
+const FollowButton = ({ userId, followType }: FollowButtonProps) => {
   const {
     follow,
     unfollow,
@@ -26,7 +27,12 @@ const FollowButton = ({ userId }: FollowButtonProps) => {
   };
   return (
     <div>
-      <Button onClick={handleClick} disabled={isPending || !userId}>
+      <Button
+        onClick={() =>
+          followType === "follow" ? follow(userId!) : unfollow(userId!)
+        }
+        disabled={isPending || !userId}
+      >
         دنبال کردن <UserRoundPlus />
       </Button>
     </div>

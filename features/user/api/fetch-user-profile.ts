@@ -2,11 +2,13 @@ import { User } from "@/features/auth/types";
 import api from "@/lib/api";
 import { ApiResponse } from "@/types";
 
+type Profile = User & { is_followed_by_you: boolean; is_following: boolean };
+
 export const getUserProfile = async (
   username: string
-): Promise<User | null> => {
+): Promise<Profile | null> => {
   try {
-    const res = await api.get<ApiResponse<User>>(
+    const res = await api.get<ApiResponse<Profile>>(
       `/v1/user/profile/${username}`
     );
 

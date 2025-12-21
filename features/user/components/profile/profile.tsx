@@ -57,7 +57,11 @@ const socialLabels: Record<SocialKey, ReactNode> = {
     </Button>
   ),
 };
-export default function ProfilePreview({ profile }: { profile: User }) {
+export default function ProfilePreview({
+  profile,
+}: {
+  profile: User & { is_followed_by_you: boolean; is_following: boolean };
+}) {
   const { user } = useUserStore();
   const isOwner = user?.username === profile?.username;
 
@@ -119,7 +123,10 @@ export default function ProfilePreview({ profile }: { profile: User }) {
             </Button>
           </Link>
         ) : (
-          <FollowButton userId={profile.id} />
+          <FollowButton
+            userId={profile.id}
+            followType={profile.is_followed_by_you ? "unfollow" : "follow"}
+          />
         )}
       </div>
 
