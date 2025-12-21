@@ -1,8 +1,12 @@
 import { Spinner } from "@/components/ui/spinner";
+import { User } from "@/features/auth/types";
 import ProfilePreview from "@/features/user/components/profile/profile";
+import { ApiResponse } from "@/types";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+
+type Profile = User & { is_followed_by_you: boolean; is_following: boolean };
 
 export default async function ProfilePage({
   params,
@@ -14,30 +18,20 @@ export default async function ProfilePage({
     const decodedUsername = decodeURIComponent(encodedUsername);
     const cleanUsername = decodedUsername.replace(/^@/, ""); // @username => username
     const cookieStore = await cookies();
-    // const cookiess = cookieStore
-    //   .getAll()
-    //   .map((v) => `${v.name}=${v.value}`)
-    //   .join(";");
-    const accessToken = cookieStore.get("access-token")?.value ?? "";
-    const refreshToken = cookieStore.get("refresh-token")?.value ?? "";
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/profile/${cleanUsername}`,
       {
         cache: "no-store",
         credentials: "include",
         headers: {
-          "access-token": accessToken,
-          "refresh-token": refreshToken,
-          Cookie: `access-token=${accessToken};refresh-token=${refreshToken}`,
+          Cookie: cookieStore.toString(),
         },
       }
     );
-    console.log("res:", res);
-    // Cookie: `access-token=${accessToken};refresh-token=${refreshToken}`,
-    const data: any = await res.json();
-    // console.log(data);
+
+    const data: ApiResponse<Profile> = await res.json();
     const profile = data.data;
-    console.log(profile);
     if (!profile) {
       notFound();
     }
