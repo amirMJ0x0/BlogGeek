@@ -13,6 +13,7 @@ import FollowButton from "@/features/user/components/profile/follow-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import { Eye, MessageCircleMore, Share } from "lucide-react";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 
@@ -28,11 +29,16 @@ export default async function BlogDetail({
   const parts = decodedSlug.split("-");
   const id = Number(parts[0]);
 
+  const cookieStore = await cookies();
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/blog/${id}`,
     {
       // cache: "no-store",
       // next: {revalidate:10}
+      credentials: "include",
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
       next: {
         tags: [`blog-detail-${id}`],
       },
@@ -189,8 +195,11 @@ export default async function BlogDetail({
             </div>
           </div>
           <FollowButton
-            followType={blog.is_followed_by_you ? "unfollow" : "follow"}
-            userId={blog.author_id ?? null}
+            userId={blog.author_id}
+            followOptions={{
+              is_followed_by_you: blog.is_followed_by_you,
+              is_following: blog.is_following,
+            }}
           />
         </div>
       </div>
