@@ -8,7 +8,9 @@ export default async function TagsPage({
 }) {
   const query = searchParams.q || "";
 
-  const initialTags = await getAllTags(1, 10, query);
+  const initialTags = await fetch(`v1/tag`, {
+    cache: "no-store",
+  });
 
   return (
     <main className="min-h-screen">
