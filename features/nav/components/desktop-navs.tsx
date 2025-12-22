@@ -30,7 +30,9 @@ const DesktopNav = () => {
           </Link>
         );
       })}
-      <Button asChild variant={"ghost"}>
+      <Button
+        variant={`/@${user?.username}` === pathname ? "default" : "ghost"}
+      >
         <Link
           href={isAuthenticated ? `/@${user?.username}` : `/login`}
           className={`w-full flex gap-3 justify-start`}

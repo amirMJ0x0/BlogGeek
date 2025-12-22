@@ -32,6 +32,6 @@ export const profileDrawerItems = (username?: string) => [
   {
     label: "خروج",
     icon: LogOut,
-    action: "logout", // به جای href چون نیاز به منطق داره
+    action: "logout",
   },
 ];
