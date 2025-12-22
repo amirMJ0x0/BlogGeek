@@ -13,15 +13,44 @@ import FollowButton from "@/features/user/components/profile/follow-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
 import { Eye, MessageCircleMore, Share } from "lucide-react";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 
-export default async function BlogDetail({
-  params,
-}: {
+type PageProps = {
   params: Promise<{ username: string; slug: string }>;
-}) {
+};
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const slug = (await params).slug;
+  const decodedSlug = decodeURIComponent(slug);
+  const parts = decodedSlug.split("-");
+  const id = Number(parts[0]);
+
+  const {
+    data: { blog },
+  } = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}v1/blog/${id}`, {
+    next: {
+      revalidate: 60,
+    },
+  }).then((res) => res.json());
+
+  if (!blog) {
+    return {
+      title: "بلاگی یافت نشد",
+      description: "این بلاگ وجود ندارد یا حذف شده است.",
+    };
+  }
+
+  return {
+    title: blog.title,
+    description: blog.summary,
+  };
+}
+
+export default async function BlogDetail({ params }: PageProps) {
   const { slug, username: encodedUsername } = await params;
   const decodedUsername = decodeURIComponent(encodedUsername);
   const rawUsername = decodedUsername.replace(/^@/, ""); // @username => username
