@@ -2,17 +2,51 @@ import { Spinner } from "@/components/ui/spinner";
 import { User } from "@/features/auth/types";
 import ProfilePreview from "@/features/user/components/profile/profile";
 import { ApiResponse } from "@/types";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type Profile = User & { is_followed_by_you: boolean; is_following: boolean };
-
-export default async function ProfilePage({
+type PageProps = {
+  params: Promise<{ username: string }>;
+};
+export async function generateMetadata({
   params,
-}: {
-  params: { username: string };
-}) {
+}: PageProps): Promise<Metadata> {
+  const username = (await params).username;
+  const decodedUsername = decodeURIComponent(username);
+  const cleanUsername = decodedUsername.replace(/^@/, "");
+
+  const {
+    data: { profile },
+  }: {
+    data: {
+      profile: Profile;
+    };
+  } = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/profile/${cleanUsername}`,
+    {
+      next: {
+        revalidate: 60,
+      },
+    }
+  ).then((res) => res.json());
+
+  if (!profile) {
+    return {
+      title: "پروفایل یافت نشد",
+      description: "این کاربر وجود ندارد یا حذف شده است.",
+    };
+  }
+
+  return {
+    title: `پروفایل ${profile.username}`,
+    description: `پروفایل کاربری ${profile.username} شامل نوشته‌ها، فعالیت‌ها و اطلاعات منتشرشده.`,
+  };
+}
+
+export default async function ProfilePage({ params }: PageProps) {
   try {
     const { username: encodedUsername } = await params;
     const decodedUsername = decodeURIComponent(encodedUsername);
