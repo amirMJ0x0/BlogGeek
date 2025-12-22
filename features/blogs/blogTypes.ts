@@ -14,6 +14,7 @@ export type BlogTag = {
 };
 
 export type BlogAuthor = {
+  id: number;
   username: string;
   profile_image: string | null;
   first_name: string;
@@ -47,6 +48,13 @@ export type Blog = {
   is_following: boolean;
   liked: boolean;
   saved: boolean;
+};
+
+export type MyPostType = Omit<
+  Blog,
+  "is_followed_by_you" | "is_following" | "author_id"
+> & {
+  visibility: string;
 };
 
 export type BlogsResponse = {

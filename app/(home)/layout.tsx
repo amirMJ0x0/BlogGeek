@@ -12,7 +12,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <DesktopNav />
         </aside>
 
-        <div className="flex-1 text-center p-2 md:p-4 lg:p-6 !shadow-sm bg-white dark:!bg-secondary-dark rounded-2xl border-gray-200 border-1 dark:border-0">
+        <div className="flex-1 text-center p-2 md:p-4 lg:p-6 !shadow-xs bg-white dark:!bg-secondary-dark rounded-2xl border-gray-200 border-1 dark:border-0">
           {children}
         </div>
 

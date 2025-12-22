@@ -12,11 +12,13 @@ import Link from "next/link";
 import { Blog, BlogTag } from "../blogTypes";
 import LikeButton from "./like-button";
 import SaveButton from "./save-button";
+import PostCardOptions from "./post-card-options";
 interface PostCardProps {
   item: Blog;
+  hasSetting?: boolean;
 }
 
-export default function PostCard({ item }: PostCardProps) {
+export default function PostCard({ item, hasSetting }: PostCardProps) {
   const correctSlug = `${item.id}-${item.title
     .trim()
     .replace(/\s+/g, "-")
@@ -30,30 +32,33 @@ export default function PostCard({ item }: PostCardProps) {
       <CardContent className="max-sm:!px-3">
         {/* Avatar & username + Content + banner  */}
         <div className="flex flex-col items-start gap-2">
-          <div className="flex gap-2 items-center">
-            <Avatar>
-              <AvatarImage src={item.author?.profile_image!} />
-              <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
-                {item.author?.first_name
-                  ? item.author?.first_name?.substring(0, 1)
-                  : item.author?.username?.substring(0, 1)}
-              </AvatarFallback>
-            </Avatar>
-            <h4 className="font-light text-sm">
-              {item.author?.first_name || item.author?.last_name
-                ? `${item.author?.first_name ?? ""} ${
-                    item.author?.last_name ?? ""
-                  }`.trim()
-                : item.author?.username}
-            </h4>
+          <div className="flex justify-between w-full items-center">
+            <div className="flex gap-2 items-center">
+              <Avatar>
+                <AvatarImage src={item.author?.profile_image!} />
+                <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark dark:!brightness-150">
+                  {item.author?.first_name
+                    ? item.author?.first_name?.substring(0, 1)
+                    : item.author?.username?.substring(0, 1)}
+                </AvatarFallback>
+              </Avatar>
+              <h4 className="font-light text-sm">
+                {item.author?.first_name || item.author?.last_name
+                  ? `${item.author?.first_name ?? ""} ${
+                      item.author?.last_name ?? ""
+                    }`.trim()
+                  : item.author?.username}
+              </h4>
 
-            <Separator orientation="vertical" className="!h-3" />
-            <p className="text-xs text-muted-foreground">
-              {formatDistanceToNow(new Date(item.created_at), {
-                addSuffix: true,
-                locale: faIR,
-              })}
-            </p>
+              <Separator orientation="vertical" className="!h-3" />
+              <p className="text-xs text-muted-foreground">
+                {formatDistanceToNow(new Date(item.created_at), {
+                  addSuffix: true,
+                  locale: faIR,
+                })}
+              </p>
+            </div>
+            <div>{hasSetting && <PostCardOptions item={item} />}</div>
           </div>
 
           <div className="flex gap-3 justify-between w-full">

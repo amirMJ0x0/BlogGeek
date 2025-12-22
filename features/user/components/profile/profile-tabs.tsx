@@ -5,6 +5,7 @@ import SavedPostsSection from "./saved-posts";
 import LikedPostsSection from "./liked-posts";
 import { FolderOpen } from "lucide-react";
 import MyCommentsSection from "@/features/comments/components/my-comments";
+import MyPosts from "./my-posts";
 
 type ProfileTabsProps = {
   isOwner: boolean;
@@ -37,10 +38,7 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
       </TabsList>
 
       <TabsContent value="posts">
-        <div className="flex flex-col justify-center h-48 items-center p-6 gap-2 text-center text-gray-500">
-          <FolderOpen className="size-10" />
-          پستی وجود ندارد
-        </div>
+        <MyPosts />
       </TabsContent>
 
       {isOwner && (
