@@ -40,7 +40,10 @@ const BlogList = () => {
   const isEmpty = !isLoading && blogs?.length === 0;
 
   return (
-    <section className="flex flex-col gap-2 p-2" ref={scrollContainerRef}>
+    <section
+      className="flex flex-col gap-2 p-2 min-h-screen"
+      ref={scrollContainerRef}
+    >
       {isEmpty ? (
         <EmptyComponent />
       ) : (
