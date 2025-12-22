@@ -5,7 +5,6 @@ import { getAllBlogs } from "../api/fetchAllBlogs";
 import { BLOG_PAGE_LIMIT } from "../blogTypes";
 import { getUserBlogs } from "../api/fetchUserBlogs";
 import { useUserStore } from "@/features/user/store/useUserStore";
-const { isAuthenticated } = useUserStore();
 export const useInfiniteBlogsList = () => {
   return useInfiniteQuery({
     queryKey: ["blogs"],
@@ -58,6 +57,7 @@ export const useInfiniteLikedBlogs = () => {
 };
 
 export const useMyBlogs = () => {
+  const { isAuthenticated } = useUserStore();
   return useQuery({
     queryKey: ["blogs", "me"],
     queryFn: getUserBlogs,
