@@ -23,3 +23,13 @@ export type FollowRelation = {
   is_followed_by_you: boolean;
   is_following: boolean;
 };
+
+export type SuggestedUser = {
+  id: number;
+  username: string;
+  first_name: string | null;
+  last_name: string | null;
+  profile_image: string | null;
+  is_followed_by_you: boolean;
+  is_following: boolean;
+};

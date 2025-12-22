@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import useFollowAction from "../../hooks/useFollowAction";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/useUserStore";
+import { cn } from "@/lib/utils";
 
 type FollowButtonProps = {
   userId: number | null;
@@ -13,11 +14,25 @@ type FollowButtonProps = {
     is_followed_by_you: boolean;
     is_following: boolean;
   };
+  className?: string;
+  hasIcon?: boolean;
+  size?:
+    | "default"
+    | "sm"
+    | "lg"
+    | "icon"
+    | "icon-sm"
+    | "icon-lg"
+    | null
+    | undefined;
 };
 
 export default function FollowButton({
   userId,
   followOptions,
+  className,
+  hasIcon = true,
+  size = "default",
 }: FollowButtonProps) {
   const { follow, unfollow, isPending } = useFollowAction();
   const router = useRouter();
@@ -69,15 +84,15 @@ export default function FollowButton({
   if (user?.id === userId) return null;
 
   return (
-    <div>
-      <Button
-        onClick={handleClick}
-        disabled={isPending || !userId || !isAuthenticated}
-        aria-pressed={isFollowedByYou}
-      >
-        {label}
-        <Icon className="mr-1" size={16} />
-      </Button>
-    </div>
+    <Button
+      onClick={handleClick}
+      disabled={isPending || !userId || !isAuthenticated}
+      aria-pressed={isFollowedByYou}
+      className={cn("", className)}
+      size={size}
+    >
+      {label}
+      {hasIcon && <Icon className="mr-1" size={16} />}
+    </Button>
   );
 }
