@@ -62,8 +62,6 @@ export default async function BlogDetail({ params }: PageProps) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/blog/${id}`,
     {
-      // cache: "no-store",
-      // next: {revalidate:10}
       credentials: "include",
       headers: {
         Cookie: cookieStore.toString(),

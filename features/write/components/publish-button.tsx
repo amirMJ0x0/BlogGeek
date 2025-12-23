@@ -1,19 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { usePostDraft } from "../store/usePostDraft";
-import { Loader2 } from "lucide-react";
-import { createBlog } from "../api/createBlog";
-import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import { postSchema } from "../schemas/postSchema";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { AxiosError } from "axios";
 import { Spinner } from "@/components/ui/spinner";
+import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { useQueryClient } from "@tanstack/react-query";
-import { getBlogById } from "@/features/blogs/api/getBlogById";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { createBlog } from "../api/createBlog";
 import { updateBlog } from "../api/updateBlog";
 import { usePostMode } from "../hooks/usePostMode";
+import { postSchema } from "../schemas/postSchema";
+import { usePostDraft } from "../store/usePostDraft";
 
 const PublishButton = () => {
   const { id, mode } = usePostMode();
@@ -36,17 +34,15 @@ const PublishButton = () => {
 
   const handlePublish = async () => {
     setIsPublishing(true);
-
     const res = postSchema.safeParse({
       title,
       summary,
       banner_image,
       tags,
       content,
-      published_at,
+      published_at: published_at ?? null,
       visibility,
     });
-
     if (!res.success) {
       const list = res.error.issues.map((issue, idx) => (
         <div key={idx}>• {issue.message}</div>
@@ -100,11 +96,7 @@ const PublishButton = () => {
   };
 
   return (
-    <Button
-      size="sm"
-       onClick={handlePublish}
-      disabled={isPublishing}
-    >
+    <Button size="sm" onClick={handlePublish} disabled={isPublishing}>
       {isPublishing ? (
         <span className="flex gap-2 items-center">
           در حال انتشار <Spinner />

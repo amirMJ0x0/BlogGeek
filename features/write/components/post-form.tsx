@@ -9,7 +9,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useUserStore } from "@/features/user/store/useUserStore";
 import TagSelector from "@/features/tags/components/tag-selector";
 import { usePostDraft } from "@/features/write/store/usePostDraft";
 import { cn } from "@/lib/utils";
@@ -20,7 +19,6 @@ import { useState } from "react";
 export default function PostForm() {
   const [openModal, setOpenModal] = useState(false);
   const { setField, clear, ...draftState } = usePostDraft();
-  const { isAuthenticated } = useUserStore();
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);

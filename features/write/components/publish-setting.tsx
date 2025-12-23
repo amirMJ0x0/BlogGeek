@@ -32,16 +32,12 @@ const PublishSetting = () => {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg" showCloseButton={false}>
-        <DialogClose
-          className="absolute left-3 top-3"
-          //   onClick={handleCloseModal}
-        >
+        <DialogClose className="absolute left-3 top-3">
           <ArrowLeft size={"20px"} />
         </DialogClose>
         <DialogHeader className="!text-right">
           <DialogTitle>تنظیمات انتشار بلاگ</DialogTitle>
           <DialogDescription>
-            {/*  select visibility(draft | private | public), publish date, etc. write in persian here: */}
             در این بخش میتوانید وضعیت نمایش و زمان انتشار بلاگ خود را تنظیم
             کنید.
           </DialogDescription>

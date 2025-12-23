@@ -30,7 +30,6 @@ export const useSave = () => {
       queryClient.setQueryData(
         ["blogs"],
         (oldData: InfiniteBlogData | undefined) => {
-          // console.log(oldData);
           if (!oldData) return oldData;
 
           const updatedPages = oldData.pages.map((page) => {
