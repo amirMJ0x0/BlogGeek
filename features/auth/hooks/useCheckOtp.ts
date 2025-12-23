@@ -3,6 +3,7 @@ import { checkOTP } from "../api/check-otp";
 import { CheckOtpRequest } from "../types";
 import { AxiosError } from "axios";
 import { ApiResponse } from "@/types";
+import { setSessionTokens } from "../authUtils";
 
 export const useCheckOtp = () => {
   return useMutation<
@@ -11,5 +12,9 @@ export const useCheckOtp = () => {
     CheckOtpRequest
   >({
     mutationFn: checkOTP,
+    onSuccess: (res: any) => {
+      const { accessToken, refreshToken } = res?.data;
+      setSessionTokens({ accessToken, refreshToken });
+    },
   });
 };
