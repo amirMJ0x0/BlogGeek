@@ -1,4 +1,9 @@
 import TagsListClient from "@/features/tags/components/tags-list-client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "تگ ها",
+};
 
 export default async function TagsPage({
   searchParams,
@@ -22,7 +27,7 @@ export default async function TagsPage({
 
   return (
     <main className="min-h-screen">
-      <h1 className="text-xl font-bold">برچسب‌ها</h1>
+      <h1 className="text-xl font-bold">تگ ها</h1>
       <TagsListClient initialData={initialTags.data} searchQuery={query} />
     </main>
   );
