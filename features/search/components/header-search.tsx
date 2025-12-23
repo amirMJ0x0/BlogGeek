@@ -18,6 +18,11 @@ import { Search } from "lucide-react";
 import { useSearchBlogs } from "../hooks/useSearchBlogs";
 import SearchResultItem from "./searchResultItem";
 import { debounce } from "@/lib/utils";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 
 export default function HeaderSearch() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -63,16 +68,20 @@ export default function HeaderSearch() {
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <div className="relative w-full">
-          <Input
-            type="text"
-            placeholder="جستجو بلاگ، کاربر، یا تگ..."
-            className="pl-10"
-            value={searchQuery}
-            onChange={handleInputChange}
-            onClick={() => handleOpenChange(true)}
-            ref={inputRef}
-          />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <InputGroup>
+            <InputGroupInput
+              type="text"
+              placeholder="جستجو بلاگ، کاربر، یا تگ..."
+              className="pl-10"
+              value={searchQuery}
+              onChange={handleInputChange}
+              onClick={() => handleOpenChange(true)}
+              ref={inputRef}
+            />
+            <InputGroupAddon align={"inline-end"} className="pl-2">
+              <Search className="size-4 text-muted-foreground" />
+            </InputGroupAddon>
+          </InputGroup>
         </div>
       </PopoverTrigger>
 
