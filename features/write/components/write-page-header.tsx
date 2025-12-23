@@ -12,7 +12,7 @@ export default function WritePageHeader() {
       >
         {/* Logo */}
         <div className="flex justify-start">
-          <Logo />
+          <Logo width={130} height={35} />
         </div>
         {/* Other Items */}
         <div className="flex items-center justify-end gap-4">
