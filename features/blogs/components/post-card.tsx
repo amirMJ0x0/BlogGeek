@@ -42,13 +42,15 @@ export default function PostCard({ item, hasSetting }: PostCardProps) {
                     : item.author?.username?.substring(0, 1)}
                 </AvatarFallback>
               </Avatar>
-              <h4 className="font-light text-sm">
-                {item.author?.first_name || item.author?.last_name
-                  ? `${item.author?.first_name ?? ""} ${
-                      item.author?.last_name ?? ""
-                    }`.trim()
-                  : item.author?.username}
-              </h4>
+              <Link href={`/@${item.author.username}`}>
+                <h4 className="font-light text-sm">
+                  {item.author?.first_name || item.author?.last_name
+                    ? `${item.author?.first_name ?? ""} ${
+                        item.author?.last_name ?? ""
+                      }`.trim()
+                    : item.author?.username}
+                </h4>
+              </Link>
 
               <Separator orientation="vertical" className="!h-3" />
               <p className="text-xs text-muted-foreground">
