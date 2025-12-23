@@ -61,7 +61,7 @@ const SideBar = () => {
                           is_followed_by_you: user.is_followed_by_you,
                           is_following: user.is_following,
                         }}
-                        className="text-sm gap-0 p-0 text-blue-600 "
+                        className="text-sm gap-0 p-0 text-blue-600 dark:text-blue-400 "
                         // hasIcon={false}
                         variant={"link"}
                         size={"sm"}
