@@ -146,10 +146,6 @@ const MainToolbarContent = ({
       <Spacer />
 
       {isMobile && <ToolbarSeparator />}
-
-      <ToolbarGroup>
-        <ThemeToggle />
-      </ToolbarGroup>
     </>
   );
 };
