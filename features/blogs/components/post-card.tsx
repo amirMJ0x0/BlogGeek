@@ -90,7 +90,7 @@ export default function PostCard({ item, hasSetting }: PostCardProps) {
           {item?.tags &&
             item.tags.map(({ tag }: BlogTag) => (
               <Badge className="max-sm:!text-[10px]" key={tag.id}>
-                {tag.title}
+                <Link href={`/tags${tag.slug}`}>{tag.title}</Link>
               </Badge>
             ))}
         </div>
