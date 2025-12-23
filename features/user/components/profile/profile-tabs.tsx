@@ -1,11 +1,10 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRouter, useSearchParams } from "next/navigation";
-import SavedPostsSection from "./saved-posts";
-import LikedPostsSection from "./liked-posts";
-import { FolderOpen } from "lucide-react";
 import MyCommentsSection from "@/features/comments/components/my-comments";
+import { useRouter, useSearchParams } from "next/navigation";
+import LikedPostsSection from "./liked-posts";
 import MyPosts from "./my-posts";
+import SavedPostsSection from "./saved-posts";
 
 type ProfileTabsProps = {
   isOwner: boolean;

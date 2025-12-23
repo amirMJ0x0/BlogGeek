@@ -24,7 +24,7 @@ const HiddenViewElement = ({ id }: { id: number }) => {
         const status = err.response?.status;
 
         if (err.response && status === 400) {
-          console.log("بازدید قبلاً برای این کاربر ثبت شده است.");
+          // console.log("بازدید قبلاً برای این کاربر ثبت شده است.");
         } else {
           console.error("خطا در ثبت بازدید:", error);
         }

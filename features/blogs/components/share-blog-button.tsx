@@ -30,10 +30,12 @@ export default function ShareBlogButton() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon" aria-label="Share">
-          <Share className="h-5 w-5" />
-        </Button>
+      <DialogTrigger
+        asChild
+        className="cursor-pointer hover:opacity-60"
+        arial-label="Share"
+      >
+        <Share className="h-5 w-5" />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">

@@ -12,7 +12,7 @@ import BlogComments from "@/features/comments/components/blog-comments";
 import FollowButton from "@/features/user/components/profile/follow-button";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
-import { Eye, MessageCircleMore, Share } from "lucide-react";
+import { Eye, MessageCircleMore } from "lucide-react";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -185,12 +185,7 @@ export default async function BlogDetail({ params }: PageProps) {
             saved={blog.saved}
           />
           <span className="flex justify-center items-center gap-2">
-            <Button
-              variant={"link"}
-              className="!p-0 cursor-pointer hover:text-blue-400"
-            >
-              <Share className="size-5" />
-            </Button>
+            <ShareBlogButton />
           </span>
         </div>
       </div>
