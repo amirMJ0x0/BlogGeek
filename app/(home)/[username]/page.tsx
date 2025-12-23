@@ -18,13 +18,7 @@ export async function generateMetadata({
   const decodedUsername = decodeURIComponent(username);
   const cleanUsername = decodedUsername.replace(/^@/, "");
 
-  const {
-    data: { profile },
-  }: {
-    data: {
-      profile: Profile;
-    };
-  } = await fetch(
+  const { data: profile } = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}v1/user/profile/${cleanUsername}`,
     {
       next: {
@@ -41,7 +35,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `پروفایل ${profile.username}`,
+    title: ` ${profile.username} پروفایل `,
     description: `پروفایل کاربری ${profile.username} شامل نوشته‌ها، فعالیت‌ها و اطلاعات منتشرشده.`,
   };
 }
