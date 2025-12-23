@@ -12,7 +12,9 @@ export const postSchema = z
       .min(1, "لطفا یک عکس برای بنر بلاگ انتخاب کن")
       .url("آدرس بنر معتبر نیست"),
     content: z.string().min(50, "محتوا خیلی کوتاهه"),
-    visibility: z.enum(["PUBLIC", "PRIVATE", "DRAFT", "SCHEDULED"]),
+    visibility: z.enum(["PUBLIC", "PRIVATE", "DRAFT", "SCHEDULED"], {
+      error: "لطفا یک وضعیت انتشار (عمومی | خصوصی | پیش نویس)  انتخاب کن",
+    }),
     published_at: z.iso.datetime().nullable(),
     tags: z
       .array(z.object({ id: z.number(), title: z.string() }))
