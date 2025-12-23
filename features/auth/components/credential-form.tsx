@@ -27,7 +27,7 @@ import { ApiResponse } from "@/types";
 import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import { setSession } from "../authUtils";
+import { setSessionTokens } from "../authUtils";
 
 export function CredentialForm({
   className,
@@ -58,7 +58,7 @@ export function CredentialForm({
       mutateLoginWithPass(values, {
         onSuccess: async (res) => {
           clearCredential();
-          setSession({
+          setSessionTokens({
             accessToken: res.data?.accessToken as string,
             refreshToken: res.data?.refreshToken as string,
           });
