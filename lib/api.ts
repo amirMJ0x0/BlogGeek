@@ -1,3 +1,5 @@
+import { setSessionTokens } from "@/features/auth/authUtils";
+import { ApiResponse } from "@/types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -15,8 +17,14 @@ api.interceptors.response.use(
     if (err.response?.status === 401 && !originalConfig._retry) {
       originalConfig._retry = true;
       try {
-        const { data } = await axios.get(`${BASE_URL}v1/auth/refresh-token`, {
-          withCredentials: true,
+        const { data } = await axios.get<ApiResponse<{ accessToken: string }>>(
+          `${BASE_URL}v1/auth/refresh-token`,
+          {
+            withCredentials: true,
+          }
+        );
+        setSessionTokens({
+          accessToken: data.data?.accessToken as string,
         });
         if (data) api(originalConfig);
       } catch (error) {
