@@ -4,6 +4,7 @@ import { profileDrawerItems } from "../constants";
 import Link from "next/link";
 import { useCustomToast } from "../hooks/useCustomToast";
 import { logout } from "@/features/auth/api/logout";
+import { clearSessionTokens } from "@/features/auth/authUtils";
 
 const ProfileDrawer = ({
   open,
@@ -19,6 +20,7 @@ const ProfileDrawer = ({
       const res = await logout();
 
       if (res.statusCode === 200) {
+        clearSessionTokens();
         clearUser();
         showToast(res.message || "با موفقیت خارج شدید ✅", "info");
       } else {
