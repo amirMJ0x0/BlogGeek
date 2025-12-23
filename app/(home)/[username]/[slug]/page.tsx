@@ -128,7 +128,7 @@ export default async function BlogDetail({ params }: PageProps) {
       <h1 className="text-xl md:text-2xl font-bold !my-4">{blog.title}</h1>
 
       {/* Summary text */}
-      <p className="text-muted-foreground ">اینجا توضیحات مختصر قرار میگیره</p>
+      <p className="text-muted-foreground ">{blog.summary}</p>
 
       {/* Banner Image */}
       <div className="relative w-full overflow-hidden rounded-sm my-8 aspect-[16/9]">
