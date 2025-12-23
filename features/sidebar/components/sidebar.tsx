@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import FollowButton from "@/features/user/components/profile/follow-button";
 import { Users } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const SideBar = () => {
   const pathname = usePathname();
@@ -27,8 +28,10 @@ const SideBar = () => {
       </h3>
       <div className="flex-col gap-2 mt-2">
         {isLoading ? (
-          <div className="mx-auto">
-            <Spinner />
+          <div className="w-full flex flex-col gap-2">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <Skeleton key={index} className="w-full h-[60px]" />
+            ))}
           </div>
         ) : (
           data?.map((user) => {

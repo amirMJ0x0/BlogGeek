@@ -75,15 +75,9 @@ export default function TagsListClient({
 
       {isPending ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 ">
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
-          <Skeleton className="w-full h-[82px]" />
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Skeleton key={index} className="w-full h-[82px]" />
+          ))}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
