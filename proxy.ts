@@ -4,9 +4,12 @@ export function proxy(req: NextRequest) {
   const accessToken = req.cookies.get("access-token")?.value ?? "";
   const { pathname } = req.nextUrl;
 
-  const isProfileSettings = /^\/@[^/]+\/settings$/.test(pathname);
+  const isNewPost = pathname === "/new-post" || pathname === "/new-post/";
+  const isEditPost = pathname.startsWith("/edit-post/");
+  const isProfileSettings = /^\/@[^\/]+\/settings$/.test(pathname);
+  const isProtected = isNewPost || isEditPost || isProfileSettings;
 
-  if (isProfileSettings && !accessToken) {
+  if (isProtected && !accessToken) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
