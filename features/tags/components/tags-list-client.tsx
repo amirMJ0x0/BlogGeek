@@ -7,13 +7,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { getAllTags } from "../api/tags.api";
-import { TagItemType } from "@/features/tags";
+import { TagItemType, TagsResponse } from "@/features/tags";
 import TagItem from "./tag-item";
 
 export default function TagsListClient({
   initialData,
   searchQuery: serverSearchQuery,
-}: any) {
+}: {
+  initialData: TagsResponse;
+  searchQuery: string;
+}) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -49,12 +52,12 @@ export default function TagsListClient({
 
       getNextPageParam: (lastPage, allPages) => {
         const currentPage = allPages.length;
-        return currentPage < lastPage.totalPage ? currentPage + 1 : undefined;
+        return currentPage < lastPage!.totalPage ? currentPage + 1 : undefined;
       },
       staleTime: 1000 * 60 * 5,
     });
 
-  const tags = data?.pages.flatMap((page) => page.tags) ?? [];
+  const tags = data?.pages.flatMap((page) => page!.tags) ?? [];
 
   return (
     <div className="mt-5">
