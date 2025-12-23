@@ -16,6 +16,16 @@ type FollowButtonProps = {
   };
   className?: string;
   hasIcon?: boolean;
+  variant?:
+    | "default"
+    | "link"
+    | "destructive"
+    | "outline"
+    | "cancel"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
   size?:
     | "default"
     | "sm"
@@ -32,6 +42,7 @@ export default function FollowButton({
   followOptions,
   className,
   hasIcon = true,
+  variant,
   size = "default",
 }: FollowButtonProps) {
   const { follow, unfollow, isPending } = useFollowAction();
@@ -90,6 +101,7 @@ export default function FollowButton({
       aria-pressed={isFollowedByYou}
       className={cn("", className)}
       size={size}
+      variant={variant}
     >
       {label}
       {hasIcon && <Icon className="mr-1" size={16} />}
