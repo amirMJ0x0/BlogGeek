@@ -21,7 +21,7 @@ const SideBar = () => {
   });
 
   return (
-    <div className="max-lg:hidden w-1/5 bg-white dark:!bg-secondary-dark rounded-2xl p-4 !shadow-sm mx-auto gap-4 !h-screen sticky left-0 top-5 ">
+    <div className="max-lg:hidden w-1/6 bg-white dark:!bg-secondary-dark rounded-2xl p-4 !shadow-sm mx-auto gap-4 !h-screen sticky left-0 top-5 ">
       <h3 className="font-bold flex lg:gap-1 xl:gap-2 items-center lg:text-sm xl:text-md !tracking-tighter">
         <Users className="size-[1.3rem]" /> نویسنده های پیشنهادی
       </h3>
