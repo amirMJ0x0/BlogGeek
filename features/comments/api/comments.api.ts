@@ -1,4 +1,3 @@
-// GET - v1/blog/{id}/comments
 import api from "@/lib/api";
 import { ApiResponse } from "@/types";
 import {
@@ -7,6 +6,7 @@ import {
   CommentResponseData,
   MyCommentItem,
 } from "@/features/comments";
+import { AxiosResponse } from "axios";
 
 type getCommentsProps = {
   id: number;
@@ -36,16 +36,19 @@ export const createComment = async ({
   content,
   parentId = null,
 }: CreateCommentProps) => {
-  const { data } = await api.post<ApiResponse<any>>(`v1/comment/${blogId}`, {
-    content,
-    parentId,
-  });
+  const { data } = await api.post<AxiosResponse<ApiResponse>>(
+    `v1/comment/${blogId}`,
+    {
+      content,
+      parentId,
+    }
+  );
   return data.data;
 };
 
 export const deleteComment = async (id: number) => {
-  await api.delete<ApiResponse<null>>(`v1/comment/${id}`);
-  return id;
+  const res = await api.delete<ApiResponse<null>>(`v1/comment/${id}`);
+  return res.data;
 };
 
 export const getMyComments = async ({ pageParam = 1 }) => {

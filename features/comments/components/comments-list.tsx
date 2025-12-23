@@ -10,7 +10,6 @@ type Props = {
 
 function buildTree(comments: CommentItem[]) {
   const map = new Map<number, CommentItem>();
-  console.log(map);
   comments.forEach((c) => map.set(c.id, { ...c, replies: [] }));
 
   const roots: CommentItem[] = [];

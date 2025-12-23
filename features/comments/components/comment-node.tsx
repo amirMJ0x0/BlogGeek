@@ -15,6 +15,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
@@ -74,25 +75,24 @@ export const CommentNode = memo(function CommentNode({
           <p className="mt-2 text-sm text-gray-400">{node.content}</p>
 
           {/* reply & delete buttons  */}
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-3 mt-2">
             {user?.username === node.author.username && (
               <Dialog>
-                <DialogTrigger>
-                  <Button
-                    variant={"link"}
-                    className="text-sm text-destructive flex items-center gap-1 "
+                <DialogTrigger asChild>
+                  <div
+                    className="text-sm text-destructive flex items-center gap-1 hover:underline cursor-pointer"
                     title="حذف نظر"
                   >
                     <TrashIcon className="size-4" />
                     حذف
-                  </Button>
+                  </div>
                 </DialogTrigger>
                 <DialogContent
                   showCloseButton={false}
                   className="sm:max-w-[425px]"
                 >
                   <DialogHeader className="!text-right font-bold">
-                    حذف نظر
+                    <DialogTitle>حذف نظر</DialogTitle>
                   </DialogHeader>
                   <DialogDescription>
                     آیا از حذف نظر خود اطمینان دارید؟
@@ -112,7 +112,7 @@ export const CommentNode = memo(function CommentNode({
               </Dialog>
             )}
             <button
-              className="text-sm text-primary hover:underline"
+              className="text-sm text-primary hover:underline cursor-pointer"
               onClick={() => setOpenReply((s) => !s)}
             >
               پاسخ
