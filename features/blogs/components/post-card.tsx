@@ -13,6 +13,7 @@ import { Blog, BlogTag } from "../blogTypes";
 import LikeButton from "./like-button";
 import SaveButton from "./save-button";
 import PostCardOptions from "./post-card-options";
+import { AuthorHoverCard } from "./author-hover-card";
 interface PostCardProps {
   item: Blog;
   hasSetting?: boolean;
@@ -42,15 +43,7 @@ export default function PostCard({ item, hasSetting }: PostCardProps) {
                     : item.author?.username?.substring(0, 1)}
                 </AvatarFallback>
               </Avatar>
-              <Link href={`/@${item.author.username}`}>
-                <h4 className="font-light text-sm">
-                  {item.author?.first_name || item.author?.last_name
-                    ? `${item.author?.first_name ?? ""} ${
-                        item.author?.last_name ?? ""
-                      }`.trim()
-                    : item.author?.username}
-                </h4>
-              </Link>
+              <AuthorHoverCard username={item.author.username} />
 
               <Separator orientation="vertical" className="!h-3" />
               <p className="text-xs text-muted-foreground">
