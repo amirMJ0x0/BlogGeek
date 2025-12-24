@@ -187,3 +187,28 @@
     width: 80%;
   }
 }
+
+.blog-content {
+  pre {
+    /* background: lab(2.75381% 0 0) !important; */
+    background: #0f172a !important;
+    color: #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 1.25rem 0;
+    text-align: left;
+  }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+  }
+}

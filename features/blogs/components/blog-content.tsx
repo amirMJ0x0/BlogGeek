@@ -21,7 +21,7 @@ const BlogContent = ({ content }: BlogContentProps) => {
     extensions: [
       StarterKit.configure({
         horizontalRule: false,
-        link: { openOnClick: false, enableClickSelection: true },
+        link: { openOnClick: true, enableClickSelection: true },
       }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
@@ -37,6 +37,11 @@ const BlogContent = ({ content }: BlogContentProps) => {
     editable: false,
     immediatelyRender: false,
     textDirection: "auto",
+    editorProps: {
+      attributes: {
+        class: "blog-content !font-vazirmatn ",
+      },
+    },
   });
 
   useEffect(() => {
@@ -45,8 +50,8 @@ const BlogContent = ({ content }: BlogContentProps) => {
     }
   }, [content, editor]);
   return (
-    <section dir="ltr" className=" max-w-none my-6 leading-relaxed">
-      <EditorContent editor={editor} />
+    <section className=" max-w-none my-6 leading-relaxed ">
+      <EditorContent role="article" readOnly editor={editor} />
     </section>
   );
 };
