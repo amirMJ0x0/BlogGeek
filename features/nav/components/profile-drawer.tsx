@@ -1,4 +1,4 @@
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { profileDrawerItems } from "../constants";
 import Link from "next/link";
@@ -41,6 +41,7 @@ const ProfileDrawer = ({
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent className="p-4">
+        <DrawerTitle className="hidden"></DrawerTitle>
         <ul className="space-y-3 pr-4">
           {profileItems.map((item) => (
             <li key={item.label}>
