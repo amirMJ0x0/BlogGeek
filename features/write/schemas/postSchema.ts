@@ -2,15 +2,15 @@ import { z } from "zod";
 
 export const postSchema = z
   .object({
-    title: z.string().min(3, "عنوان باید حداقل شامل ۳ کاراکتر باشه").max(100),
+    title: z
+      .string()
+      .min(5, "عنوان باید حداقل شامل ۵ کاراکتر باشه ")
+      .max(60, "حداکثر ۶۰ کاراکتر برای عنوان بلاگ مجازه"),
     summary: z
       .string()
       .min(10, "متن توضیحات مختصر بلاگ باید حداقل شامل ۱۰ کاراکتر باشه")
-      .max(300),
-    banner_image: z
-      .string()
-      .min(1, "لطفا یک عکس برای بنر بلاگ انتخاب کن")
-      .url("آدرس بنر معتبر نیست"),
+      .max(150, "حداکثر ۱۵۰ کاراکتر برای خلاصه بلاگ مجازه"),
+    banner_image: z.string().min(1, "لطفا یک عکس برای بنر بلاگ انتخاب کن"),
     content: z.string().min(50, "محتوا خیلی کوتاهه"),
     visibility: z.enum(["PUBLIC", "PRIVATE", "DRAFT", "SCHEDULED"], {
       error: "لطفا یک وضعیت انتشار (عمومی | خصوصی | پیش نویس)  انتخاب کن",
