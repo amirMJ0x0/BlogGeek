@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserInfo } from "../api/fetch-userinfo";
 import { useUserStore } from "../store/useUserStore";
+import axios from "axios";
 
 export function useUserInfo() {
   const { setUser, clearUser } = useUserStore();
@@ -11,6 +12,8 @@ export function useUserInfo() {
     queryKey: ["userInfo"],
     queryFn: fetchUserInfo,
     retry: false,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
@@ -20,10 +23,14 @@ export function useUserInfo() {
   }, [query.isSuccess, query.data, setUser]);
 
   useEffect(() => {
-    if (query.isError) {
+    if (!query.isError) return;
+
+    const error = query.error as any;
+
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
       clearUser();
     }
-  }, [query.isError, clearUser]);
+  }, [query.isError, query.error, clearUser]);
 
   return query;
 }

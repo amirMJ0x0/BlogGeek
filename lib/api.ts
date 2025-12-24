@@ -31,9 +31,10 @@ api.interceptors.response.use(
           setSessionTokens({
             accessToken: data.data?.accessToken as string,
           });
-          api(originalConfig);
+          return api(originalConfig);
         }
       } catch (error) {
+        clearSessionTokens();
         return Promise.reject(error);
       }
     }
