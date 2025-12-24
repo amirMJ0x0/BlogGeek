@@ -1,24 +1,26 @@
 "use client";
 
-import { getAllUsers } from "@/features/user/api/getAllUsers";
-import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import FollowButton from "@/features/user/components/profile/follow-button";
-import { Users } from "lucide-react";
-import { Spinner } from "@/components/ui/spinner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getAllUsers } from "@/features/user/api/getAllUsers";
+import FollowButton from "@/features/user/components/profile/follow-button";
+import { useQuery } from "@tanstack/react-query";
+import { Users } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const SideBar = () => {
   const pathname = usePathname();
 
-  const notNeededSidebar = ["/profile", "/profile/settings", "/notfound"];
-  if (notNeededSidebar.includes(pathname)) {
-    return null;
-  }
+  const hideSidebar =
+    /^\/@[^/]+$/.test(pathname) || /^\/@[^/]+\/settings$/.test(pathname);
+
+  if (hideSidebar) return null;
+
   const { data, isLoading } = useQuery({
     queryKey: ["users-list"],
     queryFn: getAllUsers,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
   return (
