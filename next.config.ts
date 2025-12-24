@@ -15,6 +15,14 @@ const nextConfig: NextConfig = {
         source: "/@:username",
         destination: "/profile/:username",
       },
+      {
+        source: "/@:username/:slug",
+        destination: "/profile/:username/:slug",
+      },
+      {
+        source: "/@:username/settings",
+        destination: "/profile/:username/settings",
+      },
     ];
   },
 };
