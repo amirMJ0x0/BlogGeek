@@ -11,7 +11,7 @@ import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
 import { TextAlign } from "@tiptap/extension-text-align";
 import { Typography } from "@tiptap/extension-typography";
-import { Selection } from "@tiptap/extensions";
+import { Placeholder, Selection } from "@tiptap/extensions";
 import { StarterKit } from "@tiptap/starter-kit";
 
 // --- UI Primitives ---
@@ -65,7 +65,6 @@ import { useIsBreakpoint } from "@/hooks/use-is-breakpoint";
 import { useWindowSize } from "@/hooks/use-window-size";
 
 // --- Components ---
-import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
 // --- Lib ---
 import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
@@ -204,6 +203,12 @@ export function SimpleEditor() {
         link: {
           openOnClick: false,
           enableClickSelection: true,
+        },
+      }),
+      Placeholder.configure({
+        placeholder: (props) => {
+          if (props.pos === 0) return "از اینجا شروع کن به نوشتن...";
+          return "";
         },
       }),
       HorizontalRule,
