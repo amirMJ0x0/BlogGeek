@@ -1,13 +1,14 @@
 import { toast, Bounce } from "react-toastify";
 import { useTheme } from "next-themes";
 import React from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const useCustomToast = () => {
   const { theme, systemTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
-
+  const isMobile = useIsMobile();
   const baseOptions = {
-    position: "top-left" as const,
+    position: isMobile ? ("top-left" as const) : ("top-right" as const),
     autoClose: 4000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -17,6 +18,10 @@ export const useCustomToast = () => {
     theme: currentTheme === "dark" ? "dark" : "light",
     transition: Bounce,
     rtl: true,
+    style: {
+      maxWidth: "500px",
+      width: "fit-content",
+    },
   };
 
   const showToast = (

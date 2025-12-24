@@ -6,7 +6,7 @@ import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Upload } from "lucide-react";
+import { ShieldAlert, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createBlog } from "../api/createBlog";
@@ -52,11 +52,13 @@ const PublishButton = ({ size }: PublishBtnProps) => {
     });
     if (!res.success) {
       const list = res.error.issues.map((issue, idx) => (
-        <div key={idx}>• {issue.message}</div>
+        <div key={idx} className="flex items-center gap-1">
+          <ShieldAlert className="size-5" /> {issue.message}
+        </div>
       ));
 
       showToast(
-        <div className="!space-y-1 !font-vazirmatn">{list}</div>,
+        <div className="!space-y-2 !font-vazirmatn">{list}</div>,
         "error"
       );
 
