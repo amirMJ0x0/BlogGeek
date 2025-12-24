@@ -22,12 +22,16 @@ import { ArrowLeft, Settings } from "lucide-react";
 import { usePostDraft } from "../store/usePostDraft";
 import { PublishTimePicker } from "./publish-date-picker";
 
-const PublishSetting = () => {
+type PublishSettingProps = {
+  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
+};
+
+const PublishSetting = ({ size = "default" }: PublishSettingProps) => {
   const draft = usePostDraft();
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button size={size} variant="outline">
           <Settings />
         </Button>
       </DialogTrigger>

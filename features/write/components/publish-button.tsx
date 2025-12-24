@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createBlog } from "../api/createBlog";
@@ -13,7 +15,12 @@ import { usePostMode } from "../hooks/usePostMode";
 import { postSchema } from "../schemas/postSchema";
 import { usePostDraft } from "../store/usePostDraft";
 
-const PublishButton = () => {
+type PublishBtnProps = {
+  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
+};
+
+const PublishButton = ({ size }: PublishBtnProps) => {
+  const isMobile = useIsMobile();
   const { id, mode } = usePostMode();
   const draft = usePostDraft();
   const {
@@ -96,13 +103,23 @@ const PublishButton = () => {
   };
 
   return (
-    <Button size="sm" onClick={handlePublish} disabled={isPublishing}>
+    <Button
+      size={size ? size : isMobile ? "icon" : "default"}
+      onClick={handlePublish}
+      disabled={isPublishing}
+    >
       {isPublishing ? (
         <span className="flex gap-2 items-center">
           در حال انتشار <Spinner />
         </span>
       ) : mode === "create" ? (
-        "انتشار پست"
+        isMobile ? (
+          <Upload />
+        ) : (
+          "انتشار پست"
+        )
+      ) : isMobile ? (
+        <Upload />
       ) : (
         "ویرایش پست"
       )}

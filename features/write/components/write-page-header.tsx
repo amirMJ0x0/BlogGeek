@@ -3,6 +3,7 @@ import ProfileDropdown from "@/features/user/components/profile-dropdown";
 import PublishButton from "./publish-button";
 import PublishSetting from "./publish-setting";
 import { ModeToggle } from "@/components/ui/toggle-mode";
+import ClientHeaderItems from "./client-header-items";
 
 export default function WritePageHeader() {
   return (
@@ -16,14 +17,7 @@ export default function WritePageHeader() {
           <Logo width={130} height={35} />
         </div>
         {/* Other Items */}
-        <div className="flex items-center justify-end gap-4">
-          <div className="flex gap-2 items-center">
-            <ModeToggle size="default" />
-            <PublishSetting />
-          </div>
-          <PublishButton />
-          <ProfileDropdown />
-        </div>
+        <ClientHeaderItems />
       </nav>
     </header>
   );
