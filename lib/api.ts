@@ -1,4 +1,7 @@
-import { setSessionTokens } from "@/features/auth/authUtils";
+import {
+  clearSessionTokens,
+  setSessionTokens,
+} from "@/features/auth/authUtils";
 import { ApiResponse } from "@/types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
@@ -14,6 +17,7 @@ api.interceptors.response.use(
     const originalConfig = err.config as AxiosRequestConfig & {
       _retry?: boolean;
     };
+
     if (err.response?.status === 401 && !originalConfig._retry) {
       originalConfig._retry = true;
       try {
@@ -23,10 +27,12 @@ api.interceptors.response.use(
             withCredentials: true,
           }
         );
-        setSessionTokens({
-          accessToken: data.data?.accessToken as string,
-        });
-        if (data) api(originalConfig);
+        if (data) {
+          setSessionTokens({
+            accessToken: data.data?.accessToken as string,
+          });
+          api(originalConfig);
+        }
       } catch (error) {
         return Promise.reject(error);
       }
