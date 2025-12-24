@@ -63,7 +63,7 @@ const TagSelector = ({ value, onUpdate }: TagSelectionProps) => {
   };
   return (
     <Tags
-      className="max-w-[300px]"
+      className="max-w-[200px] md:max-w-[300px]"
       open={openSelector}
       onOpenChange={(val) => setOpenSelector(val)}
     >

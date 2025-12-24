@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import TagSelector from "@/features/tags/components/tag-selector";
 import { usePostDraft } from "@/features/write/store/usePostDraft";
 import { cn } from "@/lib/utils";
@@ -29,20 +30,22 @@ export default function PostForm() {
         <Input
           value={draftState.title}
           onChange={(e) => setField("title", e.target.value)}
-          className="relative !border-none !outline-none focus:outline-blue-500 !text-xl lg:!text-2xl font-semibold !bg-transparent caret-purple-600"
+          className="relative !border-none !outline-none focus:outline-blue-500 !text-xl lg:!text-2xl font-semibold !bg-transparent caret-purple-600 shadow-none w-11/12 md:w-10/12"
           placeholder="عنوان بلاگ را اینجا بنویسید"
           autoComplete="off"
           required
         />
-        <Input
+        <Textarea
           value={draftState.summary}
           onChange={(e) => setField("summary", e.target.value)}
-          className="border-none outline-0 !text-lg font-extralight !bg-transparent caret-purple-600"
+          className="resize-none !border-none !ring-0 !outline-none !text-lg font-extralight !bg-transparent caret-purple-600 shadow-none w-11/12 md:w-10/12"
           placeholder="توضیح مختصر درباره بلاگ را اینجا بنویسید"
           autoComplete="off"
+          required
+          rows={2}
         />
         <div
-          className="relative w-1/2 h-28 md:h-64 rounded-sm overflow-hidden group my-2 hover:opacity-80 cursor-pointer"
+          className="relative w-2/3 md:w-1/2 h-28 md:h-64 rounded-sm overflow-hidden group my-2 hover:opacity-80 cursor-pointer"
           onClick={handleOpenModal}
           title="برای آپلود یا تغییر تصویر بنر کلیک کنید"
         >
