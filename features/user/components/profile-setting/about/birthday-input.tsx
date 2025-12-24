@@ -62,7 +62,7 @@ const BirthdayInput = ({ control, name = "birthday" }: BirthdayProps) => {
                 <PopoverTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="absolute top-1 right-2 size-7 -translate-y-1/2"
+                    className="absolute top-1 right-1 size-7"
                   >
                     <CalendarIcon className="size-5 text-slate-600" />
                     <span className="sr-only">انتخاب تاریخ</span>
