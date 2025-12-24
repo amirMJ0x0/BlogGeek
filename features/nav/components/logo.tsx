@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import Link from "next/link";
 
 type LogoProps = {
@@ -15,11 +16,12 @@ export default function Logo({
   height = "100",
   title = "BlogGeek",
 }: LogoProps) {
+  const isMobile = useIsMobile();
   return (
-    <Link href={'/'} className="text-black dark:text-white">
+    <Link href={"/"} className="text-black dark:text-white">
       <svg
-        width={width}
-        height={height}
+        width={isMobile ? Number(width) / 1.9 : width}
+        height={isMobile ? Number(height) / 1.9 : height}
         viewBox="0 0 1753 444"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
