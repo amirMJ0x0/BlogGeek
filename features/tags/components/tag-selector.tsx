@@ -24,12 +24,11 @@ const TagSelector = ({ value, onUpdate }: TagSelectionProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [debounced, setDebounced] = useState("");
   const [openSelector, setOpenSelector] = useState(false);
-  const { data, isLoading } = useTagsQuery({
+  const { data: tagList, isLoading } = useTagsQuery({
     search: debounced,
     limit: 100,
     enabled: openSelector,
   });
-  const tagList = data?.pages.flatMap((page) => page?.tags) ?? [];
 
   const selectedIds = value.map((tag) => tag.id.toString()) ?? [];
 
@@ -55,7 +54,7 @@ const TagSelector = ({ value, onUpdate }: TagSelectionProps) => {
       const newSelected = value.filter((tag) => tag.id.toString() !== id);
       onUpdate(newSelected);
     } else if (selectedIds.length < 3) {
-      const tag = tagList.find((tag) => tag?.id.toString() === id);
+      const tag = tagList?.find((tag) => tag?.id.toString() === id);
       if (tag) {
         onUpdate([...value, { id: tag.id, title: tag.title }]);
       }
@@ -91,7 +90,7 @@ const TagSelector = ({ value, onUpdate }: TagSelectionProps) => {
               ))}
             </div>
           )}
-          {tagList.length === 0 && !isLoading ? (
+          {tagList?.length === 0 && !isLoading ? (
             <TagsEmpty>
               <p className="text-center text-sm text-muted-foreground">
                 هیچ تگی یافت نشد
@@ -99,7 +98,7 @@ const TagSelector = ({ value, onUpdate }: TagSelectionProps) => {
             </TagsEmpty>
           ) : (
             <TagsGroup forceMount>
-              {tagList.map((tag) => (
+              {tagList?.map((tag) => (
                 <TagsItem
                   key={tag?.id}
                   onSelect={() => handleSelect(String(tag?.id))}

@@ -25,6 +25,9 @@ export function useTagsQuery({
       return allPage.length + 1;
     },
     ...(enabled !== undefined && { enabled }),
+    select(data) {
+      return data?.pages.flatMap((page) => page?.tags) ?? [];
+    },
   });
 }
 type TagBlogsQueryProps = {

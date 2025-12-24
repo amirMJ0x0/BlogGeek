@@ -19,6 +19,9 @@ export const useInfiniteBlogsList = () => {
 
       return allPages.length + 1;
     },
+    select(data) {
+      return data.pages.flatMap((page) => page!.blogs) ?? [];
+    },
   });
 };
 
@@ -36,6 +39,9 @@ export const useInfiniteSavedBlogs = () => {
 
       return allPages.length + 1;
     },
+    select(data) {
+      return data?.pages.flatMap((page) => page?.blogs) ?? [];
+    },
   });
 };
 
@@ -52,6 +58,9 @@ export const useInfiniteLikedBlogs = () => {
       }
 
       return allPages.length + 1;
+    },
+    select(data) {
+      return data?.pages.flatMap((page) => page?.blogs) ?? [];
     },
   });
 };

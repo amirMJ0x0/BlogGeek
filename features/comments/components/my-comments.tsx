@@ -12,8 +12,13 @@ import { useCallback, useRef } from "react";
 import { useMyCommentsQuery, MyCommentItem } from "@/features/comments";
 
 const MyCommentsSection = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useMyCommentsQuery();
+  const {
+    data: comments,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useMyCommentsQuery();
   const { user } = useUserStore();
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -41,8 +46,6 @@ const MyCommentsSection = () => {
     [isFetchingNextPage, hasNextPage, fetchNextPage]
   );
 
-  const comments = data?.pages.flatMap((page) => page?.comments) ?? [];
-
   const isEmpty = !isLoading && comments?.length === 0;
 
   return (
@@ -51,7 +54,7 @@ const MyCommentsSection = () => {
         <EmptyComponent />
       ) : (
         <div className="divide-y">
-          {comments.map((comment, commentIndex: number) => {
+          {comments?.map((comment, commentIndex: number) => {
             const correctSlug = `-${comment?.blog.title
               .trim()
               .replace(/\s+/g, "-")

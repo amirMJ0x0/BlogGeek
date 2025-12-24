@@ -29,5 +29,8 @@ export function useMyCommentsQuery() {
 
       return allPages.length + 1;
     },
+    select(data) {
+      return data?.pages.flatMap((page) => page?.comments) ?? [];
+    },
   });
 }

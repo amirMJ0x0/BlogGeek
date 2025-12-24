@@ -4,12 +4,16 @@ import { Blog } from "@/features/blogs/blogTypes";
 import PostCard from "@/features/blogs/components/post-card";
 import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 import { useInfiniteSavedBlogs } from "@/features/blogs/hooks/useInfiniteBlogs";
-import { FolderOpen } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 const SavedPostsSection = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteSavedBlogs();
+  const {
+    data: blogs,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteSavedBlogs();
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,8 +40,6 @@ const SavedPostsSection = () => {
     [isFetchingNextPage, hasNextPage, fetchNextPage]
   );
 
-  const blogs = data?.pages.flatMap((page) => page?.blogs) ?? [];
-
   const isEmpty = !isLoading && blogs?.length === 0;
 
   return (
@@ -46,7 +48,7 @@ const SavedPostsSection = () => {
         <EmptyComponent />
       ) : (
         <div className="divide-y">
-          {blogs.map((blog, blogIndex) => {
+          {blogs?.map((blog, blogIndex) => {
             const isLastItem = blogIndex === blogs.length - 1;
 
             return (

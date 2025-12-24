@@ -1,12 +1,11 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CommentItem, useCommentsQuery } from "@/features/comments";
 import { useEffect } from "react";
 import { Blog } from "../../blogs/blogTypes";
 import CommentsList from "./comments-list";
 import InputComment from "./input-comment";
-import { Skeleton } from "@/components/ui/skeleton";
-import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 
 const BlogComments = ({ blog }: { blog: Blog }) => {
   const { data, isLoading } = useCommentsQuery(blog.id);

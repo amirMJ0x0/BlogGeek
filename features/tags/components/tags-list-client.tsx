@@ -36,28 +36,34 @@ export default function TagsListClient({
     [pathname, router]
   );
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useInfiniteQuery({
-      queryKey: ["tags", debouncedQuery],
-      queryFn: async ({ pageParam = 1 }) =>
-        await getAllTags(pageParam, 12, debouncedQuery),
-      initialPageParam: 1,
-      initialData:
-        debouncedQuery === serverSearchQuery
-          ? {
-              pages: [initialData],
-              pageParams: [1],
-            }
-          : undefined,
+  const {
+    data: tags,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useInfiniteQuery({
+    queryKey: ["tags", debouncedQuery],
+    queryFn: async ({ pageParam = 1 }) =>
+      await getAllTags(pageParam, 12, debouncedQuery),
+    initialPageParam: 1,
+    initialData:
+      debouncedQuery === serverSearchQuery
+        ? {
+            pages: [initialData],
+            pageParams: [1],
+          }
+        : undefined,
 
-      getNextPageParam: (lastPage, allPages) => {
-        const currentPage = allPages.length;
-        return currentPage < lastPage!.totalPage ? currentPage + 1 : undefined;
-      },
-      staleTime: 1000 * 60 * 5,
-    });
-
-  const tags = data?.pages.flatMap((page) => page!.tags) ?? [];
+    getNextPageParam: (lastPage, allPages) => {
+      const currentPage = allPages.length;
+      return currentPage < lastPage!.totalPage ? currentPage + 1 : undefined;
+    },
+    staleTime: 1000 * 60 * 5,
+    select(data) {
+      return data?.pages.flatMap((page) => page!.tags) ?? [];
+    },
+  });
 
   return (
     <div className="mt-5">

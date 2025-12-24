@@ -4,11 +4,16 @@ import { Blog } from "@/features/blogs/blogTypes";
 import PostCard from "@/features/blogs/components/post-card";
 import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 import { useInfiniteLikedBlogs } from "@/features/blogs/hooks/useInfiniteBlogs";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 const LikedPostsSection = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteLikedBlogs();
+  const {
+    data: blogs,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteLikedBlogs();
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,8 +40,6 @@ const LikedPostsSection = () => {
     [isFetchingNextPage, hasNextPage, fetchNextPage]
   );
 
-  const blogs = data?.pages.flatMap((page) => page?.blogs) ?? [];
-
   const isEmpty = !isLoading && blogs?.length === 0;
 
   return (
@@ -45,7 +48,7 @@ const LikedPostsSection = () => {
         <EmptyComponent />
       ) : (
         <div className="divide-y">
-          {blogs.map((blog, blogIndex) => {
+          {blogs?.map((blog, blogIndex) => {
             const isLastItem = blogIndex === blogs.length - 1;
 
             return (

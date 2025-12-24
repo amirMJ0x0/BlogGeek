@@ -7,8 +7,13 @@ import PostCard from "./post-card";
 import { PostCardSkeleton } from "./post-card-skeleton";
 
 const BlogList = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteBlogsList();
+  const {
+    data: blogs,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteBlogsList();
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,7 +41,6 @@ const BlogList = () => {
     [isFetchingNextPage, hasNextPage, fetchNextPage]
   );
 
-  const blogs = data?.pages.flatMap((page) => page?.blogs) ?? [];
   const isEmpty = !isLoading && blogs?.length === 0;
 
   return (
@@ -48,7 +52,7 @@ const BlogList = () => {
         <EmptyComponent />
       ) : (
         <div className="divide-y">
-          {blogs.map((blog, blogIndex) => {
+          {blogs?.map((blog, blogIndex) => {
             const isLastItem = blogIndex === blogs.length - 1;
             return (
               <div
