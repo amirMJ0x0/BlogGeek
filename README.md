@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div dir="rtl">
 
-## Getting Started
+# 🚀 Bloggeek - پلتفرم وبلاگ‌دهی و شبکه اجتماعی
 
-First, run the development server:
+**Bloggeek** یک پلتفرم مدرن برای اشتراک‌گذاری مطالب و تعامل با کاربران است که با تمرکز بر سرعت، سئو و تجربه کاربری (UX) طراحی و توسعه یافته است. این پروژه فراتر از یک وبلاگ ساده بوده و دارای ویژگی‌های شبکه‌های اجتماعی مانند سیستم دنبال‌کردن، نوتیفیکیشن‌های پیشرفته و تعاملات لحظه‌ای است.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 تکنولوژی‌های به‌کار رفته (Tech Stack)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<div dir="ltr">
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Front-end
 
-## Learn More
+- **Framework:** React 19 & Next.js 15+ (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS & shadcn/ui
+- **State Management:** Zustand
+- **Data Fetching:** TanStack Query (React Query) v5
+- **Form Handling:** React Hook Form & Zod (Validation)
+- **Editor:** Tiptap (Rich Text Editor)
+- **Deployment:** Vercel
 
-To learn more about Next.js, take a look at the following resources:
+### Back-end & Database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Runtime:** Node.js (Express Framework)
+- **Database:** PostgreSQL
+- **ORM:** Prisma
+- **Auth:** OTP (SMS/Email) + JWT
+- **Deployment:** Liara
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+</div>
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✨ قابلیت‌های کلیدی (Features)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🔐 سیستم احراز هویت هوشمند
+
+- ورود دو مرحله‌ای (OTP) از طریق پیامک و ایمیل.
+- ثبت‌نام خودکار کاربران جدید هنگام ورود با OTP.
+- پشتیبانی از ورود با رمز عبور و قابلیت تغییر آن در پنل تنظیمات.
+
+### 📝 مدیریت محتوا (Blog CMS)
+
+- ویرایشگر متن پیشرفته (Rich Text) با استفاده از Tiptap.
+- قابلیت ایجاد، ویرایش و حذف پست‌ها.
+- سیستم تگ‌گذاری پیشرفته و جستجوی اختصاصی بر اساس تگ.
+- آپلودر اختصاصی تصویر با قابلیت **Drag & Drop**، **Resize** و **Zoom**.
+
+### 👥 شبکه اجتماعی و تعاملات
+
+- **پروفایل داینامیک:** هر کاربر دارای یک URL اختصاصی (مثلاً `/@username`) است.
+- **سیستم تعامل:** لایک، ذخیره‌سازی (Save) و اشتراک‌گذاری پست‌ها.
+- **کامنت‌های درختی:** قابلیت ثبت نظر و پاسخ (Reply) به صورت تودرتو.
+- **دنبال کردن (Follow/Unfollow):** سیستم کامل ارتباط بین کاربران.
+
+### 🔔 سیستم نوتیفیکیشن پیشرفته
+
+- اطلاع‌رسانی لحظه‌ای برای: لایک، کامنت جدید، دنبال‌کننده جدید و ورود به حساب.
+- دسته‌بندی نوتیفیکیشن‌ها (سیستمی، هشدار، تعاملات).
+- قابلیت فیلترینگ و مدیریت وضعیت خوانده‌شدن (Read/Unread).
+- ارسال پیامک اطلاع‌رسانی برای رویدادهای مهم (مانند دریافت کامنت).
+
+### 🔍 جستجو و سئو
+
+- جستجوی سراسری (Global Search) میان کاربران، تگ‌ها و پست‌ها.
+- بهره‌گیری از **SSR (Server Side Rendering)** برای بهبود سئو و سرعت بارگذاری.
+- ساختار URL بهینه و داینامیک.
+
+---
+
+### 📸 پیش‌نمایش پروژه (Screenshots)
+
+| صفحه اصلی                                         | پروفایل کاربری                                       | ویرایشگر پست                                   |
+| ------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------- |
+| ![Home Page](https://via.placeholder.com/300x200) | ![Profile Page](https://via.placeholder.com/300x200) | ![Editor](https://via.placeholder.com/300x200) |
+
+### 👨‍💻 تیم توسعه
+
+- **Frontend & UI/UX:** امیرمحمد جواهری ←
+  <a href="https://www.linkedin.com/in/amirmohammad-javaheri/">لینکدین</a>
+- **Backend:** علی اصفهانی ←
+<a href="https://www.linkedin.com/in/ali-esfahani-baa6b3237/">لینکدین</a>
+</div>
