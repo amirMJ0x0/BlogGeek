@@ -1,15 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import { checkOTP } from "../api/check-otp";
-import { CheckOtpRequest } from "../types";
+import { setSessionTokens } from "../server/authCookies.server";
+import { CheckOtpReqBody, checkOTP } from "@/features/auth";
 import { AxiosError } from "axios";
 import { ApiResponse } from "@/types";
-import { setSessionTokens } from "../authUtils";
 
 export const useCheckOtp = () => {
   return useMutation<
     ApiResponse<null>,
     AxiosError<ApiResponse>,
-    CheckOtpRequest
+    CheckOtpReqBody
   >({
     mutationFn: checkOTP,
     onSuccess: (res: any) => {

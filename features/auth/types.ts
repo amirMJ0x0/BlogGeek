@@ -29,11 +29,11 @@ export type User = {
   };
 };
 
-export type SendOtpRequest = {
+export type SendOtpReqBody = {
   credential: string; //email or password
 };
 
-export type LoginWithPassRequest = SendOtpRequest & {
+export type LoginWithPassReqBody = SendOtpReqBody & {
   password?: string;
 };
 
@@ -41,7 +41,7 @@ export type SendOtpResponseData = {
   expiredAt: string;
 };
 
-export type CheckOtpRequest = {
+export type CheckOtpReqBody = {
   credential: string;
   code: number;
 };

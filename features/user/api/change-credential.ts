@@ -1,5 +1,5 @@
 import {
-  CheckOtpRequest,
+  CheckOtpReqBody,
   SendOtpResponseData,
   User,
 } from "@/features/auth/types";
@@ -25,7 +25,7 @@ const makeCredentialApi = (credentialType: "email" | "phone") => ({
    * @desc POST Check change credential otp
    * @route POST https://bloggeek.ir/api/v1/user/update/{credentialType}/check-otp
    */
-  checkOtp: async (data: CheckOtpRequest): Promise<ApiResponse<null>> => {
+  checkOtp: async (data: CheckOtpReqBody): Promise<ApiResponse<null>> => {
     const { data: response } = await api.post(
       `v1/user/update/${credentialType}/check-otp`,
       data

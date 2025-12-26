@@ -8,7 +8,6 @@ import Image from "next/image";
 import loginBanner from "@/public/assets/images/login-banner.jpeg";
 import Link from "next/link";
 import { useAuthStore } from "@/features/user/store/useAuthStore";
-
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import {
@@ -16,7 +15,7 @@ import {
   sendOtpSchema,
   SendOtpForm,
   LoginWithPassForm,
-} from "../schemas/credentialSchema";
+} from "@/features/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSendOtp } from "../hooks/useSendOtp";
 import { Spinner } from "@/components/ui/spinner";
@@ -27,7 +26,7 @@ import { ApiResponse } from "@/types";
 import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import { setSessionTokens } from "../authUtils";
+import { setSessionTokens } from "../server/authCookies.server";
 
 export function CredentialForm({
   className,

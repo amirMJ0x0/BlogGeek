@@ -1,14 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { LoginWithPassRequest } from "../types";
+import { LoginWithPassReqBody, loginWithPass } from "@/features/auth";
 import { AxiosError } from "axios";
-import { loginWithPass } from "../api/login-with-pass";
 import { ApiResponse } from "@/types";
 
 export const useLoginWithPass = () => {
   return useMutation<
     ApiResponse<{ accessToken?: string; refreshToken?: string }>,
     AxiosError<ApiResponse>,
-    LoginWithPassRequest
+    LoginWithPassReqBody
   >({
     mutationFn: loginWithPass,
   });
