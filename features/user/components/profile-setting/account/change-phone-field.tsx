@@ -26,9 +26,8 @@ import {
 } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
+import { otpSchema, OtpSchema, SendOtpForm } from "@/features/auth";
 import useCountdown from "@/features/auth/hooks/useCountdown";
-import { SendOtpForm } from "@/features/auth/schemas/credentialSchema";
-import { otpSchema, OtpSchema } from "@/features/auth/schemas/otpSchema";
 import { User } from "@/features/auth/types";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { phoneCredentialApi } from "@/features/user/api/change-credential";

@@ -45,3 +45,5 @@ export type CheckOtpReqBody = {
   credential: string;
   code: number;
 };
+
+export type LoginResponseData = { accessToken: string; refreshToken: string };

@@ -5,6 +5,7 @@ export type {
   SendOtpReqBody,
   SendOtpResponseData,
   User,
+  LoginResponseData,
 } from "./types";
 
 // api

@@ -8,8 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { logout } from "@/features/auth/api/logout";
-import { clearSessionTokens } from "@/features/auth/authUtils";
+import { logout } from "@/features/auth";
+import { clearSession } from "@/features/auth/api/session.api";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { Bookmark, ChevronDown, DoorOpen, Settings, User2 } from "lucide-react";
@@ -24,7 +24,7 @@ const ProfileDropdown = () => {
       const res = await logout();
 
       if (res.statusCode === 200) {
-        clearSessionTokens();
+        await clearSession();
         clearUser();
         showToast(res.message || "با موفقیت خارج شدید ✅", "info");
       } else {

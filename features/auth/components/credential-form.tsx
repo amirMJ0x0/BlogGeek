@@ -1,45 +1,31 @@
 "use client";
-import { cn, num2en } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import loginBanner from "@/public/assets/images/login-banner.jpeg";
-import Link from "next/link";
-import { useAuthStore } from "@/features/user/store/useAuthStore";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import {
-  loginWithPassSchema,
-  sendOtpSchema,
-  SendOtpForm,
-  LoginWithPassForm,
-} from "@/features/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useSendOtp } from "../hooks/useSendOtp";
 import { Spinner } from "@/components/ui/spinner";
-import { AxiosError } from "axios";
+import { cn, num2en } from "@/lib/utils";
+import loginBanner from "@/public/assets/images/login-banner.jpeg";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import Link from "next/link";
 import { ChangeEvent, useState } from "react";
-import { useLoginWithPass } from "../hooks/useLoginWithPass";
-import { ApiResponse } from "@/types";
-import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
-import { useUserStore } from "@/features/user/store/useUserStore";
-import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import { setSessionTokens } from "../server/authCookies.server";
+import { useForm } from "react-hook-form";
+import { useAuthActions } from "../hooks/useAuthActions";
+import {
+  LoginWithPassForm,
+  loginWithPassSchema,
+  SendOtpForm,
+  sendOtpSchema,
+} from "@/features/auth";
 
 export function CredentialForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter();
-  const { showToast } = useCustomToast();
   const [passwordMode, setPasswordMode] = useState<boolean>(false);
-  const { setCredential, setOtpExpireTime, clearCredential } = useAuthStore();
-  const { setUser } = useUserStore();
-  const { mutate: mutateSendOtp, isPending: isSendingOtp } = useSendOtp();
-  const { mutate: mutateLoginWithPass, isPending: IsLoggingIn } =
-    useLoginWithPass();
+  const { sendOtp, loginWithPassword, isSendingOtp, isLoggingIn } =
+    useAuthActions();
   const {
     register,
     handleSubmit,
@@ -52,47 +38,11 @@ export function CredentialForm({
     defaultValues: { credential: "", password: "" },
   });
 
-  const onSubmit = (values: SendOtpForm | LoginWithPassForm) => {
+  const onSubmit = async (values: SendOtpForm | LoginWithPassForm) => {
     if (passwordMode) {
-      mutateLoginWithPass(values, {
-        onSuccess: async (res) => {
-          clearCredential();
-          setSessionTokens({
-            accessToken: res.data?.accessToken as string,
-            refreshToken: res.data?.refreshToken as string,
-          });
-          try {
-            const user = await fetchUserInfo();
-            setUser(user);
-          } catch (e) {
-            console.log(e);
-          }
-          router.push("/");
-        },
-        onError: (error: AxiosError<ApiResponse>) => {
-          const message =
-            error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
-          showToast(message, "error");
-        },
-      });
-      return;
+      await loginWithPassword(values as LoginWithPassForm);
     } else {
-      mutateSendOtp(values, {
-        onSuccess: (res) => {
-          setCredential(values.credential);
-          setOtpExpireTime(res.data?.expiredAt as string);
-
-          showToast(res?.message, "success");
-
-          router.push("/verify");
-        },
-        onError: (error: AxiosError<ApiResponse>) => {
-          const message =
-            error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
-
-          showToast(message, "error");
-        },
-      });
+      await sendOtp(values as SendOtpForm);
     }
   };
 
@@ -136,7 +86,7 @@ export function CredentialForm({
                   required
                   {...register("credential")}
                   onChange={handleCredentialChange}
-                  disabled={isSendingOtp || IsLoggingIn}
+                  disabled={isSendingOtp || isLoggingIn}
                 />
                 {errors.credential && (
                   <p className="text-sm text-destructive !-mt-1">
@@ -152,7 +102,7 @@ export function CredentialForm({
                     placeholder="abc123"
                     required
                     {...register("password")}
-                    disabled={IsLoggingIn || !passwordMode}
+                    disabled={isLoggingIn || !passwordMode}
                   />
                   {passwordMode &&
                     errors &&
@@ -168,10 +118,10 @@ export function CredentialForm({
                 <Button
                   type="submit"
                   className="w-full"
-                  disabled={isSendingOtp || IsLoggingIn}
+                  disabled={isSendingOtp || isLoggingIn}
                 >
                   {passwordMode ? "ورود" : "ادامه"}{" "}
-                  {(isSendingOtp || IsLoggingIn) && <Spinner />}
+                  {(isSendingOtp || isLoggingIn) && <Spinner />}
                 </Button>
               </div>
               <Button
@@ -179,7 +129,7 @@ export function CredentialForm({
                 type="button"
                 className="text-sm text-slate-700 dark:text-white/50 text-center !underline"
                 onClick={togglePasswordMode}
-                disabled={isSendingOtp || IsLoggingIn}
+                disabled={isSendingOtp || isLoggingIn}
               >
                 {passwordMode ? "ورود با کد تایید" : "ورود با رمز عبور"}
               </Button>

@@ -18,35 +18,24 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useCheckOtp } from "../hooks/useCheckOtp";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/features/user/store/useAuthStore";
-import { Controller, useForm } from "react-hook-form";
-import { otpSchema, OtpSchema,SendOtpForm } from "../schemas/auth.schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import useCountdown from "../hooks/useCountdown";
-import { useSendOtp } from "../hooks/useSendOtp";
-import { AxiosError } from "axios";
-import { cn } from "@/lib/utils";
-import { useEffect } from "react";
-import { ApiResponse } from "@/types";
-import { useUserStore } from "@/features/user/store/useUserStore";
-import { fetchUserInfo } from "@/features/user/api/fetch-userinfo";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
+import { useAuthStore } from "@/features/user/store/useAuthStore";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useAuthActions } from "../hooks/useAuthActions";
+import useCountdown from "../hooks/useCountdown";
+import { otpSchema, OtpSchema, SendOtpForm } from "../schemas/auth.schemas";
 
 export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
-  const { clearCredential, credential, otpExpireTime, setOtpExpireTime } =
-    useAuthStore();
-  const { showToast } = useCustomToast();
-  const { setUser } = useUserStore();
-  const {
-    mutate: mutateCheckOtp,
-    isPending: isCheckingOtp,
-    isError,
-  } = useCheckOtp();
-  const { mutate: mutateSendOtp, isPending: isSendingOtp } = useSendOtp();
+  const { credential, otpExpireTime } = useAuthStore();
   const router = useRouter();
   const { minutes, seconds } = useCountdown(otpExpireTime);
+  const { verifyOtp, isCheckingOtp, isCheckError, sendOtp, isSendingOtp } =
+    useAuthActions();
+
   const { handleSubmit, control, reset } = useForm<OtpSchema>({
     resolver: zodResolver(otpSchema),
     defaultValues: { code: "" },
@@ -57,47 +46,17 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
       router.push("/login");
       return;
     }
-  }, []);
+  }, [router, credential]);
 
-  const onSubmit = (data: OtpSchema) => {
-    if (!credential) {
-      router.push("/login");
-      return;
-    }
-
-    mutateCheckOtp(
-      { credential, code: Number(data.code) },
-      {
-        onSuccess: async (res) => {
-          clearCredential();
-          try {
-            const user = await fetchUserInfo();
-            setUser(user);
-          } catch (e) {
-            console.log(e);
-          }
-          router.push("/");
-          showToast(res?.message, "success");
-        },
-        onError: (error: AxiosError<ApiResponse>) => {
-          const message =
-            error.response?.data?.message || "مشکلی پیش اومد، دوباره تلاش کنید";
-          console.log(error);
-          reset();
-          showToast(message, "error");
-        },
-      }
-    );
+  const onSubmit = async (data: OtpSchema) => {
+    await verifyOtp(data);
   };
 
-  const onResend = (values: SendOtpForm) => {
+  const onResend = async (values: SendOtpForm) => {
     reset();
-    mutateSendOtp(values, {
-      onSuccess: (res) => {
-        setOtpExpireTime(res.data?.expiredAt as string);
-        showToast(res?.message, "success");
-      },
-    });
+    try {
+      await sendOtp(values);
+    } catch {}
   };
   return (
     <Card {...props}>
@@ -141,7 +100,7 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
               <Button
                 type="submit"
                 disabled={isCheckingOtp}
-                className={cn("w-full", isError && "animate-shake")}
+                className={cn("w-full", isCheckError && "animate-shake")}
               >
                 تایید
               </Button>

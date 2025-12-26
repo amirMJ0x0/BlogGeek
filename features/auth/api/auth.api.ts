@@ -1,6 +1,7 @@
 import api from "@/lib/api";
 import {
   CheckOtpReqBody,
+  LoginResponseData,
   LoginWithPassReqBody,
   SendOtpReqBody,
   SendOtpResponseData,
@@ -9,7 +10,7 @@ import { ApiResponse } from "@/types";
 
 export const checkOTP = async (
   data: CheckOtpReqBody
-): Promise<ApiResponse<null>> => {
+): Promise<ApiResponse<LoginResponseData>> => {
   const { data: response } = await api.post("v1/auth/check-otp", data);
   return response;
 };
@@ -23,7 +24,7 @@ export const sendOTP = async (
 
 export const loginWithPass = async (
   data: LoginWithPassReqBody
-): Promise<ApiResponse<{ accessToken?: string; refreshToken?: string }>> => {
+): Promise<ApiResponse<LoginResponseData>> => {
   const { data: response } = await api.post(
     "v1/auth/login-with-password",
     data

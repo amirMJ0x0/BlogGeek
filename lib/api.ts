@@ -1,7 +1,4 @@
-import {
-  clearSessionTokens,
-  setSessionTokens,
-} from "@/features/auth/authUtils";
+import { clearSession, setSession } from "@/features/auth/api/session.api";
 import { ApiResponse } from "@/types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
@@ -28,13 +25,13 @@ api.interceptors.response.use(
           }
         );
         if (data) {
-          setSessionTokens({
-            accessToken: data.data?.accessToken as string,
+          await setSession({
+            accessToken: data.data?.accessToken,
           });
           return api(originalConfig);
         }
       } catch (error) {
-        clearSessionTokens();
+        await clearSession();
         return Promise.reject(error);
       }
     }
