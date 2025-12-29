@@ -45,7 +45,7 @@ const SideBar = () => {
                     <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark">
                       {user?.first_name
                         ? user?.first_name.substring(0, 1)
-                        : user?.username.substring(0, 1)}
+                        : user?.username?.substring(0, 1) ?? "U"}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-col items-center mt-2">
