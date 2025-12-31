@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Share2, Check, Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,9 +14,11 @@ import { Input } from "@/components/ui/input";
 
 export default function ShareBlogButton() {
   const [copied, setCopied] = useState(false);
+  const [url, setUrl] = useState("");
 
-  const url =
-    typeof window !== "undefined" ? decodeURI(window.location.href) : "";
+  useEffect(() => {
+    setUrl(decodeURI(window.location.href));
+  }, []);
 
   const handleCopy = async () => {
     try {
