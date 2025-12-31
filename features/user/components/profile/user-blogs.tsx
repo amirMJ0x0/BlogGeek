@@ -4,11 +4,17 @@ import PostCard from "@/features/blogs/components/post-card";
 import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 import { useMyBlogs } from "@/features/blogs/hooks/useInfiniteBlogs";
 
-const UserBlogs = ({ username }: { username: string }) => {
+const UserBlogs = ({
+  username,
+  isOwner,
+}: {
+  username: string;
+  isOwner: boolean;
+}) => {
   const { data: blogs, isLoading } = useMyBlogs(username);
 
   const isEmpty = !isLoading && blogs?.length === 0;
-  console.log(isEmpty)
+
   return (
     <section className="flex flex-col gap-2 p-2">
       {isEmpty ? (
@@ -17,7 +23,7 @@ const UserBlogs = ({ username }: { username: string }) => {
         <div className="divide-y">
           {blogs?.map((blog, blogIndex) => (
             <div key={`${blog?.id}-${blogIndex}`} className="relative">
-              <PostCard item={blog as any} hasSetting />
+              <PostCard item={blog as any} hasSetting={isOwner} />
             </div>
           ))}
         </div>

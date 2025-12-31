@@ -38,7 +38,7 @@ const ProfileTabs = ({ isOwner, username }: ProfileTabsProps) => {
       </TabsList>
 
       <TabsContent value="posts">
-        <UserBlogs username={username} />
+        <UserBlogs username={username} isOwner={isOwner} />
       </TabsContent>
 
       {isOwner && (
