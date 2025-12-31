@@ -6,6 +6,7 @@ import { getAllUsers } from "@/features/user/api/getAllUsers";
 import FollowButton from "@/features/user/components/profile/follow-button";
 import { useQuery } from "@tanstack/react-query";
 import { Users } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const SideBar = () => {
@@ -50,13 +51,15 @@ const SideBar = () => {
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-col items-center mt-2">
-                    <h4 className="text-md font-semibold text-justify">
-                      {user?.first_name || user?.last_name
-                        ? `${user?.first_name ?? ""} ${
-                            user?.last_name ?? ""
-                          }`.trim()
-                        : user?.username}
-                    </h4>
+                    <Link href={`/@${user.username}`}>
+                      <h4 className="text-md font-semibold text-justify">
+                        {user?.first_name || user?.last_name
+                          ? `${user?.first_name ?? ""} ${
+                              user?.last_name ?? ""
+                            }`.trim()
+                          : user?.username}
+                      </h4>
+                    </Link>
                     <div className="w-full justify-end -mt-1 mr-1">
                       <FollowButton
                         userId={user.id}
