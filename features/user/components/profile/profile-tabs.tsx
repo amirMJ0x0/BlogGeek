@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MyCommentsSection from "@/features/comments/components/my-comments";
 import { useRouter, useSearchParams } from "next/navigation";
 import LikedPostsSection from "./liked-posts";
-import MyPosts from "./my-posts";
+import UserBlogs from "./user-blogs";
 import SavedPostsSection from "./saved-posts";
 
 type ProfileTabsProps = {
@@ -38,7 +38,7 @@ const ProfileTabs = ({ isOwner, username }: ProfileTabsProps) => {
       </TabsList>
 
       <TabsContent value="posts">
-        <MyPosts username={username} />
+        <UserBlogs username={username} />
       </TabsContent>
 
       {isOwner && (

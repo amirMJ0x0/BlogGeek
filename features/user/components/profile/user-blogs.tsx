@@ -4,11 +4,11 @@ import PostCard from "@/features/blogs/components/post-card";
 import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 import { useMyBlogs } from "@/features/blogs/hooks/useInfiniteBlogs";
 
-const MyPosts = ({ username }: { username: string }) => {
+const UserBlogs = ({ username }: { username: string }) => {
   const { data: blogs, isLoading } = useMyBlogs(username);
 
   const isEmpty = !isLoading && blogs?.length === 0;
-
+  console.log(isEmpty)
   return (
     <section className="flex flex-col gap-2 p-2">
       {isEmpty ? (
@@ -34,4 +34,4 @@ const MyPosts = ({ username }: { username: string }) => {
   );
 };
 
-export default MyPosts;
+export default UserBlogs;
