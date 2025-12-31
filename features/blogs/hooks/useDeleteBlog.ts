@@ -1,7 +1,7 @@
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { deleteBlogById } from "../api/deleteBlog";
+import { deleteBlogById } from "@/features/blogs";
 
 export const useDeleteBlog = () => {
   const queryClient = useQueryClient();

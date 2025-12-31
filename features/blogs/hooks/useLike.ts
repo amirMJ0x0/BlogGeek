@@ -1,9 +1,10 @@
+// features/blogs/hooks/useLike.ts
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { likePost } from "../api/likePost";
+import { likePost } from "@/features/blogs";
 import { Blog } from "../blogTypes";
-import { revalidateBlogDetail } from "../blogUtils";
+import api from "@/lib/client/api";
 
 type LikeData = {
   id: number;
@@ -22,48 +23,68 @@ type InfiniteBlogData = {
 export const useLike = () => {
   const queryClient = useQueryClient();
   const { showToast } = useCustomToast();
+
   return useMutation({
     mutationFn: ({ id, likeAction }: LikeData) => likePost({ id, likeAction }),
-    onSuccess: (res, { id, likeAction }) => {
+
+    onSuccess: (_, { id, likeAction }) => {
+      const isLiking = likeAction === "like";
+
+      /* =================== BLOG LIST =================== */
       queryClient.setQueryData(
         ["blogs"],
         (oldData: InfiniteBlogData | undefined) => {
           if (!oldData) return oldData;
 
-          const updatedPages = oldData.pages.map((page) => {
-            const updatedBlogs = page.blogs.map((post: Blog) => {
-              if (post.id === id) {
-                const isLiking = likeAction === "like";
-                const newCount = isLiking
-                  ? post._count.likes + 1
-                  : post._count.likes - 1;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              blogs: page.blogs.map((post) => {
+                if (post.id !== id) return post;
 
                 return {
                   ...post,
                   liked: isLiking,
                   _count: {
                     ...post._count,
-                    likes: newCount < 0 ? 0 : newCount,
+                    likes: isLiking
+                      ? post._count.likes + 1
+                      : Math.max(0, post._count.likes - 1),
                   },
                 };
-              }
-              return post;
-            });
-            return { ...page, blogs: updatedBlogs };
-          });
-
-          return { ...oldData, pages: updatedPages };
+              }),
+            })),
+          };
         }
       );
-      revalidateBlogDetail(id);
-    },
-    onError: (error) => {
-      const err = error as AxiosError<any>;
-      const status = err.response?.status;
 
-      if (status === 401) {
-        showToast(err.response?.data.message, "error");
+      /* =================== BLOG DETAIL =================== */
+      queryClient.setQueryData(["blog-detail", id], (old: Blog | undefined) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          liked: isLiking,
+          _count: {
+            ...old._count,
+            likes: isLiking
+              ? old._count.likes + 1
+              : Math.max(0, old._count.likes - 1),
+          },
+        };
+      });
+    },
+    onError: (err: any) => {
+      if (err.message === "UNAUTHORIZED") {
+        showToast("لطفاً دوباره وارد شوید", "error");
       }
     },
+    // onError: (error) => {
+    //   const err = error as AxiosError<any>;
+    //   if (err.response?.status === 401) {
+    //     showToast(err.response?.data.message, "error");
+    //   }
+    // },
   });
 };

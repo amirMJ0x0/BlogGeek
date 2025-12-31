@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Slider } from "@/components/ui/slider";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 import { Loader2 } from "lucide-react";
 import NextImage from "next/image";
 import { useCallback, useState } from "react";

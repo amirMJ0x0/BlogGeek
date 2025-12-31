@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 import { BlogsResponse } from "../blogTypes";
 import { ApiResponse } from "@/types";
 

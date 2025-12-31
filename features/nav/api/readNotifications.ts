@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 import { ApiResponse } from "@/types";
 import { ReadNotifications } from "../navTypes";
 

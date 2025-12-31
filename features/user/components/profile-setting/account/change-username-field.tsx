@@ -1,8 +1,7 @@
 "use client";
 import { useState, ChangeEvent, useCallback, useRef, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { changeUsername } from "../../../api/change-username";
-import { checkUsernameExist } from "../../../api/check-username-exist";
+import { changeUsername, checkUsernameExist } from "@/features/user";
 import { Button } from "@/components/ui/button";
 import { AtSign, Check, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";

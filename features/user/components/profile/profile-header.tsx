@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { User } from "@/features/auth/types";
 import { BlogAuthor } from "@/features/blogs/blogTypes";
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 import { cn } from "@/lib/utils";
 import { Pencil, X } from "lucide-react";
 import Image from "next/image";

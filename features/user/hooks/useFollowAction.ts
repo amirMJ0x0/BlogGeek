@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { followUser } from "../api/follow-user";
+import { followUser } from "@/features/user";
 import { AxiosError } from "axios";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 

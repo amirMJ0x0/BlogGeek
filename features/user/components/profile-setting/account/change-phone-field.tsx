@@ -30,7 +30,7 @@ import { otpSchema, OtpSchema, SendOtpForm } from "@/features/auth";
 import useCountdown from "@/features/auth/hooks/useCountdown";
 import { User } from "@/features/auth/types";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import { phoneCredentialApi } from "@/features/user/api/change-credential";
+import { sendPhoneOtp, checkPhoneOtp } from "@/features/user";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { cn, num2en, phoneNumberRegex } from "@/lib/utils";
 import { ApiResponse } from "@/types";
@@ -74,9 +74,8 @@ const ChangePhoneField = () => {
   });
 
   // send mutation
-  const { mutate: sendPhoneOtp, isPending: isSendingOtp } = useMutation({
-    mutationFn: (data: { credential: string }) =>
-      phoneCredentialApi.sendOtp(data),
+  const { mutate: sendPhoneOtpMut, isPending: isSendingOtp } = useMutation({
+    mutationFn: (data: { credential: string }) => sendPhoneOtp(data),
     onSuccess: (res) => {
       setOtpExpireTime(res.data?.expiredAt as string);
       showToast(res.message, "success");
@@ -91,12 +90,12 @@ const ChangePhoneField = () => {
 
   // check mutation
   const {
-    mutate: checkPhoneOtp,
+    mutate: checkPhoneOtpMut,
     isPending: isCheckingOtp,
     isError,
   } = useMutation({
     mutationFn: (data: { credential: string; code: number }) =>
-      phoneCredentialApi.checkOtp(data),
+      checkPhoneOtp(data),
     onSuccess: (res, { credential }) => {
       showToast(res.message, "success");
       queryClient.invalidateQueries({
@@ -124,7 +123,7 @@ const ChangePhoneField = () => {
       return;
     }
 
-    sendPhoneOtp({ credential: parsed.data });
+    sendPhoneOtpMut({ credential: parsed.data });
   };
 
   const handleCancel = () => {
@@ -134,7 +133,7 @@ const ChangePhoneField = () => {
   };
 
   const onOtpSubmit = (data: OtpSchema) => {
-    checkPhoneOtp({
+    checkPhoneOtpMut({
       credential: phone,
       code: Number(data.code),
     });
@@ -142,7 +141,7 @@ const ChangePhoneField = () => {
 
   const onResend = (values: SendOtpForm) => {
     reset();
-    sendPhoneOtp(values);
+    sendPhoneOtpMut(values);
   };
 
   return (

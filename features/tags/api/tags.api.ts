@@ -1,5 +1,5 @@
 import { TagBlogData, TAGS_PAGE_LIMIT, TagsResponse } from "@/features/tags";
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 import { ApiResponse } from "@/types";
 
 export const getAllTags = async (

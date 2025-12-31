@@ -9,8 +9,7 @@ import { AxiosError } from "axios";
 import { ShieldAlert, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createBlog } from "../api/createBlog";
-import { updateBlog } from "../api/updateBlog";
+import { createBlog, updateBlog } from "@/features/write";
 import { usePostMode } from "../hooks/usePostMode";
 import { postSchema } from "../schemas/postSchema";
 import { usePostDraft } from "../store/usePostDraft";
@@ -112,7 +111,8 @@ const PublishButton = ({ size }: PublishBtnProps) => {
     >
       {isPublishing ? (
         <span className="flex gap-2 items-center">
-          در حال انتشار <Spinner />
+          <span className="hidden md:block"> در حال انتشار </span>
+          <Spinner />
         </span>
       ) : mode === "create" ? (
         isMobile ? (

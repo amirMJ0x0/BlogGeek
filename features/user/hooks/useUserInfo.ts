@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserInfo } from "../api/fetch-userinfo";
+import { fetchUserInfo } from "@/features/user";
 import { useUserStore } from "../store/useUserStore";
 import axios from "axios";
 

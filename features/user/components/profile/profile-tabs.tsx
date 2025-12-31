@@ -8,8 +8,9 @@ import SavedPostsSection from "./saved-posts";
 
 type ProfileTabsProps = {
   isOwner: boolean;
+  username: string;
 };
-const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
+const ProfileTabs = ({ isOwner, username }: ProfileTabsProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab") || "posts";
@@ -22,7 +23,7 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
     <Tabs
       defaultValue={currentTab}
       onValueChange={handleTabChange}
-      className="w-full"
+      className="w-full mb-4"
     >
       <TabsList className="w-full bg-secondary-light">
         <TabsTrigger value="posts">پست‌ها</TabsTrigger>
@@ -37,7 +38,7 @@ const ProfileTabs = ({ isOwner }: ProfileTabsProps) => {
       </TabsList>
 
       <TabsContent value="posts">
-        <MyPosts />
+        <MyPosts username={username} />
       </TabsContent>
 
       {isOwner && (

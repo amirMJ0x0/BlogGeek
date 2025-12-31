@@ -4,8 +4,8 @@ import PostCard from "@/features/blogs/components/post-card";
 import { PostCardSkeleton } from "@/features/blogs/components/post-card-skeleton";
 import { useMyBlogs } from "@/features/blogs/hooks/useInfiniteBlogs";
 
-const MyPosts = () => {
-  const { data: blogs, isLoading } = useMyBlogs();
+const MyPosts = ({ username }: { username: string }) => {
+  const { data: blogs, isLoading } = useMyBlogs(username);
 
   const isEmpty = !isLoading && blogs?.length === 0;
 

@@ -1,8 +1,8 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 import {
   HoverCard,
@@ -10,11 +10,10 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getUserProfile } from "@/features/user/api/fetch-user-profile";
-import HoverSkeleton from "./hover-skeleton";
 import FollowButton from "@/features/user/components/profile/follow-button";
+import HoverSkeleton from "./hover-skeleton";
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
@@ -32,8 +31,8 @@ export function AuthorHoverCard({ username }: { username: string }) {
     queryKey: ["profile", username],
     queryFn: () => getUserProfile(username),
     enabled: open,
-    staleTime: 5 * 60 * 1000, 
-    gcTime: 10 * 60 * 1000, 
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
     retry: 1,
   });
 

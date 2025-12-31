@@ -160,7 +160,7 @@ export default function ProfilePreview({
           />
         </div>
       </div>
-      <ProfileTabs isOwner={isOwner} />
+      <ProfileTabs isOwner={isOwner} username={profile.username} />
     </section>
   );
 }

@@ -17,10 +17,7 @@ import {
 } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import {
-  ResPasswordError,
-  updatePassword,
-} from "@/features/user/api/update-password";
+import { ResPasswordError, updatePassword } from "@/features/user";
 import { ApiResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";

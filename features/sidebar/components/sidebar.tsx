@@ -37,6 +37,7 @@ const SideBar = () => {
           </div>
         ) : (
           data?.map((user) => {
+            console.log(user);
             return (
               <div key={user?.id} className="w-full">
                 <div className="flex gap-2 items-center w-full">

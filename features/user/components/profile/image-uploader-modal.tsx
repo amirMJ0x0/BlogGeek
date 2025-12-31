@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 import { Progress } from "@/components/ui/progress";
 import { Loader2, X } from "lucide-react";
 

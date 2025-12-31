@@ -1,6 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getSavedBlogs } from "../api/fetchSavedBlogs";
-import { getLikedBlogs } from "../api/fetchLikedBlogs";
+import { getSavedBlogs, getLikedBlogs } from "@/features/blogs";
 import { getAllBlogs } from "../api/fetchAllBlogs";
 import { BLOG_PAGE_LIMIT } from "../blogTypes";
 import { getUserBlogs } from "../api/fetchUserBlogs";
@@ -65,16 +64,10 @@ export const useInfiniteLikedBlogs = () => {
   });
 };
 
-export const useMyBlogs = () => {
-  const { isAuthenticated } = useUserStore();
+export const useMyBlogs = (username: string) => {
   return useQuery({
-    queryKey: ["blogs", "me"],
-    queryFn: getUserBlogs,
-    enabled: isAuthenticated,
-    staleTime: 1000 * 60 * 2,
-    retry: (failureCount, error: any) => {
-      if (error?.response?.status === 401) return false;
-      return failureCount < 2;
-    },
+    queryKey: ["user-blogs", username],
+    queryFn: () => getUserBlogs(username),
+    // staleTime: 1000 * 60 * 2,
   });
 };

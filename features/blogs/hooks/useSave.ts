@@ -1,10 +1,7 @@
+import { savePost } from "@/features/blogs";
+import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Blog } from "../blogTypes";
-import { useRouter } from "next/navigation";
-import { AxiosError } from "axios";
-import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import { revalidateBlogDetail } from "../blogUtils";
-import { savePost } from "../api/savePost";
 
 type SaveData = {
   id: number;
@@ -19,53 +16,64 @@ type InfiniteBlogData = {
   }[];
   pageParams: (number | undefined)[];
 };
-
 export const useSave = () => {
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { showToast } = useCustomToast();
+
   return useMutation({
     mutationFn: ({ id, saveAction }: SaveData) => savePost({ id, saveAction }),
-    onSuccess: (res, { id, saveAction }) => {
+
+    onSuccess: (_, { id, saveAction }) => {
+      const isSaving = saveAction === "save";
+
+      /* =================== BLOG LIST =================== */
       queryClient.setQueryData(
         ["blogs"],
         (oldData: InfiniteBlogData | undefined) => {
           if (!oldData) return oldData;
 
-          const updatedPages = oldData.pages.map((page) => {
-            const updatedBlogs = page.blogs.map((post: Blog) => {
-              if (post.id === id) {
-                const isSaving = saveAction === "save";
-                const newCount = isSaving
-                  ? post._count.saved_blogs + 1
-                  : post._count.saved_blogs - 1;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              blogs: page.blogs.map((post) => {
+                if (post.id !== id) return post;
 
                 return {
                   ...post,
                   saved: isSaving,
                   _count: {
                     ...post._count,
-                    saved_blogs: newCount < 0 ? 0 : newCount,
+                    saved_blogs: isSaving
+                      ? post._count.saved_blogs + 1
+                      : Math.max(0, post._count.saved_blogs - 1),
                   },
                 };
-              }
-              return post;
-            });
-            return { ...page, blogs: updatedBlogs };
-          });
-
-          return { ...oldData, pages: updatedPages };
+              }),
+            })),
+          };
         }
       );
-      // router.refresh();
-      revalidateBlogDetail(id);
-    },
-    onError: (error) => {
-      const err = error as AxiosError<any>;
-      const status = err.response?.status;
 
-      if (status === 401) {
-        showToast(err.response?.data.message, "error");
+      /* =================== BLOG DETAIL =================== */
+      queryClient.setQueryData(["blog-detail", id], (old: Blog | undefined) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          saved: isSaving,
+          _count: {
+            ...old._count,
+            saved_blogs: isSaving
+              ? old._count.saved_blogs + 1
+              : Math.max(0, old._count.saved_blogs - 1),
+          },
+        };
+      });
+    },
+    onError: (err: any) => {
+      if (err.message === "UNAUTHORIZED") {
+        showToast("لطفاً دوباره وارد شوید", "error");
       }
     },
   });

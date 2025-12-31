@@ -4,7 +4,7 @@ import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 import { ApiResponse } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { editUserInfo } from "../api/edit-userinfo";
+import { editUserInfo } from "@/features/user";
 import { EditUserInfoRequest } from "../userTypes";
 
 export const useEditUserInfo = () => {

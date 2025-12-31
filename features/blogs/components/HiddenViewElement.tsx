@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { viewPost } from "../api/viewPost";
+import { viewPost } from "@/features/blogs";
 import { AxiosError } from "axios";
 
 const HiddenViewElement = ({ id }: { id: number }) => {
@@ -15,7 +15,7 @@ const HiddenViewElement = ({ id }: { id: number }) => {
       try {
         const response = await viewPost(id);
 
-        if (response.data.statusCode === 200) {
+        if (response?.data.statusCode === 200) {
           console.log("بازدید با موفقیت ثبت شد.");
         }
       } catch (error) {

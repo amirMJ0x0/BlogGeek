@@ -1,5 +1,5 @@
 import { User } from "@/features/auth/types";
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 import { ApiResponse } from "@/types";
 
 type Profile = User & { is_followed_by_you: boolean; is_following: boolean };

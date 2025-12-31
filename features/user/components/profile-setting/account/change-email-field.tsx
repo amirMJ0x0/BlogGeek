@@ -30,7 +30,7 @@ import { otpSchema, OtpSchema, SendOtpForm } from "@/features/auth";
 import useCountdown from "@/features/auth/hooks/useCountdown";
 import { User } from "@/features/auth/types";
 import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
-import { emailCredentialApi } from "@/features/user/api/change-credential";
+import { sendEmailOtp, checkEmailOtp } from "@/features/user";
 import { useUserStore } from "@/features/user/store/useUserStore";
 import { cn, emailRegex } from "@/lib/utils";
 import { ApiResponse } from "@/types";
@@ -71,9 +71,8 @@ const ChangeEmailField = () => {
   });
 
   // send mutation
-  const { mutate: sendEmailOtp, isPending: isSendingOtp } = useMutation({
-    mutationFn: (data: { credential: string }) =>
-      emailCredentialApi.sendOtp(data),
+  const { mutate: sendEmailOtpMut, isPending: isSendingOtp } = useMutation({
+    mutationFn: (data: { credential: string }) => sendEmailOtp(data),
     onSuccess: (res) => {
       setOtpExpireTime(res.data?.expiredAt as string);
       showToast(res.message, "success");
@@ -88,12 +87,12 @@ const ChangeEmailField = () => {
 
   // check mutation
   const {
-    mutate: checkEmailOtp,
+    mutate: checkEmailOtpMut,
     isPending: isCheckingOtp,
     isError,
   } = useMutation({
     mutationFn: (data: { credential: string; code: number }) =>
-      emailCredentialApi.checkOtp(data),
+      checkEmailOtp(data),
     onSuccess: (res, { credential }) => {
       showToast(res.message, "success");
       queryClient.invalidateQueries({
@@ -120,7 +119,7 @@ const ChangeEmailField = () => {
       showToast(msg, "error");
       return;
     }
-    sendEmailOtp({ credential: parsed.data });
+    sendEmailOtpMut({ credential: parsed.data });
   };
 
   const handleCancel = () => {
@@ -130,7 +129,7 @@ const ChangeEmailField = () => {
   };
 
   const onOtpSubmit = (data: OtpSchema) => {
-    checkEmailOtp({
+    checkEmailOtpMut({
       credential: email,
       code: Number(data.code),
     });
@@ -138,7 +137,7 @@ const ChangeEmailField = () => {
 
   const onResend = (values: SendOtpForm) => {
     reset();
-    sendEmailOtp(values);
+    sendEmailOtpMut(values);
   };
 
   return (

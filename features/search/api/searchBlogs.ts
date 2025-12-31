@@ -2,7 +2,7 @@
 
 import { ApiResponse } from "@/types";
 import { SearchResponseData } from "../types/search";
-import api from "@/lib/api";
+import api from "@/lib/client/api";
 
 const SEARCH_ENDPOINT = "/v1/search";
 

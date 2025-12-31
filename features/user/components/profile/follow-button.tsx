@@ -7,6 +7,7 @@ import useFollowAction from "../../hooks/useFollowAction";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../../store/useUserStore";
 import { cn } from "@/lib/utils";
+import { useCustomToast } from "@/features/nav/hooks/useCustomToast";
 
 type FollowButtonProps = {
   userId: number | null;
@@ -48,6 +49,7 @@ export default function FollowButton({
   const { follow, unfollow, isPending } = useFollowAction();
   const router = useRouter();
   const { user, isAuthenticated } = useUserStore();
+  const { showToast } = useCustomToast();
 
   const [isFollowedByYou, setIsFollowedByYou] = useState(
     followOptions.is_followed_by_you
@@ -77,7 +79,10 @@ export default function FollowButton({
 
   const handleClick = async () => {
     if (!userId) return;
-
+    if (!isAuthenticated) {
+      showToast("برای دنبال کردن باید وارد شوید!", "error");
+      return;
+    }
     try {
       if (followType === "unfollow") {
         await unfollow(userId);
@@ -97,7 +102,7 @@ export default function FollowButton({
   return (
     <Button
       onClick={handleClick}
-      disabled={isPending || !userId || !isAuthenticated}
+      disabled={isPending || !userId }
       aria-pressed={isFollowedByYou}
       className={cn("", className)}
       size={size}

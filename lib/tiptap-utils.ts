@@ -362,7 +362,7 @@ export function selectionWithinConvertibleTypes(
  * @param abortSignal Optional AbortSignal for cancelling the upload
  * @returns Promise resolving to the URL of the uploaded image
  */
-import api from "./api";
+import api from "./client/api";
 import { AxiosProgressEvent } from "axios";
 
 export const handleImageUpload = async (

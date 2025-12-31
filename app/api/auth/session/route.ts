@@ -11,7 +11,8 @@ export async function POST(req: Request) {
       httpOnly: true,
       secure: isProd,
       sameSite: isProd ? "none" : "lax",
-      maxAge: 15 * 60, //seconds
+      maxAge: 30 * 24 * 60 * 60,
+      // maxAge: 15 * 60, //seconds
     });
   }
   if (refreshToken) {
