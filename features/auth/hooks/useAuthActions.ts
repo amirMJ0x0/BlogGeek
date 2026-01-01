@@ -14,6 +14,7 @@ import {
 import { useCheckOtp } from "./useCheckOtp";
 import { useLoginWithPass } from "./useLoginWithPass";
 import { useSendOtp } from "./useSendOtp";
+import { useUserInfo } from "@/features/user/hooks/useUserInfo";
 
 function getApiMessage(err: unknown, fallback = "مشکلی پیش اومد") {
   return (
@@ -84,13 +85,12 @@ export const useAuthActions = () => {
       });
 
       await setSession(res.data!);
-      await new Promise((r) => setTimeout(r, 0));
+      setTimeout(() => router.push("/"), 300);
 
       const user = await fetchUserInfo();
       setUser(user);
       clearCredential();
       showToast(res.message, "success");
-      await router.push("/");
     } catch (error) {
       showToast(getApiMessage(error), "error");
     }
