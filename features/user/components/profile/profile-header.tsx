@@ -10,7 +10,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { User } from "@/features/auth/types";
-import { BlogAuthor } from "@/features/blogs/blogTypes";
 import api from "@/lib/client/api";
 import { cn } from "@/lib/utils";
 import { Pencil, X } from "lucide-react";
@@ -100,9 +99,6 @@ export default function ProfileHeader({ profile, isOwner }: Props) {
           <Avatar className="size-16 md:size-18 border border-black/80 dark:border-white/30 shadow-md">
             <AvatarImage src={updatedProfile.profile_image} />
             <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark !brightness-60 ">
-              {updatedProfile.first_name
-                ? updatedProfile?.first_name?.substring(0, 1)
-                : updatedProfile?.username?.substring(0, 1)}
             </AvatarFallback>
           </Avatar>
 
@@ -146,20 +142,6 @@ export default function ProfileHeader({ profile, isOwner }: Props) {
           </DialogContent>
         </Dialog>
       )}
-
-      {/* {type && (
-        <ImageUploaderModal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          type={type}
-          currentImage={
-            type === "banner"
-              ? updatedProfile.banner_image
-              : updatedProfile.profile_image
-          }
-          onUpdate={handleImageUpdate}
-        />
-      )} */}
     </div>
   );
 }

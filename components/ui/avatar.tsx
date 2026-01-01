@@ -2,6 +2,7 @@
 import * as React from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import { cn } from "@/lib/utils";
+import { User } from "lucide-react";
 function Avatar({
   className,
   ...props
@@ -40,6 +41,9 @@ function AvatarFallback({
         "bg-muted flex size-full items-center justify-center rounded-full",
         className
       )}
+      children={
+              <User size={"66%"}/>
+      }
       {...props}
     />
   );

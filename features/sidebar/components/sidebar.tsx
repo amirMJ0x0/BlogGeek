@@ -25,30 +25,25 @@ const SideBar = () => {
   });
 
   return (
-    <div className="max-lg:hidden w-1/6 bg-white dark:!bg-secondary-dark rounded-2xl p-4 !shadow-sm mx-auto gap-4 !h-screen sticky left-0 top-5 ">
+    <div className="max-lg:hidden w-1/6 bg-white dark:!bg-secondary-dark rounded-2xl p-2 xl:p-4 !shadow-sm mx-auto gap-4 !h-screen sticky left-0 top-5 ">
       <h3 className="font-bold flex lg:gap-1 xl:gap-2 items-center lg:text-sm xl:text-md !tracking-tighter">
         <Users className="size-[1.3rem]" /> نویسنده های پیشنهادی
       </h3>
-      <div className="flex-col gap-2 mt-2">
+      <div className="flex-col mt-5 space-y-3">
         {isLoading ? (
-          <div className="w-full flex flex-col gap-2">
+          <div className="w-full flex flex-col gap-3">
             {Array.from({ length: 8 }).map((_, index) => (
               <Skeleton key={index} className="w-full h-[60px]" />
             ))}
           </div>
         ) : (
           data?.map((user) => {
-            console.log(user);
             return (
               <div key={user?.id} className="w-full">
                 <div className="flex gap-2 items-center w-full">
-                  <Avatar className="size-12">
+                  <Avatar className="size-10">
                     <AvatarImage src={user?.profile_image || ""} />
-                    <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark">
-                      {user?.first_name
-                        ? user?.first_name.substring(0, 1)
-                        : user?.username?.substring(0, 1) ?? "U"}
-                    </AvatarFallback>
+                    <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark text-xs text-gray-400"/>
                   </Avatar>
                   <div className="flex-col items-center mt-2">
                     <Link href={`/@${user.username}`}>
@@ -60,7 +55,7 @@ const SideBar = () => {
                           : user?.username}
                       </h4>
                     </Link>
-                    <div className="w-full justify-end -mt-1 mr-1">
+                    <div className="w-full justify-end -mt-1 mr-1 xl:mr-2">
                       <FollowButton
                         userId={user.id}
                         followOptions={{
@@ -68,7 +63,7 @@ const SideBar = () => {
                           is_following: user.is_following,
                         }}
                         className="text-sm gap-0 p-0 text-blue-600 dark:text-blue-400 "
-                        // hasIcon={false}
+                        hasIcon={false}
                         variant={"link"}
                         size={"sm"}
                       />
