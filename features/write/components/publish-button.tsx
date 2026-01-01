@@ -73,7 +73,7 @@ const PublishButton = ({ size }: PublishBtnProps) => {
 
       if (mode === "create") {
         const response = await createBlog(payload);
-        showToast(response.message || "پست با موفقیت منتشر شد", "success");
+        showToast(response?.message || "پست با موفقیت منتشر شد", "success");
       } else {
         const response = await updateBlog(Number(id), payload);
         showToast(response.message || "پست با موفقیت ویرایش شد", "success");

@@ -9,7 +9,7 @@ export const postSchema = z
     summary: z
       .string()
       .min(10, "متن توضیحات مختصر بلاگ باید حداقل شامل ۱۰ کاراکتر باشه")
-      .max(150, "حداکثر ۱۵۰ کاراکتر برای خلاصه بلاگ مجازه"),
+      .max(300, "حداکثر ۳۰۰ کاراکتر برای خلاصه بلاگ مجازه"),
     banner_image: z.string().min(1, "لطفا یک عکس برای بنر بلاگ انتخاب کن"),
     content: z.string().min(50, "محتوا خیلی کوتاهه"),
     visibility: z.enum(["PUBLIC", "PRIVATE", "DRAFT", "SCHEDULED"], {
