@@ -22,7 +22,7 @@ const SettingsTabs = () => {
       <TabsList className="w-full" dir="rtl">
         <TabsTrigger value="about-me">درباره شما</TabsTrigger>
         <TabsTrigger value="account">حساب کاربری</TabsTrigger>
-        <TabsTrigger value="others">سایر...</TabsTrigger>
+        {/* <TabsTrigger value="others">سایر...</TabsTrigger> */}
       </TabsList>
       <TabsContent value="about-me">
         <SettingAboutSection />
@@ -30,7 +30,7 @@ const SettingsTabs = () => {
       <TabsContent value="account">
         <SettingAccountSection />
       </TabsContent>
-      <TabsContent value="others">others</TabsContent>
+      {/* <TabsContent value="others">others</TabsContent> */}
     </Tabs>
   );
 };
