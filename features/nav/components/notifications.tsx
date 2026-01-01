@@ -125,7 +125,8 @@ const Notifications = () => {
               className="!text-sm"
               onClick={markAllAsRead}
             >
-              همه خوانده شد <CheckCheck />
+              خواندن همه
+              <CheckCheck />
             </Button>
             <NotificationTypeFilter setFilterType={setFilterType} />
           </div>
