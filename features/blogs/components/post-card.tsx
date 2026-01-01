@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { numberToPersian } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { faIR } from "date-fns/locale";
-import { MessageCircleMore } from "lucide-react";
+import { ChartNoAxesColumn, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Blog, BlogTag } from "../blogTypes";
@@ -90,6 +90,10 @@ export default function PostCard({ item, hasSetting }: PostCardProps) {
             ))}
         </div>
         <div className="flex gap-3 md:gap-5 text-xs text-muted-foreground">
+          <span className="flex justify-center items-center gap-1">
+            <ChartNoAxesColumn className="size-4 md:size-5"/>
+            {numberToPersian(item._count.views)}
+          </span>
           <LikeButton
             blogId={item.id}
             likesCount={item._count.likes}
@@ -104,7 +108,7 @@ export default function PostCard({ item, hasSetting }: PostCardProps) {
                 href={`/@${item.author?.username}/${correctSlug}#comments`}
                 scroll={false}
               >
-                <MessageCircleMore className="size-5" />
+                <MessageCircleMore className="size-4 md:size-5" />
               </Link>
             </Button>
             {numberToPersian(item._count.comments)}

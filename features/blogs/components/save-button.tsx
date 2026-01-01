@@ -26,7 +26,7 @@ const SaveButton = ({
   };
 
   return (
-    <span className="flex justify-center items-center gap-2">
+    <span className="flex justify-center items-center gap-1">
       <Button
         variant={"link"}
         className="!p-0 cursor-pointer hover:opacity-60"
@@ -34,7 +34,7 @@ const SaveButton = ({
         disabled={isPending}
       >
         <Bookmark
-          className={`size-5 ${saved ? "" : ""}`}
+          className={`size-4 md:size-5 ${saved ? "" : ""}`}
           fill={`${
             saved ? `${currentTheme === "light" ? "" : "#fff"}` : "transparent"
           }`}

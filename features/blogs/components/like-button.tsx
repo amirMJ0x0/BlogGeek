@@ -24,7 +24,7 @@ const LikeButton = ({ blogId, likesCount, liked }: LikeButtonProps) => {
         disabled={isPending}
       >
         <Heart
-          className={`size-5 text-red-500`}
+          className={`size-4 md:size-5 text-red-500`}
           fill={`${liked ? "#fb2c36" : "transparent"}`}
         />
       </Button>
