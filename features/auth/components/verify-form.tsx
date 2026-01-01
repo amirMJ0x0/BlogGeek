@@ -110,9 +110,7 @@ export function VerifyForm({ ...props }: React.ComponentProps<typeof Card>) {
                   کدی دریافت نکردید؟
                   <Button
                     variant={"link"}
-                    disabled={
-                      (minutes && seconds) > 0 || isSendingOtp ? true : false
-                    }
+                    disabled={minutes > 0 || seconds > 0 || isSendingOtp}
                     className="p-1"
                     onClick={() =>
                       onResend({
