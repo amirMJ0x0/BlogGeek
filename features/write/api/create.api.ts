@@ -12,6 +12,7 @@ export const createBlog = async (data: CreateBlogReqBody) => {
     const response = await api.post<ApiResponse<Blog>>("v1/blog", data);
     return response.data;
   } catch (e: any) {
+    console.log(e);
     if (e.response?.status === 401) {
       throw new Error("UNAUTHORIZED");
     }

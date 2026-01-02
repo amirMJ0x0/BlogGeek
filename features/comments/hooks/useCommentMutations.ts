@@ -16,11 +16,11 @@ export function useCreateComment(blogId: number) {
       parentId?: number | null;
     }) => createComment({ blogId, content, parentId }),
     onSuccess: (res) => {
-      console.log(res)
       showToast(res?.message || "کامنت شما با موفقیت ثبت شد", "success");
       qc.invalidateQueries({ queryKey: ["comments", blogId] });
     },
     onError: (error) => {
+      console.log(error)
       const err = error as AxiosError<any>;
       const errorData = err.response?.data;
       showToast(errorData.message || "خطایی رخ داده است", "error");

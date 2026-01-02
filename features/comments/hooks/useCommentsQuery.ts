@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { COMMENT_PAGE_LIMIT, getComments } from "@/features/comments";
-import { getMyComments } from "../api/comments.api";
+import { getMyComments } from "../api/comments.server";
 
 export function useCommentsQuery(blogId: number) {
   return useInfiniteQuery({

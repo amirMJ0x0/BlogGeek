@@ -10,7 +10,8 @@ export type {
 } from "./types";
 
 // api
-export { getComments, createComment, deleteComment } from "./api/comments.api";
+export { getComments } from "./api/comments.api";
+export { createComment, deleteComment } from "./api/comments.server";
 
 // hooks
 export { useCommentsQuery, useMyCommentsQuery } from "./hooks/useCommentsQuery";
