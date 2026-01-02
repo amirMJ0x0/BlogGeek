@@ -9,7 +9,8 @@ export type {
 } from "./types";
 
 // api
-export { checkOTP, loginWithPass, logout, sendOTP } from "./api/auth.api";
+export { checkOTP, loginWithPass, sendOTP } from "./api/auth.api";
+export { logout } from "./api/auth.server";
 
 // schemas
 export {

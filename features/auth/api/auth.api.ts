@@ -32,7 +32,3 @@ export const loginWithPass = async (
   return response;
 };
 
-export const logout = async (): Promise<ApiResponse<null>> => {
-  const { data: response } = await api.get("v1/auth/logout");
-  return response;
-};
