@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Pencil, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useUserStore } from "../../store/useUserStore";
 
 type Props = {
   profile: User;
@@ -26,7 +27,7 @@ export default function ProfileHeader({ profile, isOwner }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [type, setType] = useState<"banner" | "profile" | null>(null);
   const [updatedProfile, setUpdatedProfile] = useState(profile);
-
+  const { user, setUser } = useUserStore();
   const handleOpenModal = (type: "banner" | "profile") => {
     setType(type);
     setModalOpen(true);
@@ -55,6 +56,10 @@ export default function ProfileHeader({ profile, isOwner }: Props) {
         ...prev,
         [`${type}_image`]: url,
       }));
+      setUser({
+        ...user,
+        profile_image: url,
+      } as User);
     } catch (err) {
       console.error("Error updating image:", err);
     }
@@ -98,8 +103,7 @@ export default function ProfileHeader({ profile, isOwner }: Props) {
         <div className="relative">
           <Avatar className="size-16 md:size-18 border border-black/80 dark:border-white/30 shadow-md">
             <AvatarImage src={updatedProfile.profile_image} />
-            <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark !brightness-60 ">
-            </AvatarFallback>
+            <AvatarFallback className="bg-secondary-light dark:bg-secondary-dark !brightness-60 "></AvatarFallback>
           </Avatar>
 
           {isOwner && (
