@@ -99,6 +99,7 @@ export function CredentialForm({
                   <Label htmlFor="credential">رمز عبور</Label>
                   <Input
                     id="password"
+                    type="password"
                     placeholder="abc123"
                     required
                     {...register("password")}
