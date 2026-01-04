@@ -74,7 +74,7 @@
 
 | صفحه اصلی                                         | پروفایل کاربری                                       | ویرایشگر پست                                   |
 | ------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------- |
-| ![Home Page](https://postimg.cc/3dKgXs9C) | ![Profile Page](https://postimg.cc/H8WVMgHv) | ![Editor](https://postimg.cc/kBpB2zHS) |
+|  | [![Home Page](https://i.postimg.cc/ncm0JZD5/Screenshot-1404-10-12-at-15-46-51.png)](https://postimg.cc/3dKgXs9C) | [![Editor](https://i.postimg.cc/fRwXrhj8/Screenshot-1404-10-12-at-15-47-07.png)](https://postimg.cc/kBpB2zHS) |
 
 ### 👨‍💻 تیم توسعه
 
