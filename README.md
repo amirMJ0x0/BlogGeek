@@ -74,7 +74,7 @@
 
 | صفحه اصلی                                         | پروفایل کاربری                                       | ویرایشگر پست                                   |
 | ------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------- |
-| ![Home Page](https://via.placeholder.com/300x200) | ![Profile Page](https://via.placeholder.com/300x200) | ![Editor](https://via.placeholder.com/300x200) |
+| ![Home Page](https://postimg.cc/3dKgXs9C) | ![Profile Page](https://postimg.cc/H8WVMgHv) | ![Editor](https://postimg.cc/kBpB2zHS) |
 
 ### 👨‍💻 تیم توسعه
 
